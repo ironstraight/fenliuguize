@@ -1,0 +1,13 @@
+DOMAIN-SUFFIX,facebook.com
+DOMAIN-SUFFIX,fb.com
+DOMAIN-SUFFIX,fbcdn.net # 补充Facebook CDN
+DOMAIN-SUFFIX,facebook.net # 补充Facebook相关服务
+DOMAIN-SUFFIX,m.facebook.com # 补充移动端优化域名
+DOMAIN-SUFFIX,instagram.com
+DOMAIN-SUFFIX,cdninstagram.com # 补充Instagram CDN
+DOMAIN-SUFFIX,i.instagram.com # 补充Instagram接口域名
+DOMAIN-SUFFIX,whatsapp.com
+DOMAIN-SUFFIX,whatsapp.net
+DOMAIN-SUFFIX,web.whatsapp.com # 补充WhatsApp网页版关键域名:cite[2]:cite[4]
+DOMAIN-SUFFIX,wa.me # 补充WhatsApp短链接域名
+DOMAIN-SUFFIX,edge-api.facebook.com # 补充通用边缘网络/CDN
