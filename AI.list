@@ -3,7 +3,6 @@ DOMAIN-KEYWORD,openai
 DOMAIN-KEYWORD,aistudio
 DOMAIN-KEYWORD,anthropic
 DOMAIN-KEYWORD,claude
-DOMAIN-KEYWORD,aistudio
 
 # --- DOMAIN ---
 DOMAIN,gemini.google.com
@@ -15,6 +14,7 @@ DOMAIN,api.groq.com
 DOMAIN,claude.ai
 DOMAIN,console.groq.com
 DOMAIN,generativelanguage.googleapis.com
+DOMAIN,google-analytics.com
 
 # --- DOMAIN-SUFFIX ---
 DOMAIN-SUFFIX,accounts.google.com
