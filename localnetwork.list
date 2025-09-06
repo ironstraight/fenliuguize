@@ -1,22 +1,29 @@
-DOMAIN-SUFFIX,ip6-localhost
-DOMAIN-SUFFIX,ip6-loopback
+# 局域网 & 本地域名直连
 DOMAIN-SUFFIX,lan
 DOMAIN-SUFFIX,local
 DOMAIN-SUFFIX,localhost
+DOMAIN-SUFFIX,ip6-localhost
+DOMAIN-SUFFIX,ip6-loopback
+
+# 局域网 IPv4 段直连
 IP-CIDR,192.168.0.0/16,no-resolve
-IP-CIDR,0.0.0.0/8,no-resolve
 IP-CIDR,10.0.0.0/8,no-resolve
-IP-CIDR,100.64.0.0/10,no-resolve
-IP-CIDR,127.0.0.0/8,no-resolve
 IP-CIDR,172.16.0.0/12,no-resolve
+IP-CIDR,127.0.0.0/8,no-resolve
+IP-CIDR,169.254.0.0/16,no-resolve
+IP-CIDR,100.64.0.0/10,no-resolve
 IP-CIDR,198.18.0.0/16,no-resolve
 IP-CIDR,224.0.0.0/4,no-resolve
+IP-CIDR,0.0.0.0/8,no-resolve
+IP-CIDR,240.0.0.0/4,no-resolve
+
+# 局域网 IPv6 段直连
 IP-CIDR6,::1/128,no-resolve
 IP-CIDR6,fc00::/7,no-resolve
 IP-CIDR6,fe80::/10,no-resolve
 IP-CIDR6,fd00::/8,no-resolve
 
-# Router managed 路由器管理域名
+# 路由器管理域名直连
 DOMAIN,instant.arubanetworks.com
 DOMAIN,setmeup.arubanetworks.com
 DOMAIN,router.asus.com
@@ -34,3 +41,17 @@ DOMAIN-SUFFIX,tendawifi.com
 DOMAIN-SUFFIX,zte.home
 DOMAIN-SUFFIX,tplogin.cn
 DOMAIN-SUFFIX,wifi.cmcc
+
+# 时间同步服务（避免 Fake-IP 干扰）
+DOMAIN,time.windows.com
+DOMAIN,time.apple.com
+DOMAIN,time.asia.apple.com
+DOMAIN,ntp.ntsc.ac.cn
+DOMAIN,ntp.aliyun.com
+DOMAIN,ntp1.aliyun.com
+DOMAIN,ntp2.aliyun.com
+DOMAIN,ntp3.aliyun.com
+DOMAIN,ntp4.aliyun.com
+DOMAIN,ntp5.aliyun.com
+DOMAIN,ntp6.aliyun.com
+DOMAIN,ntp7.aliyun.com
