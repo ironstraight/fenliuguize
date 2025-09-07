@@ -1,3 +1,8 @@
+# ==============================
+# OpenClash fake-ip-filter 最终整合版
+# ==============================
+
+# ========= LAN & 本地域名 =========
 *.lan
 *.localdomain
 *.example
@@ -23,7 +28,7 @@ _dial._tcp.local
 _googlecast._tcp.local
 _airplay._tcp.local
 
-# ========= 常见路由器 / 网关 =========
+# ========= 路由器 / 网关 =========
 routerlogin.net
 tplogin.cn
 tplinkwifi.net
@@ -88,11 +93,61 @@ global.stun.twilio.com
 app.yinxiang.com
 injections.adguard.org
 
+# ========= 国内运营商 / 一键登录 =========
+auth.wo.cn
+cmpassport.com
+config.cmpassport.com
+enrichgw.10010.com
+hmrz.wo.cn
+id.mail.wo.cn
+log.cmpassport.com
+log1.cmpassport.com
+mdn.open.wo.cn
+nishub1.10010.com
+opencloud.wostore.cn
+ye.dun.163yun.com
+id6.me
+mob.com
+open.e.189.cn
+app.189.cn
+
 # ========= QQ / 腾讯服务 =========
 localhost.ptlogin2.qq.com
 localhost.sec.qq.com
 +.qq.com
 +.tencent.com
+DOMAIN-SUFFIX,qqmail.com
+DOMAIN-SUFFIX,foxmail.com
+DOMAIN-SUFFIX,weixin.com
+DOMAIN-SUFFIX,wechat.com
+DOMAIN-SUFFIX,tenpay.com
+DOMAIN-SUFFIX,tencentmind.com
+DOMAIN-SUFFIX,gtimg.com
+DOMAIN-SUFFIX,idqqimg.com
+DOMAIN-SUFFIX,qqurl.com
+DOMAIN-SUFFIX,soso.com
+DOMAIN-SUFFIX,myqcloud.com
+DOMAIN-SUFFIX,tencent-cloud.net
+DOMAIN-SUFFIX,qcloud.com
+DOMAIN-SUFFIX,smtcdns.com
+DOMAIN-SUFFIX,smtcdns.net
+DOMAIN-SUFFIX,igamecj.com
+DOMAIN-SUFFIX,myapp.com
+DOMAIN-SUFFIX,weiyun.com
+DOMAIN,dldir1.qq.com
+DOMAIN,mail.qq.com
+DOMAIN,im.qq.com
+USER-AGENT,MicroMessenger*
+USER-AGENT,WeChat*
+DOMAIN-SUFFIX,qlogo.cn
+DOMAIN-SUFFIX,qpic.cn
+DOMAIN-SUFFIX,weixin.qq.com
+DOMAIN-SUFFIX,wxapp.tc.qq.com
+DOMAIN-SUFFIX,servicewechat.com
+DOMAIN-SUFFIX,wechatlegal.net
+DOMAIN-SUFFIX,wechatpay.com
+DOMAIN-SUFFIX,weixinbridge.com
+DOMAIN-SUFFIX,weixinsxy.com
 
 # ========= 音乐服务 =========
 music.163.com
@@ -118,7 +173,10 @@ amobile.music.tc.qq.com
 *.music.migu.cn
 music.migu.cn
 
-# ========= 游戏主机 / 平台 =========
+# ========= 视频 / 游戏 =========
+*.mcdn.bilivideo.cn
++.nflxvideo.net
++.media.dssott.com
 +.srv.nintendo.net
 *.n.n.srv.nintendo.net
 +.cdn.nintendo.net
@@ -127,23 +185,30 @@ xbox.*.*.microsoft.com
 *.*.xboxlive.com
 xbox.*.microsoft.com
 xnotify.xboxlive.com
-
-# ========= Battle.net / Wargaming =========
 +.battle.net
 +.battlenet.com.cn
 +.wotgame.cn
 +.wggames.cn
 +.wowsgame.cn
 +.wargaming.net
-
-# ========= FinalFantasy XIV =========
 *.square-enix.com
 *.finalfantasyxiv.com
 *.ffxiv.com
 *.ff14.sdo.com
 ff.dorado.sdo.com
 
-# ========= STUN =========
+# ========= Apple / Google =========
+mesu.apple.com
+swscan.apple.com
+swquery.apple.com
+swdownload.apple.com
+swcdn.apple.com
+swdist.apple.com
+lens.l.google.com
+stun.l.google.com
+na.b.g-tun.com
+
+# ========= STUN / WebRTC =========
 stun.*.*
 stun.*.*.*
 +.stun.*.*
@@ -151,48 +216,106 @@ stun.*.*.*
 +.stun.*.*.*.*
 +.stun.*.*.*.*.*
 
-# ========= Apple 更新服务 =========
-mesu.apple.com
-swscan.apple.com
-swquery.apple.com
-swdownload.apple.com
-swcdn.apple.com
-swdist.apple.com
+# ========= 国内主流网站 / APP / 电商 =========
+baidu.com
+baidubcr.com
+baidupcs.com
+baidustatic.com
+bcebos.com
+bdimg.com
+bdstatic.com
+bdurl.net
+hao123.com
+hao123img.com
+jomodns.com
+yunjiasu-cdn.net
+taobao.com
+taobao.cn
+taobaocdn.com
+tb.cn
+tb.ly
+tbcache.com
+taobao.org
+taobaowangzu.com
+tmall.com
+tmall.ru
+tmalltv.com
+tmall.net
+tmallcdn.com
+pinduoduo.com
+yangkeduo.com
+jd.com
+360buy.com
+360buyimg.com
+jcloudcs.com
+jdcloud.com
+jdpay.com
+paipai.com
+dianping.com
+meituan.com
+meituan.net
+didiglobal.com
+didistatic.com
+didialift.com
+didixl.com
+didichuxing.com
+udache.com
+douyin.com
+bytedance.com
+amemv.com
+kspkg.com
+ixigua.com
+huoshan.com
+huoshanzhibo.com
+toutiao.com
+toutiaoapi.com
+toutiaocdn.com
+wukong.com
+taobao.com
+ele.me
+yeah.net
+*.hihonor.com
+meishij.net
+youku.com
+iqiyi.com
+ppsimg.com
+bilibili.com
+bilibili.co
+bilivideo.com
+zhihu.com
+bigfun.cn
+acg.tv
+b23.tv
 
-# ========= Google =========
-lens.l.google.com
-stun.l.google.com
-na.b.g-tun.com
+# ========= 国内 CDN / 公共直连 =========
+baomitu.com
+bootcss.com
+jiasule.com
+staticfile.org
+upaiyun.com
 
-# ========= 视频平台 =========
-+.nflxvideo.net
-+.media.dssott.com
-*.mcdn.bilivideo.cn
+# ========= 国内 DNS / IP直连 =========
+dns.alidns.com
+doh.pub
+IP-CIDR,219.146.1.66/32,no-resolve
+IP-CIDR,219.147.1.66/32,no-resolve
+IP-CIDR,119.29.29.29/32,no-resolve
+IP-CIDR,223.5.5.5/32,no-resolve
+IP-CIDR,223.6.6.6/32,no-resolve
+IP-CIDR,114.114.114.114/32,no-resolve
+IP-CIDR,114.114.115.115/32,no-resolve
 
-# ========= 其他常用服务 =========
-proxy.golang.org
-shark007.net
-+.cmbchina.com
-+.cmbimg.com
-*.pingan.com.cn
-*.10099.com.cn
-*.microdone.cn
-*.blzstatic.cn
-*.cmpassport.com
-id6.me
-open.e.189.cn
-opencloud.wostore.cn
-id.mail.wo.cn
-mdn.open.wo.cn
-hmrz.wo.cn
-nishub1.10010.com
-enrichgw.10010.com
-*.wosms.cn
-*.jegotrip.com.cn
-*.icitymobile.mobi
-local.adguard.org
-+.sandai.net
-+.n0808.com
-+.uu.163.com
-ps.res.netease.com
-+.pub.3gppnetwork.org
+# ========= VPS / 特殊 IP =========
+IP-CIDR,216.40.86.112/24,no-resolve
+IP-CIDR,38.207.169.210/24,no-resolve
+IP-CIDR,45.151.135.201/24,no-resolve
+IP-CIDR,101.32.104.4/32,no-resolve
+IP-CIDR,101.32.104.41/32,no-resolve
+IP-CIDR,101.32.104.56/32,no-resolve
+IP-CIDR,101.32.118.25/32,no-resolve
+IP-CIDR,101.32.133.16/32,no-resolve
+IP-CIDR,101.32.133.53/32,no-resolve
+IP-CIDR,101.32.133.209/32,no-resolve
+IP-CIDR,129.226.3.47/32,no-resolve
+IP-CIDR,129.226.107.244/32,no-resolve
+IP-CIDR,106.11.0.0/16,no-resolve
