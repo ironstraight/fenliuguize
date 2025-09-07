@@ -1,87 +1,3 @@
-# Microsoft Services
-# optimized from https://gist.github.com/TTTPOB/ce93fb3b04ba2f21880b09427442d831
-# source: https://docs.microsoft.com/en-us/office365/enterprise/urls-and-ip-address-ranges
-DOMAIN-KEYWORD,1drv
-DOMAIN-KEYWORD,microsoft
-DOMAIN-SUFFIX,aadrm.com
-DOMAIN-SUFFIX,acompli.com
-DOMAIN-SUFFIX,acompli.net
-DOMAIN-SUFFIX,aka.ms
-DOMAIN-SUFFIX,akadns.net
-DOMAIN-SUFFIX,aspnetcdn.com
-DOMAIN-SUFFIX,assets-yammer.com
-DOMAIN-SUFFIX,azure.com
-DOMAIN-SUFFIX,azure.net
-DOMAIN-SUFFIX,azureedge.net
-DOMAIN-SUFFIX,azureiotcentral.com
-DOMAIN-SUFFIX,azurerms.com
-DOMAIN-SUFFIX,bing.com
-DOMAIN-SUFFIX,bing.net
-DOMAIN-SUFFIX,bingapis.com
-DOMAIN-SUFFIX,cloudapp.net
-DOMAIN-SUFFIX,cloudappsecurity.com
-DOMAIN-SUFFIX,edgesuite.net
-DOMAIN-SUFFIX,gfx.ms
-DOMAIN-SUFFIX,hotmail.com
-DOMAIN-SUFFIX,live.com
-DOMAIN-SUFFIX,live.net
-DOMAIN-SUFFIX,lync.com
-DOMAIN-SUFFIX,msappproxy.net
-DOMAIN-SUFFIX,msauth.net
-DOMAIN-SUFFIX,msauthimages.net
-DOMAIN-SUFFIX,msecnd.net
-DOMAIN-SUFFIX,msedge.net
-DOMAIN-SUFFIX,msft.net
-DOMAIN-SUFFIX,msftauth.net
-DOMAIN-SUFFIX,msftauthimages.net
-DOMAIN-SUFFIX,msftidentity.com
-DOMAIN-SUFFIX,msidentity.com
-DOMAIN-SUFFIX,msn.cn
-DOMAIN-SUFFIX,msn.com
-DOMAIN-SUFFIX,msocdn.com
-DOMAIN-SUFFIX,msocsp.com
-DOMAIN-SUFFIX,mstea.ms
-DOMAIN-SUFFIX,o365weve.com
-DOMAIN-SUFFIX,oaspapps.com
-DOMAIN-SUFFIX,office.com
-DOMAIN-SUFFIX,office.net
-DOMAIN-SUFFIX,office365.com
-DOMAIN-SUFFIX,officeppe.net
-DOMAIN-SUFFIX,omniroot.com
-DOMAIN-SUFFIX,onedrive.com
-DOMAIN-SUFFIX,onenote.com
-DOMAIN-SUFFIX,onenote.net
-DOMAIN-SUFFIX,onestore.ms
-DOMAIN-SUFFIX,outlook.com
-DOMAIN-SUFFIX,outlookmobile.com
-DOMAIN-SUFFIX,phonefactor.net
-DOMAIN-SUFFIX,public-trust.com
-DOMAIN-SUFFIX,sfbassets.com
-DOMAIN-SUFFIX,sfx.ms
-DOMAIN-SUFFIX,sharepoint.com
-DOMAIN-SUFFIX,sharepointonline.com
-DOMAIN-SUFFIX,skype.com
-DOMAIN-SUFFIX,skypeassets.com
-DOMAIN-SUFFIX,skypeforbusiness.com
-DOMAIN-SUFFIX,staffhub.ms
-DOMAIN-SUFFIX,svc.ms
-DOMAIN-SUFFIX,sway-cdn.com
-DOMAIN-SUFFIX,sway-extensions.com
-DOMAIN-SUFFIX,sway.com
-DOMAIN-SUFFIX,trafficmanager.net
-DOMAIN-SUFFIX,uservoice.com
-DOMAIN-SUFFIX,virtualearth.net
-DOMAIN-SUFFIX,visualstudio.com
-DOMAIN-SUFFIX,windows-ppe.net
-DOMAIN-SUFFIX,windows.com
-DOMAIN-SUFFIX,windows.net
-DOMAIN-SUFFIX,windowsazure.com
-DOMAIN-SUFFIX,windowsupdate.com
-DOMAIN-SUFFIX,wunderlist.com
-DOMAIN-SUFFIX,yammer.com
-DOMAIN-SUFFIX,yammerusercontent.com
-DOMAIN-SUFFIX,time.windows.com
-
 # 域名关键字匹配
 DOMAIN-KEYWORD,baidu
 
@@ -104,38 +20,6 @@ IP-CIDR,223.6.6.6/32,no-resolve
 IP-CIDR,180.76.76.76/32,no-resolve
 IP-CIDR,114.114.114.114/32,no-resolve
 IP-CIDR,114.114.115.115/32,no-resolve
-
-#Apple
-DOMAIN-KEYWORD,apple-relay
-DOMAIN,apple.comscoreresearch.com
-DOMAIN-SUFFIX,aaplimg.com
-DOMAIN-SUFFIX,akadns.net
-DOMAIN-SUFFIX,apple-cloudkit.com
-DOMAIN-SUFFIX,apple-dns.net
-DOMAIN-SUFFIX,apple-mapkit.com
-DOMAIN-SUFFIX,apple.co
-DOMAIN-SUFFIX,apple.com
-DOMAIN-SUFFIX,apple.com.cn
-DOMAIN-SUFFIX,apple.news
-DOMAIN-SUFFIX,appstore.com
-DOMAIN-SUFFIX,cdn-apple.com
-DOMAIN-SUFFIX,crashlytics.com
-DOMAIN-SUFFIX,icloud-content.com
-DOMAIN-SUFFIX,icloud.com
-DOMAIN-SUFFIX,icloud.com.cn
-DOMAIN-SUFFIX,itunes.com
-DOMAIN-SUFFIX,me.com
-DOMAIN-SUFFIX,mzstatic.com
-IP-CIDR,17.0.0.0/8,no-resolve
-IP-CIDR,63.92.224.0/19,no-resolve
-IP-CIDR,65.199.22.0/23,no-resolve
-IP-CIDR,139.178.128.0/18,no-resolve
-IP-CIDR,144.178.0.0/19,no-resolve
-IP-CIDR,144.178.36.0/22,no-resolve
-IP-CIDR,144.178.48.0/20,no-resolve
-IP-CIDR,192.35.50.0/24,no-resolve
-IP-CIDR,198.183.17.0/24,no-resolve
-IP-CIDR,205.180.175.0/24,no-resolve
 
 # Tencent
 DOMAIN-SUFFIX,foxmail.com
@@ -205,6 +89,26 @@ DOMAIN-SUFFIX,zijieapi.com
 DOMAIN-SUFFIX,zijieimg.com
 DOMAIN-SUFFIX,zjbyte.com
 DOMAIN-SUFFIX,zjcdn.com
+
+#淘宝 (Taobao)
+DOMAIN-SUFFIX,taobao.com
+DOMAIN-SUFFIX,taobao.cn
+DOMAIN-SUFFIX,taobaocdn.com
+DOMAIN-SUFFIX,tb.cn
+DOMAIN-SUFFIX,tb.ly
+DOMAIN-SUFFIX,tbcache.com
+DOMAIN-SUFFIX,taobao.org
+DOMAIN-SUFFIX,taobaowangzu.com
+DOMAIN-KEYWORD,taobao
+DOMAIN-KEYWORD,taobaovideo
+
+#天猫 (Tmall)
+DOMAIN-SUFFIX,tmall.com
+DOMAIN-SUFFIX,tmall.ru
+DOMAIN-SUFFIX,tmalltv.com
+DOMAIN-SUFFIX,tmall.net
+DOMAIN-SUFFIX,tmallcdn.com
+DOMAIN-KEYWORD,tmall
 
 # Baidu
 DOMAIN-SUFFIX,baidu.com
@@ -284,6 +188,52 @@ DOMAIN-SUFFIX,jd.hk
 DOMAIN-SUFFIX,jdcloud.com
 DOMAIN-SUFFIX,jdpay.com
 DOMAIN-SUFFIX,paipai.com
+
+#滴滴 (Didi)
+DOMAIN-SUFFIX,didiglobal.com
+DOMAIN-SUFFIX,didistatic.com
+DOMAIN-SUFFIX,didialift.com
+DOMAIN-SUFFIX,didixl.com
+DOMAIN-SUFFIX,didichuxing.com
+DOMAIN-SUFFIX,udache.com
+DOMAIN-KEYWORD,didi
+DOMAIN-KEYWORD,xiaojukeji
+
+#美团 (Meituan)
+DOMAIN-SUFFIX,meituan.com
+DOMAIN-SUFFIX,meituan.net
+DOMAIN-SUFFIX,dianping.com
+DOMAIN-SUFFIX,dianpingp.com
+DOMAIN-SUFFIX,mtyun.com
+DOMAIN-SUFFIX,meituanpiao.com
+DOMAIN-SUFFIX,meituanfood.com
+DOMAIN-SUFFIX,meituan-eco.com
+DOMAIN-SUFFIX,meisheng.com
+DOMAIN-KEYWORD,meituan
+DOMAIN-KEYWORD,dianping
+
+# NetEase
+DOMAIN-SUFFIX,yeah.net
+DOMAIN-SUFFIX,126.com
+DOMAIN-SUFFIX,126.net
+DOMAIN-SUFFIX,127.net
+DOMAIN-SUFFIX,163.com
+DOMAIN-SUFFIX,163yun.com
+DOMAIN-SUFFIX,lofter.com
+DOMAIN-SUFFIX,netease.com
+DOMAIN-SUFFIX,ydstatic.com
+DOMAIN-SUFFIX,youdao.com
+
+#饿了么
+DOMAIN-SUFFIX,ele.me
+DOMAIN-SUFFIX,eleme.cn
+DOMAIN-SUFFIX,eleme.com
+DOMAIN-SUFFIX,eleme.net
+DOMAIN-SUFFIX,elemeapi.com
+DOMAIN-SUFFIX,elmous.cn
+DOMAIN-SUFFIX,meishij.net
+DOMAIN-KEYWORD,eleme
+DOMAIN-KEYWORD,elmcdn
 
 # Bilibili
 DOMAIN-SUFFIX,acg.tv
@@ -434,18 +384,6 @@ DOMAIN-SUFFIX,miui.com
 DOMAIN-SUFFIX,xiaomi.com
 DOMAIN-SUFFIX,xiaomi.net
 DOMAIN-SUFFIX,xiaomicp.com
-
-# NetEase
-DOMAIN-SUFFIX,yeah.net
-DOMAIN-SUFFIX,126.com
-DOMAIN-SUFFIX,126.net
-DOMAIN-SUFFIX,127.net
-DOMAIN-SUFFIX,163.com
-DOMAIN-SUFFIX,163yun.com
-DOMAIN-SUFFIX,lofter.com
-DOMAIN-SUFFIX,netease.com
-DOMAIN-SUFFIX,ydstatic.com
-DOMAIN-SUFFIX,youdao.com
 
 # PPTV、PPLive
 DOMAIN-SUFFIX,pplive.com
