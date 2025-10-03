@@ -1,7 +1,3 @@
-# ------------------------
-# TikTok 核心必需域名组
-# ------------------------
-
 USER-AGENT,TikTok*
 DOMAIN-KEYWORD,tiktok
 DOMAIN-KEYWORD,tiktokcdn
@@ -34,11 +30,6 @@ DOMAIN,p16-tiktokcdn-com.akamaized.net
 DOMAIN,trae-api-sg.mchost.guru
 
 PROCESS-NAME,com.zhiliaoapp.musically
-
-# ------------------------
-# TikTok 扩展可选域名组
-# （覆盖 CDN / 日志 / 广告 / 直播）
-# ------------------------
 
 # CDN 扩展
 DOMAIN-SUFFIX,ttwebview.com
