@@ -1,34 +1,74 @@
-# 内容：TikTok
+# ------------------------
+# TikTok 核心必需域名组
+# ------------------------
+
 USER-AGENT,TikTok*
+DOMAIN-KEYWORD,tiktok
 DOMAIN-KEYWORD,tiktokcdn
 DOMAIN-KEYWORD,musical.ly
-DOMAIN-KEYWORD,tiktok
-DOMAIN-SUFFIX,byteoversea.com
-DOMAIN-SUFFIX,ibytedtos.com
-DOMAIN-SUFFIX,ipstatp.com
-DOMAIN-SUFFIX,muscdn.com
 DOMAIN-SUFFIX,musical.ly
-DOMAIN-SUFFIX,tik-tokapi.com
+DOMAIN-SUFFIX,tiktok.com
+DOMAIN-SUFFIX,tiktokcdn.com
 DOMAIN-SUFFIX,tiktokv.com
-DOMAIN-SUFFIX,bytedapm.com
-DOMAIN-SUFFIX,bytegecko-i18n.com
-DOMAIN-SUFFIX,byteintlapi.com
-DOMAIN-SUFFIX,capcut.com
-DOMAIN-SUFFIX,ibyteimg.com
-DOMAIN-SUFFIX,isnssdk.com
-DOMAIN-SUFFIX,marscode.com
-DOMAIN-SUFFIX,sgpstatp.com
-DOMAIN-SUFFIX,snssdk.com
 DOMAIN-SUFFIX,tiktokcdn-us.com
 DOMAIN-SUFFIX,tiktokd.net
 DOMAIN-SUFFIX,tiktokd.org
 DOMAIN-SUFFIX,tiktokmusic.app
 DOMAIN-SUFFIX,tiktokv.us
-DOMAIN-SUFFIX,trae.ai
-DOMAIN-SUFFIX,ttwebview.com
-DOMAIN-SUFFIX,jp.oshuawei.com
+DOMAIN-SUFFIX,bytedapm.com
+DOMAIN-SUFFIX,bytegecko-i18n.com
+DOMAIN-SUFFIX,byteintlapi.com
+DOMAIN-SUFFIX,ibyteimg.com
+DOMAIN-SUFFIX,ibytedtos.com
+DOMAIN-SUFFIX,ipstatp.com
+DOMAIN-SUFFIX,sgpstatp.com
+DOMAIN-SUFFIX,snssdk.com
+DOMAIN-SUFFIX,isnssdk.com
+DOMAIN-SUFFIX,capcut.com
+DOMAIN-SUFFIX,byteoversea.com
+
+# 核心子域 / API
 DOMAIN,lf16-effectcdn.byteeffecttos-g.com
 DOMAIN,lf16-pkgcdn.pitaya-clientai.com
 DOMAIN,p16-tiktokcdn-com.akamaized.net
 DOMAIN,trae-api-sg.mchost.guru
+
 PROCESS-NAME,com.zhiliaoapp.musically
+
+# ------------------------
+# TikTok 扩展可选域名组
+# （覆盖 CDN / 日志 / 广告 / 直播）
+# ------------------------
+
+# CDN 扩展
+DOMAIN-SUFFIX,ttwebview.com
+DOMAIN-SUFFIX,trae.ai
+DOMAIN-SUFFIX,oshuawei.com
+DOMAIN-SUFFIX,jp.oshuawei.com
+DOMAIN-SUFFIX,bytecdn.cn
+DOMAIN-SUFFIX,byted.org
+DOMAIN-SUFFIX,tiktokcdn-eu.com
+DOMAIN-SUFFIX,ttlivecdn.com
+DOMAIN-KEYWORD,ttlivecdn
+
+# API / 日志上报
+DOMAIN,log.tiktokv.com
+DOMAIN,ib.tiktokv.com
+DOMAIN,api.tiktokv.com
+DOMAIN,api-h2.tiktokv.com
+DOMAIN,mon.musical.ly
+DOMAIN,api2.musical.ly
+DOMAIN,api2-16-h2.musical.ly
+DOMAIN,api2-21-h2.musical.ly
+DOMAIN,log2.musical.ly
+
+# 其他变体 / 流媒体
+DOMAIN-SUFFIX,tiktoktv.com
+DOMAIN-SUFFIX,tiktokvideo.com
+DOMAIN-SUFFIX,tiktokw.us
+DOMAIN-SUFFIX,musemuse.cn
+
+# 常见子域 CDN
+DOMAIN,v16a.tiktokcdn.com
+DOMAIN,v16m.tiktokcdn.com
+DOMAIN,v19.tiktokcdn.com
