@@ -23,7 +23,6 @@ DOMAIN-SUFFIX,snssdk.com
 DOMAIN-SUFFIX,isnssdk.com
 DOMAIN-SUFFIX,capcut.com
 DOMAIN-SUFFIX,byteoversea.com
-DOMAIN-SUFFIX,hkt.gotochinatown.net
 
 # 核心子域 / API
 DOMAIN,lf16-effectcdn.byteeffecttos-g.com
@@ -65,5 +64,3 @@ DOMAIN-SUFFIX,musemuse.cn
 DOMAIN,v16a.tiktokcdn.com
 DOMAIN,v16m.tiktokcdn.com
 DOMAIN,v19.tiktokcdn.com
-DOMAIN,roovza.launches.appsflyersdk.com
-DOMAIN,10-courier.push.apple.com
