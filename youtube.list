@@ -36,7 +36,7 @@ DOMAIN-SUFFIX,www.youtube.com/api/lounge
 # 6. 广告和追踪 域名
 # 包含这些可确保广告流量也通过同一线路 (或被REJECT)
 # 如果您希望广告也通过代理，请保留它们
-DOMAIN-SUFFIX,doubleclick.net
-DOMAIN-SUFFIX,googleadservices.com
-DOMAIN-SUFFIX,googlesyndication.com
-DOMAIN,s.youtube.com
+#DOMAIN-SUFFIX,doubleclick.net
+#DOMAIN-SUFFIX,googleadservices.com
+#DOMAIN-SUFFIX,googlesyndication.com
+#DOMAIN,s.youtube.com
