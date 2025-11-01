@@ -1,0 +1,42 @@
+# 1. 核心域名 (网站和短链接)
+# 覆盖 PC Web、Mobile Web 和 App 的主要入口
+DOMAIN-SUFFIX,youtube.com
+DOMAIN-SUFFIX,youtu.be
+DOMAIN-SUFFIX,yt.be
+
+# 2. 视频/CDN 域名 (最关键)
+# 承载所有视频和音频流 (HLS/DASH)
+# 这是最主要的数据流量
+DOMAIN-SUFFIX,googlevideo.com
+DOMAIN-SUFFIX,youtube-audio.l.google.com
+DOMAIN-SUFFIX,youtube-video.l.google.com
+
+# 3. 静态资源/图片 域名
+# 缩略图、头像、频道封面、UI图标等
+DOMAIN-SUFFIX,ytimg.com
+DOMAIN-SUFFIX,ytimg.l.google.com
+DOMAIN-SUFFIX,yt3.ggpht.com
+DOMAIN-SUFFIX,ggpht.com
+DOMAIN-SUFFIX,ytstatic.com
+DOMAIN,youtube.com.l.google.com
+
+# 4. API/数据 域名
+# 负责加载推荐、评论、播放列表、搜索建议等
+# 这是 App 和 Web 正常运行的大脑
+DOMAIN-SUFFIX,youtubei.googleapis.com
+DOMAIN-SUFFIX,youtube.googleapis.com
+DOMAIN-SUFFIX,youtube-player.l.google.com
+
+# 5. TV 端/设备 域名
+# 智能电视、Chromecast、游戏机等设备登录和通信
+DOMAIN-SUFFIX,youtube.com/tv
+DOMAIN-SUFFIX,youtube.com/leanback
+DOMAIN-SUFFIX,www.youtube.com/api/lounge
+
+# 6. 广告和追踪 域名
+# 包含这些可确保广告流量也通过同一线路 (或被REJECT)
+# 如果您希望广告也通过代理，请保留它们
+DOMAIN-SUFFIX,doubleclick.net
+DOMAIN-SUFFIX,googleadservices.com
+DOMAIN-SUFFIX,googlesyndication.com
+DOMAIN,s.youtube.com
