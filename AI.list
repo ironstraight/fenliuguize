@@ -57,7 +57,7 @@ DOMAIN-SUFFIX,bing.com
 DOMAIN-SUFFIX,bortzmeyer.org
 DOMAIN-SUFFIX,circumlunar.space
 DOMAIN-SUFFIX,claude.ai
-DOMAIN-SUFFIX,client-api.arkoselabs.com
+DOMAIN-SUFFIX,client-api.arkoselabs.com  
 DOMAIN-SUFFIX,conman.org
 DOMAIN-SUFFIX,difyai.com
 DOMAIN-SUFFIX,events.statsigapi.net
@@ -76,3 +76,5 @@ DOMAIN-SUFFIX,signalr.net
 DOMAIN-SUFFIX,stripe.com
 DOMAIN-SUFFIX,vulpes.one
 DOMAIN-SUFFIX,auth0.com
+# --- 增加linkedin ---
+DOMAIN-SUFFIX,linkedin.com
