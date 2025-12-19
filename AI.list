@@ -78,3 +78,5 @@ DOMAIN-SUFFIX,vulpes.one
 DOMAIN-SUFFIX,auth0.com
 # --- 增加linkedin ---
 DOMAIN-SUFFIX,linkedin.com
+# --- 增加谷歌 ---
+DOMAIN-SUFFIX,googletagmanager.com
