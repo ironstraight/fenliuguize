@@ -1,24 +1,33 @@
-#Apple
+# Apple Core Services
 DOMAIN-KEYWORD,apple-relay
-DOMAIN,apple.comscoreresearch.com
+DOMAIN-KEYWORD,icloud
+DOMAIN-KEYWORD,itunes
 DOMAIN-SUFFIX,aaplimg.com
-DOMAIN-SUFFIX,apple-cloudkit.com
-DOMAIN-SUFFIX,apple-mapkit.com
 DOMAIN-SUFFIX,apple.co
 DOMAIN-SUFFIX,apple.com
 DOMAIN-SUFFIX,apple.com.cn
 DOMAIN-SUFFIX,apple.news
-DOMAIN-SUFFIX,appstore.com
+DOMAIN-SUFFIX,apple-cloudkit.com
+DOMAIN-SUFFIX,apple-mapkit.com
 DOMAIN-SUFFIX,cdn-apple.com
-DOMAIN-SUFFIX,crashlytics.com
-DOMAIN-SUFFIX,icloud-content.com
+DOMAIN-SUFFIX,mzstatic.com
+DOMAIN-SUFFIX,me.com
+
+# App Store / iTunes / Media
+DOMAIN-SUFFIX,appstore.com
+DOMAIN-SUFFIX,itunes.com
+DOMAIN-SUFFIX,apps.apple.com
+DOMAIN-SUFFIX,music.apple.com
+DOMAIN-SUFFIX,tv.apple.com
+
+# iCloud / Push / Sync
 DOMAIN-SUFFIX,icloud.com
 DOMAIN-SUFFIX,icloud.com.cn
-DOMAIN-SUFFIX,itunes.com
-DOMAIN-SUFFIX,me.com
-DOMAIN-SUFFIX,mzstatic.com
+DOMAIN-SUFFIX,icloud-content.com
+DOMAIN,push.apple.com
+DOMAIN,gsa.apple.com
 
-# Apple 系统更新 / 服务
+# Apple System Update / OTA
 DOMAIN,swscan.apple.com
 DOMAIN,swquery.apple.com
 DOMAIN,swdownload.apple.com
@@ -26,9 +35,21 @@ DOMAIN,swcdn.apple.com
 DOMAIN,swdist.apple.com
 DOMAIN,updates.cdn-apple.com
 DOMAIN,mesu.apple.com
-DOMAIN,push.apple.com
 
-# Apple IP 段
+# Developer / TestFlight
+DOMAIN,developer.apple.com
+DOMAIN-SUFFIX,testflight.apple.com
+
+# Sidestore / SideLoad
+DOMAIN-SUFFIX,in.appcenter.ms
+DOMAIN-SUFFIX,sidestore.io
+DOMAIN-SUFFIX,sidestore.zip
+DOMAIN-SUFFIX,sidestore.app
+DOMAIN,ani.846969.xyz
+DOMAIN,ani.npeg.us
+DOMAIN,anisette.wedotstud.io
+
+# Apple IP Ranges (AS714)
 IP-CIDR,17.0.0.0/8,no-resolve
 IP-CIDR,63.92.224.0/19,no-resolve
 IP-CIDR,65.199.22.0/23,no-resolve
