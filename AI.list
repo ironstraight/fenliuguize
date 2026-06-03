@@ -4,6 +4,9 @@ DOMAIN-KEYWORD,aistudio
 DOMAIN-KEYWORD,aistudio-pa
 DOMAIN-KEYWORD,anthropic
 DOMAIN-KEYWORD,claude
+DOMAIN-KEYWORD,alibaba
+DOMAIN-KEYWORD,accio
+
 # --- DOMAIN ---
 DOMAIN,gemini.google.com
 DOMAIN,copilot.microsoft.com
