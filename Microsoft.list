@@ -80,3 +80,6 @@ DOMAIN-SUFFIX,yammer.com
 DOMAIN-SUFFIX,yammerusercontent.com
 DOMAIN-SUFFIX,time.windows.com
 PROCESS-NAME,OneDrive
+
+# My
+DOMAIN-SUFFIX,aspool.ccwu.cc
