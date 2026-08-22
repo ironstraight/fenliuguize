@@ -1,0 +1,63 @@
+port: 7890
+socks-port: 7891
+allow-lan: true
+bind-address: "*"
+ipv6: false
+mode: Rule
+log-level: info
+external-controller: 127.0.0.1:9090
+
+# Keep DIRECT traffic independent from overseas DNS. This is especially
+# important for Microsoft Store and Windows Update on mainland networks.
+dns:
+  enable: true
+  ipv6: false
+  listen: 0.0.0.0:53
+  use-hosts: true
+  use-system-hosts: true
+  respect-rules: false
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+    - "*.lan"
+    - "*.local"
+    - "*.arpa"
+    - time.*.com
+    - ntp.*.com
+    - +.market.xiaomi.com
+    - localhost.ptlogin2.qq.com
+    - "*.msftncsi.com"
+    - dns.msftncsi.com
+    - www.msftconnecttest.com
+  default-nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+  nameserver:
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
+  nameserver-policy:
+    "geosite:cn,private,apple,microsoft":
+      - https://dns.alidns.com/dns-query
+      - https://doh.pub/dns-query
+  proxy-server-nameserver:
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
+  direct-nameserver:
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
+  direct-nameserver-follow-policy: false
+  fallback:
+    - "https://1.1.1.1/dns-query#RULES"
+    - "https://8.8.8.8/dns-query#RULES"
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+    ipcidr:
+      - 240.0.0.0/4
+      - 0.0.0.0/32
+      - 127.0.0.1/32
+      - 100.64.0.0/10
+    fallback-lazy-query: true
+
+proxies: ~
+proxy-groups: ~
+rules: ~

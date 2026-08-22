@@ -1,12 +1,14 @@
 # Microsoft
-DOMAIN-SUFFIX,*.microsoft.com
-DOMAIN-SUFFIX,*.office.com
-DOMAIN-SUFFIX,*.office.net
-DOMAIN-SUFFIX,*.live.com
-DOMAIN-SUFFIX,*.outlook.com
-DOMAIN-SUFFIX,*.azure.com
-DOMAIN-SUFFIX,*.windowsupdate.com
-DOMAIN-SUFFIX,*.skype.com
+DOMAIN-SUFFIX,microsoft.com
+DOMAIN-SUFFIX,office.com
+DOMAIN-SUFFIX,office.net
+DOMAIN-SUFFIX,live.com
+DOMAIN-SUFFIX,outlook.com
+DOMAIN-SUFFIX,azure.com
+DOMAIN-SUFFIX,windowsupdate.com
+DOMAIN-SUFFIX,skype.com
+DOMAIN-SUFFIX,msftconnecttest.com
+DOMAIN-SUFFIX,msftncsi.com
 DOMAIN-KEYWORD,onedrive
 DOMAIN-KEYWORD,1drv
 DOMAIN-KEYWORD,microsoft
