@@ -40,3 +40,27 @@ DOMAIN-SUFFIX,www.youtube.com/api/lounge
 #DOMAIN-SUFFIX,googleadservices.com
 #DOMAIN-SUFFIX,googlesyndication.com
 #DOMAIN,s.youtube.com
+
+# 7. Current YouTube international domains and auxiliary services
+DOMAIN-KEYWORD,youtube
+DOMAIN-KEYWORD,googlevideo
+DOMAIN-SUFFIX,youtube-nocookie.com
+DOMAIN-SUFFIX,withyoutube.com
+DOMAIN-SUFFIX,youtubeeducation.com
+DOMAIN-SUFFIX,youtubeembeddedplayer.googleapis.com
+DOMAIN-SUFFIX,youtubefanfest.com
+DOMAIN-SUFFIX,youtubegaming.com
+DOMAIN-SUFFIX,youtubego.co.id
+DOMAIN-SUFFIX,youtubego.co.in
+DOMAIN-SUFFIX,youtubego.com
+DOMAIN-SUFFIX,youtubego.com.br
+DOMAIN-SUFFIX,youtubego.id
+DOMAIN-SUFFIX,youtubego.in
+DOMAIN-SUFFIX,youtubekids.com
+DOMAIN-SUFFIX,youtubemobilesupport.com
+DOMAIN,wide-youtube.l.google.com
+DOMAIN,youtube-ui.l.google.com
+DOMAIN,yt3.googleusercontent.com
+
+# Correct domain-only forms for the three legacy URL-path entries above
+DOMAIN,www.youtube.com

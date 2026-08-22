@@ -18,3 +18,44 @@ IP-CIDR6,fd00::/8,no-resolve
 
 # My
 DOMAIN-SUFFIX,aspool.ccwu.cc
+
+# 其他 IANA 特殊用途 IPv4 段
+IP-CIDR,192.0.0.0/24,no-resolve
+IP-CIDR,192.0.2.0/24,no-resolve
+IP-CIDR,192.88.99.0/24,no-resolve
+IP-CIDR,198.51.100.0/24,no-resolve
+IP-CIDR,203.0.113.0/24,no-resolve
+IP-CIDR,255.255.255.255/32,no-resolve
+
+# 其他 IANA 特殊用途 IPv6 段
+IP-CIDR6,::/128,no-resolve
+IP-CIDR6,2001:db8::/32,no-resolve
+IP-CIDR6,ff00::/8,no-resolve
+
+# 局域网、保留域名与常见路由器管理域名
+DOMAIN-SUFFIX,lan
+DOMAIN-SUFFIX,local
+DOMAIN-SUFFIX,localdomain
+DOMAIN-SUFFIX,localhost
+DOMAIN-SUFFIX,home.arpa
+DOMAIN-SUFFIX,internal
+DOMAIN-SUFFIX,invalid
+DOMAIN-SUFFIX,test
+DOMAIN-SUFFIX,example
+DOMAIN-SUFFIX,miwifi.com
+DOMAIN-SUFFIX,tplinkwifi.net
+DOMAIN-SUFFIX,tendawifi.com
+DOMAIN-SUFFIX,routerlogin.com
+DOMAIN-SUFFIX,asusrouter.com
+DOMAIN-SUFFIX,hiwifi.com
+DOMAIN-SUFFIX,leike.cc
+DOMAIN-SUFFIX,peiluyou.com
+DOMAIN-SUFFIX,phicomm.me
+DOMAIN-SUFFIX,router.ctc
+DOMAIN-SUFFIX,zte.home
+DOMAIN-SUFFIX,ts.net
+DOMAIN-SUFFIX,plex.direct
+DOMAIN,localhost.sec.qq.com
+DOMAIN,localhost.ptlogin2.qq.com
+DOMAIN,miwifi.com
+DOMAIN,tplogin.cn
