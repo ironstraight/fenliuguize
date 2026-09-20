@@ -14,7 +14,7 @@ IP-CIDR,240.0.0.0/4,no-resolve
 IP-CIDR6,::1/128,no-resolve
 IP-CIDR6,fc00::/7,no-resolve
 IP-CIDR6,fe80::/10,no-resolve
-IP-CIDR6,fd00::/8,no-resolve
+IP-CIDR6,fec0::/10,no-resolve
 
 # My
 DOMAIN-SUFFIX,aspool.ccwu.cc
@@ -30,6 +30,7 @@ IP-CIDR,255.255.255.255/32,no-resolve
 # 其他 IANA 特殊用途 IPv6 段
 IP-CIDR6,::/128,no-resolve
 IP-CIDR6,2001:db8::/32,no-resolve
+IP-CIDR6,3fff::/20,no-resolve
 IP-CIDR6,ff00::/8,no-resolve
 
 # 局域网、保留域名与常见路由器管理域名

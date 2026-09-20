@@ -3,31 +3,64 @@ socks-port: 7891
 allow-lan: true
 bind-address: "*"
 ipv6: false
-mode: Rule
+mode: rule
 log-level: info
 external-controller: 127.0.0.1:9090
+
+profile:
+  store-selected: true
+  store-fake-ip: true
 
 # Keep DIRECT traffic independent from overseas DNS. This is especially
 # important for Microsoft Store and Windows Update on mainland networks.
 dns:
   enable: true
+  cache-algorithm: arc
+  prefer-h3: false
   ipv6: false
-  listen: 0.0.0.0:53
+  # Avoid colliding with dnsmasq/system resolvers; OpenClash may overwrite this.
+  listen: 0.0.0.0:1053
   use-hosts: true
   use-system-hosts: true
   respect-rules: false
+  enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
+  fake-ip-filter-mode: blacklist
   fake-ip-filter:
-    - "*.lan"
-    - "*.local"
-    - "*.arpa"
+    # Local, reverse-DNS and reserved namespaces must keep real addresses.
+    - "+.lan"
+    - "+.local"
+    - "+.localdomain"
+    - "+.localhost"
+    - "+.home.arpa"
+    - "+.arpa"
+    - "+.invalid"
+    - "+.test"
+    - "+.example"
+    - localhost
+    # Time synchronization and STUN/console discovery do not tolerate fake IPs.
     - time.*.com
+    - time.*.gov
+    - time.*.edu.cn
     - ntp.*.com
+    - "+.pool.ntp.org"
+    - "+.ntp.org.cn"
+    - stun.*.*
+    - stun.*.*.*
+    - stun.*.*.*.*
+    - "+.stun.playstation.net"
+    - "+.stun.twilio.com"
+    - "+.turn.twilio.com"
+    - "+.srv.nintendo.net"
+    - "+.cdn.nintendo.net"
+    - xbox.*.microsoft.com
+    - "+.xboxlive.com"
+    # Captive-portal and connectivity checks require their real responses.
+    - "+.captive.apple.com"
+    - "+.msftncsi.com"
+    - "+.msftconnecttest.com"
     - +.market.xiaomi.com
     - localhost.ptlogin2.qq.com
-    - "*.msftncsi.com"
-    - dns.msftncsi.com
-    - www.msftconnecttest.com
   default-nameserver:
     - 223.5.5.5
     - 119.29.29.29
@@ -38,6 +71,17 @@ dns:
     "geosite:cn,private,apple,microsoft":
       - https://dns.alidns.com/dns-query
       - https://doh.pub/dns-query
+    # Core domains from the repository's proxy rules bypass polluted domestic
+    # answers. IP-based DoH avoids bootstrap-resolution loops.
+    "+.openai.com,+.chatgpt.com,+.oaistatic.com,+.oaiusercontent.com,+.anthropic.com,+.claude.ai,+.claude.com,+.perplexity.ai,+.pplx.ai,+.x.ai,+.grok.com":
+      - "https://1.1.1.1/dns-query#RULES"
+      - "https://8.8.8.8/dns-query#RULES"
+    "+.youtube.com,+.youtu.be,+.googlevideo.com,+.ytimg.com,+.youtube-nocookie.com":
+      - "https://1.1.1.1/dns-query#RULES"
+      - "https://8.8.8.8/dns-query#RULES"
+    "+.tiktok.com,+.tiktokv.com,+.tiktokcdn.com,+.musical.ly,+.byteoversea.com":
+      - "https://1.1.1.1/dns-query#RULES"
+      - "https://8.8.8.8/dns-query#RULES"
   proxy-server-nameserver:
     - https://dns.alidns.com/dns-query
     - https://doh.pub/dns-query

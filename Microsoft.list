@@ -107,6 +107,9 @@ DOMAIN,ctldl.windowsupdate.com
 
 # Microsoft identity, cloud, Office, Edge and developer services
 DOMAIN-SUFFIX,cloud.microsoft
+DOMAIN-SUFFIX,static.microsoft
+DOMAIN-SUFFIX,usercontent.microsoft
+DOMAIN-SUFFIX,mx.microsoft
 DOMAIN-SUFFIX,microsoft365.com
 DOMAIN-SUFFIX,microsoftapp.net
 DOMAIN-SUFFIX,microsoftedge.com

@@ -29,9 +29,7 @@ DOMAIN-SUFFIX,youtube-player.l.google.com
 
 # 5. TV 端/设备 域名
 # 智能电视、Chromecast、游戏机等设备登录和通信
-DOMAIN-SUFFIX,youtube.com/tv
-DOMAIN-SUFFIX,youtube.com/leanback
-DOMAIN-SUFFIX,www.youtube.com/api/lounge
+# URL 路径不能用于 Clash 域名规则；youtube.com 后缀已覆盖这些入口。
 
 # 6. 广告和追踪 域名
 # 包含这些可确保广告流量也通过同一线路 (或被REJECT)
@@ -61,6 +59,3 @@ DOMAIN-SUFFIX,youtubemobilesupport.com
 DOMAIN,wide-youtube.l.google.com
 DOMAIN,youtube-ui.l.google.com
 DOMAIN,yt3.googleusercontent.com
-
-# Correct domain-only forms for the three legacy URL-path entries above
-DOMAIN,www.youtube.com

@@ -14,7 +14,6 @@ DOMAIN,generativelanguage.googleapis.com
 DOMAIN,api.groq.com
 DOMAIN,claude.ai
 DOMAIN,console.groq.com
-DOMAIN,generativelanguage.googleapis.com
 DOMAIN,google-analytics.com
 # --- DOMAIN-SUFFIX ---
 DOMAIN-SUFFIX,gemini.google.com
@@ -58,7 +57,6 @@ DOMAIN-SUFFIX,bing.com
 DOMAIN-SUFFIX,bortzmeyer.org
 DOMAIN-SUFFIX,circumlunar.space
 DOMAIN-SUFFIX,claude.ai
-DOMAIN-SUFFIX,client-api.arkoselabs.com  
 DOMAIN-SUFFIX,conman.org
 DOMAIN-SUFFIX,difyai.com
 DOMAIN-SUFFIX,events.statsigapi.net
@@ -91,7 +89,10 @@ DOMAIN-SUFFIX,openaimerge.com
 DOMAIN-SUFFIX,sora.com
 DOMAIN-SUFFIX,workos.com
 DOMAIN-SUFFIX,workoscdn.com
-DOMAIN-SUFFIX,livekit.cloud
+DOMAIN,chatgpt.livekit.cloud
+DOMAIN,host.livekit.cloud
+DOMAIN,turn.livekit.cloud
+DOMAIN,openai.com.cdn.cloudflare.net
 DOMAIN,android.chat.openai.com
 DOMAIN,auth0.openai.com
 DOMAIN,cdn.openaimerge.com
@@ -180,5 +181,4 @@ DOMAIN-SUFFIX,you.com
 DOMAIN-SUFFIX,dify.ai
 DOMAIN,gateway.ai.cloudflare.com
 
-# Correct form of the legacy entry that contains an invisible trailing space
 DOMAIN-SUFFIX,client-api.arkoselabs.com
