@@ -4,7 +4,13 @@ This file applies to the repository root and every child directory. It is the si
 
 `CLAUDE.md` and `.github/copilot-instructions.md` are compatibility entry points for other agents; they do not duplicate the policy body. Act on actual files, Git state, command output, and remote responses. Never guess an account, repository, deployment variable, or completion state from memory.
 
-## 0. Token-saving silent mode
+## 0.1 Workspace file safety
+
+- AI agents must not create, edit, move, or delete files outside the resolved project root containing this `AGENTS.md`. This includes home directories, system directories, sibling projects, external temporary directories, and global tool configuration. Read-only access is allowed when needed. Treat symlinks and junctions by their resolved targets, not by their apparent paths.
+- Before any batch file deletion, including wildcard deletion, recursive cleanup, `git clean`, and removal of temporary clones or generated directories, enumerate every affected file. Show a modal warning that lists the exact file paths and the purpose of each file, then wait for the user to press a button labeled `确认`. A chat reply, an assumed approval, or a successful tool call is not a substitute for that button. If the exact set cannot be enumerated or the UI cannot present that confirmation button, do not run the deletion.
+- A confirmation covers only the files listed in that modal. If the file set changes, present a new warning and obtain a new confirmation. Never include files outside the project root in the proposed deletion.
+
+## 0.2 Token-saving silent mode
 
 If the final non-whitespace text of a user instruction is exactly:
 
@@ -194,7 +200,7 @@ Rules:
 
 - Never reauthorize solely because one sandboxed `gh auth status` call failed.
 - Do not casually run `gh auth logout`, delete credentials, or overwrite existing entries.
-- First switch according to the mapping:
+- Verify the active account first. Switch only if the account is wrong and the switch can be performed without changing files outside this project; otherwise ask the user to switch accounts. The workspace file-safety rule also applies to authentication commands:
 
 ```powershell
 gh auth switch --hostname github.com --user <expected-account>
