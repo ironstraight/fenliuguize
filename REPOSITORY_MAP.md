@@ -1,56 +1,56 @@
-# 本地目录与 GitHub 远端映射表
+# Local Directory to GitHub Repository Map
 
-本文件是发布目标的权威映射。相对路径以本文件所在的 `fenliuguize` 根目录为基准，因此复制到其他电脑后仍然有效。
+This file is the authoritative publication map. All paths are relative to the `fenliuguize` directory that contains this file, so the map remains valid after moving the workspace to another computer.
 
-## 映射表
+## Repository map
 
-| 相对路径 | 内容 | GitHub 远端 | GitHub CLI 账号 | 分支 | 发布备注 |
+| Relative path | Purpose | GitHub remote | Required GitHub CLI account | Branch | Publishing notes |
 | --- | --- | --- | --- | --- | --- |
-| `.` | OpenClash/Mihomo/ClashMi 规则、规则集、域名集、基础配置 | `https://github.com/ironstraight/fenliuguize.git` | `ironstraight` | `main` | 父仓库；不得提交下面三个完整子目录 |
-| `allsub/` | AllSub Cloudflare Workers 自定义汇聚订阅 | `https://github.com/yiloveM/allsub.git` | `yiloveM` | `main` | 唯一需要 `yiloveM` 的项目 |
-| `asub/` | Astrowave SUB Cloudflare Workers 自定义汇聚订阅 | `https://github.com/ironstraight/asub.git` | `ironstraight` | `main` | asub 自带三张水主题图片 |
-| `EthanSub/` | Ethan SUB Cloudflare Workers 自定义汇聚订阅 | `https://github.com/ironstraight/EthanSub.git` | `ironstraight` | `main` | 当前自定义域名为 `https://ebr.arkalpool.eu.org/`；域名不等于 Git 远端 |
+| `.` | OpenClash/Mihomo/ClashMi rules, rule sets, domain sets, and base configuration | `https://github.com/ironstraight/fenliuguize.git` | `ironstraight` | `main` | Parent repository; never add the three complete child projects |
+| `allsub/` | AllSub Cloudflare Workers subscription aggregator | `https://github.com/yiloveM/allsub.git` | `yiloveM` | `main` | The only current project that requires the `yiloveM` account |
+| `asub/` | Astrowave SUB Cloudflare Workers subscription aggregator | `https://github.com/ironstraight/asub.git` | `ironstraight` | `main` | Owns its three local Water-theme images |
+| `EthanSub/` | Ethan SUB Cloudflare Workers subscription aggregator | `https://github.com/ironstraight/EthanSub.git` | `ironstraight` | `main` | Current custom domain is `https://ebr.arkalpool.eu.org/`; that domain is not a Git remote |
 
-## 当前工作区说明
+## Workspace structure
 
-- 根目录本身是 `ironstraight/fenliuguize` 的 Git 工作区。
-- `allsub/`、`asub/`、`EthanSub/` 可能没有各自的 `.git`；根目录 `.gitignore` 会阻止它们进入父仓库。
-- 这三个目录属于三个独立远端，不能执行 `git add allsub asub EthanSub` 加入父仓库。
-- 换电脑后可以把四个仓库分别 clone；若仍采用一个父目录容纳三个工作副本，也必须保持此映射不变。
+- The root directory is the Git working tree for `ironstraight/fenliuguize`.
+- `allsub/`, `asub/`, and `EthanSub/` may not contain their own `.git` directories. The root `.gitignore` prevents them from entering the parent repository.
+- These directories belong to three independent remotes. Never run `git add allsub asub EthanSub` in the parent repository.
+- On another computer, the four repositories may be cloned separately. If the three child working copies are placed under the parent directory again, this mapping remains mandatory.
 
-## 新增子项目登记规则
+## Registration of new child projects
 
-发现或收到用户加入的新子项目时，必须在本表新增一行，并同时更新：
+When a new child project is detected or added by the user, add a row to the table and update all applicable files:
 
-- `AGENTS.md` 的目录边界、工程分组和同步要求。
-- `PROJECT_PROGRESS.md` 的当前基线与完成记录。
-- 根 `.gitignore`（独立仓库或独立工作副本必须忽略）。
-- 子项目自己的 `AGENTS.md`/README/部署说明（如适用）。
+- The directory topology, parity group, and synchronization requirements in `AGENTS.md`.
+- The current baseline and completion history in `PROJECT_PROGRESS.md`.
+- The root `.gitignore` when the child is an independent repository or working copy.
+- The child's own `AGENTS.md`, README, deployment guide, or other AI-instruction file when applicable.
 
-新增行至少填写相对目录、项目角色、完整远端 URL、CLI 账号、默认分支和发布备注。远端或账号尚未确认时写“待确认”，并在确认前禁止 push。任务结束答复必须明确向用户报告登记结果，不能只在文件中静默更新。
+A new row must include the relative path, project role, complete remote URL, CLI account, default branch, and publishing notes. If the remote or account is not yet known, write `PENDING CONFIRMATION` and do not push. The final response must explicitly report the registration result instead of silently changing these files.
 
-## 推送前强制核对模板
+## Mandatory pre-push record
 
-对每个仓库逐项填写，不允许跳过：
+Fill every field for each repository before pushing:
 
 ```text
-本地相对目录：
-预期 GitHub 账号：
-gh api user 实际返回：
-预期 origin：
-git remote get-url origin 实际返回：
-目标分支：main
-待提交文件：
-测试结果：
-是否修改 wrangler/KV/变量：
-是否发现/登记新增子项目：
-最终 commit SHA：
+Local relative path:
+Expected GitHub account:
+Actual result of `gh api user`:
+Expected origin:
+Actual result of `git remote get-url origin`:
+Target branch: main
+Files to be committed:
+Validation results:
+Wrangler/KV/variable changes:
+New child project detected or registered:
+Final commit SHA:
 ```
 
-## CLI 操作顺序
+## Required CLI sequence
 
 ```powershell
-gh auth switch --hostname github.com --user <映射表账号>
+gh auth switch --hostname github.com --user <mapped-account>
 gh api user --jq .login
 git remote get-url origin
 git status --short --branch
@@ -58,12 +58,12 @@ git diff --check
 git push origin main
 ```
 
-如果 `gh auth status` 在沙箱中失败，先按 `AGENTS.md` 的网络和凭据流程判断，不要立刻重新授权。
+If `gh auth status` fails in a sandbox, follow the credential and network decision process in `AGENTS.md`. Do not immediately reauthorize.
 
-## 常见错误防护
+## Common mapping mistakes to prevent
 
-- `allsub` 不属于 `ironstraight`，它必须推送到 `yiloveM/allsub`。
-- `asub` 与 `EthanSub` 名字和技术栈相近，但它们是两个独立远端，不能互相覆盖。
-- `EthanSub` 的 Cloudflare 自定义域名不是 GitHub 远端，也不应写进 asub 的资源依赖。
-- 父仓库保存规则和域名集，不保存三个 Workers 项目的完整源码快照。
-- 403、404、网络超时和凭据失效必须按实际反馈区分处理。
+- `allsub` is not owned by `ironstraight`; it must be pushed to `yiloveM/allsub`.
+- `asub` and `EthanSub` use a similar stack but are separate remotes and must never overwrite one another.
+- EthanSub's Cloudflare custom domain is not a GitHub remote and must not become an asub asset dependency.
+- The parent repository stores rules and domain sets, not complete snapshots of the three Workers projects.
+- Treat 403, 404, network timeout, repository mismatch, and invalid credentials as different failures.

@@ -1,218 +1,239 @@
-# 分流规则与自定义订阅项目：工程级全局协作提示词
+# Project-wide Engineering Instructions for Rules and Subscription Frontends
 
-本文件适用于当前目录及全部子目录，是工程策略的唯一正文。任何 AI Agent、自动化工具或维护者开始工作前，必须完整阅读本文件、`REPOSITORY_MAP.md` 和 `PROJECT_PROGRESS.md`，再根据实际代码、Git 状态和命令反馈行动。`CLAUDE.md` 和 `.github/copilot-instructions.md` 只是兼容不同 Agent 的入口，不复制规则正文。不要凭记忆猜测账号、远端、部署变量或完成状态。
+This file applies to the repository root and every child directory. It is the single source of truth for project-wide engineering policy. Before changing, testing, committing, deploying, or pushing anything, every AI agent, automation tool, and maintainer must read this file, `REPOSITORY_MAP.md`, and `PROJECT_PROGRESS.md` in full.
 
-## 1. 项目定位与目录边界
+`CLAUDE.md` and `.github/copilot-instructions.md` are compatibility entry points for other agents; they do not duplicate the policy body. Act on actual files, Git state, command output, and remote responses. Never guess an account, repository, deployment variable, or completion state from memory.
 
-当前父目录是 **OpenClash/Mihomo/ClashMi 等客户端使用的远端分流规则、规则集、域名集和基础配置仓库**，不是三个订阅前端的单体仓库。
+## 0. Token-saving silent mode
 
-父目录的核心文件包括：
+If the final non-whitespace text of a user instruction is exactly:
 
-- `GoodrulesWithFallback.ini`：主要 subconverter 远程配置，负责规则集和策略组编排。
-- `OpenClashBase.yaml`：OpenClash/Mihomo 基础配置与 DNS、Fake-IP 等兼容设置。
-- `AI.list`、`Apple.list`、`Microsoft.list`、`Direct.list`、`Global.list`、`HK.list`、`localnetwork.list`、`tk.list`、`youtube.list` 等：由本仓库维护的规则集或域名集。
-- 其他 `.ini`、`.yaml`、`.list`、`.txt` 文件：历史配置、补充规则或兼容数据；修改前先确认调用关系。
+```text
+静默处理无需汇报
+```
 
-三个子目录是独立发布的 Cloudflare Workers 自定义汇聚订阅项目：
+the user is explicitly asking to conserve the remaining token budget. For that task:
+
+- Do not send routine progress reports, narration, status updates, or intermediate summaries to the user.
+- Continue working autonomously until the task is complete, while still performing all required safety checks, tests, reviews, Git verification, and progress-file updates.
+- Send a user-facing message only when permission, authorization, approval, credentials, or indispensable user input is required. The request must be concise and limited to the blocking authorization or decision.
+- When the task is complete, send one concise final report containing the outcome, verification, and pushed commit information.
+- Do not interpret silent mode as permission to skip checks, broaden scope, hide failures, or perform destructive actions.
+- A later user instruction that does not end with the exact phrase returns communication to the normal mode.
+
+System, platform, and safety requirements always remain in force, including any mandatory approval prompt.
+
+## 1. Workspace purpose and repository boundaries
+
+The parent directory is the repository for **remote routing rules, rule sets, domain sets, and base configurations used by OpenClash, Mihomo, ClashMi, and related clients**. It is not a monorepo containing the three subscription frontends.
+
+Important root files include:
+
+- `GoodrulesWithFallback.ini`: the primary subconverter remote configuration and policy-group orchestration file.
+- `OpenClashBase.yaml`: the OpenClash/Mihomo base configuration, including DNS and Fake-IP compatibility settings.
+- `AI.list`, `Apple.list`, `Microsoft.list`, `Direct.list`, `Global.list`, `HK.list`, `localnetwork.list`, `tk.list`, `youtube.list`, and similar files: rule sets or domain sets maintained by this repository.
+- Other `.ini`, `.yaml`, `.list`, and `.txt` files: historical configurations, supplementary rules, or compatibility data. Inspect references before changing them.
+
+The following child directories are independently published Cloudflare Workers subscription aggregation projects:
 
 - `allsub/`
 - `asub/`
 - `EthanSub/`
 
-它们可能只是父目录下的工作副本，未必各自带 `.git`。根目录 `.gitignore` 已明确忽略这三个目录；**绝对不要移除忽略规则后把它们加入 `ironstraight/fenliuguize`。** 发布时必须按 `REPOSITORY_MAP.md` 使用各自远端。
+They may be working copies without their own `.git` directories. The root `.gitignore` intentionally excludes them. Never remove those ignore rules and add the complete child projects to `ironstraight/fenliuguize`. Publish each child only to the remote listed in `REPOSITORY_MAP.md`.
 
-## 2. 远端映射是唯一可信发布依据
+## 2. Repository mapping is authoritative
 
-| 相对目录 | 工程角色 | GitHub 远端 | 必须使用的 CLI 账号 | 默认分支 |
+| Relative path | Role | GitHub remote | Required CLI account | Default branch |
 | --- | --- | --- | --- | --- |
-| `.` | 规则、规则集、域名集和 OpenClash 基础配置 | `ironstraight/fenliuguize` | `ironstraight` | `main` |
-| `allsub/` | AllSub 自定义订阅前端 | `yiloveM/allsub` | `yiloveM` | `main` |
-| `asub/` | Astrowave SUB 自定义订阅前端 | `ironstraight/asub` | `ironstraight` | `main` |
-| `EthanSub/` | Ethan SUB 自定义订阅前端 | `ironstraight/EthanSub` | `ironstraight` | `main` |
+| `.` | Rules, rule sets, domain sets, and OpenClash base configuration | `ironstraight/fenliuguize` | `ironstraight` | `main` |
+| `allsub/` | AllSub subscription frontend | `yiloveM/allsub` | `yiloveM` | `main` |
+| `asub/` | Astrowave SUB subscription frontend | `ironstraight/asub` | `ironstraight` | `main` |
+| `EthanSub/` | Ethan SUB subscription frontend | `ironstraight/EthanSub` | `ironstraight` | `main` |
 
-推送前必须同时验证：
+Before every push, verify all of the following independently:
 
-1. 当前处理的本地目录。
-2. `origin` 的所有者和仓库名。
-3. GitHub CLI 当前账号。
-4. 目标分支。
-5. 待提交文件是否只属于本次任务。
+1. The local directory being published.
+2. The exact owner and repository in `origin`.
+3. The active GitHub CLI account.
+4. The target branch.
+5. The staged file list and its relationship to the current task.
 
-任一项不匹配都必须停止推送并修正。禁止依靠文件夹名字猜远端，禁止向“名字看起来相似”的仓库试推。
+Stop immediately if any item does not match. Never infer a remote from a similar folder name, and never “test push” to a repository that merely looks plausible.
 
-### 2.1 新增子项目的自动发现与登记
+### 2.1 Automatic discovery and registration of new child projects
 
-每次任务开始时，除读取映射表外，还要扫描根目录一级子目录，检查是否存在以下任一情况：
+At the start of every task, scan the root-level child directories in addition to reading the mapping table. Treat any of the following as a possible new or changed project:
 
-- 用户明确说“新增、加入、迁入、复制”了一个子项目。
-- 出现未登记的新目录、独立 `.git`、`package.json`、`wrangler.toml`、其他项目清单或新的 Git remote。
-- 现有目录的 origin、所有者、默认分支、技术栈或用途发生变化。
+- The user explicitly says a child project was added, imported, copied, or moved into the workspace.
+- A previously unmapped directory contains an independent `.git`, `package.json`, `wrangler.toml`, another project manifest, or a Git remote.
+- An existing directory changes its origin, owner, default branch, technology stack, or purpose.
 
-发现后必须自动执行：
+When a new or changed child project is found:
 
-1. 只读识别项目类型、入口文件、技术栈、是否独立 Git 仓库及现有 origin。
-2. 判断它是规则资产、三个订阅前端的同源项目，还是其他独立工程。
-3. 从实际 `git remote`、GitHub 仓库信息或用户明确说明确定账号、远端和分支；信息不完整时标记“待确认”并询问用户，禁止猜测后 push。
-4. 把项目加入本文件的目录拓扑和一致性分组，并更新 `REPOSITORY_MAP.md`。
-5. 在 `PROJECT_PROGRESS.md` 的当前基线和完成记录中登记加入时间、来源、用途、远端、账号、分支、初始 SHA 和验证状态。
-6. 独立子项目加入父目录时同步更新根 `.gitignore`，防止整个项目误入父仓库。
-7. 若子项目已有自己的 `AGENTS.md`、README、部署文档或 AI 指令文件，更新与本项目全局规则相关的内容；若它将被单独 clone 使用且没有说明文件，创建最小的项目级 `AGENTS.md`，写清远端、账号、验证和与同源项目的同步义务。
-8. 若它属于自定义订阅同源技术栈，把它纳入工程能力和前台交互同步检查；不能只登记名字而不纳入后续对齐流程。
-9. 完成答复中单独列出“新增子项目登记”，明确告诉用户检测到什么、写入了哪些文件、远端映射、同步分组、验证结果和是否已 push。
+1. Inspect its project type, entry points, technology stack, Git-root status, and existing remotes using read-only commands.
+2. Classify it as a rule asset, a member of the subscription-frontend family, or another independent project.
+3. Determine its account, remote, and branch from actual Git metadata, GitHub metadata, or explicit user instructions. If any value is unknown, record it as `PENDING CONFIRMATION`, ask the user, and do not push.
+4. Add the project to this file's topology and parity group, and add a full row to `REPOSITORY_MAP.md`.
+5. Add it to the current baseline and completion history in `PROJECT_PROGRESS.md`, including discovery date, role, remote, account, branch, initial SHA, and verification status.
+6. Add an appropriate root `.gitignore` entry when the project is an independent repository or working copy.
+7. Update the child project's own `AGENTS.md`, README, deployment guide, or AI-instruction file when applicable. If it will be cloned independently and has no instructions, create a minimal project-level `AGENTS.md` describing its remote, required account, validation, and parity obligations.
+8. If it shares the subscription-frontend stack, include it in every future backend-capability, frontend-interaction, and shared-style parity check.
+9. In the final response, include a clearly labeled “New child project registration” result: what was detected, which files were updated, the remote mapping, parity group, verification result, and whether it was pushed.
 
-如果扫描后没有新增项目，不需要制造记录；如果发现但尚未确认，必须在进度表和答复中显式写“待确认/未推送”。
+Do not fabricate a registration when no new project exists. When discovery is incomplete, explicitly record and report `PENDING CONFIRMATION / NOT PUSHED`.
 
-## 3. 父仓库规则维护原则
+## 3. Parent rules repository policy
 
-### 3.1 修改范围
+### 3.1 Scope
 
-- 优先处理本仓库实际维护和引用的规则、规则集、域名集。
-- `GoodrulesWithFallback.ini` 或其他配置引用的外部规则集，除非用户明确要求，不下载、不复制、不在本仓库伪造本地替代品。
-- 增加域名时先确认现有列表是否已被主配置引用，避免创建无人使用的新文件。
-- 同一服务的规则应放入语义正确的现有列表，避免在多个列表中无理由重复。
+- Prefer rules, rule sets, and domain sets actually maintained by this repository.
+- External rule-set references in `GoodrulesWithFallback.ini` or other configuration files stay external unless the user explicitly asks to vendor or replace them.
+- Before adding a domain, confirm that the target list is referenced by the active configuration. Avoid creating unused files.
+- Put a service rule in the semantically correct existing list and avoid unexplained duplication across lists.
 
-### 3.2 兼容性要求
+### 3.2 Compatibility requirements
 
-- 同时考虑 OpenClash、Mihomo、ClashMi 和 subconverter 的语法差异。
-- 域名规则只能写域名或受支持的规则类型，不把 URL 路径误写成 `DOMAIN-SUFFIX`。
-- 检查重复项、大小写、不可见空格、NBSP、尾随空白、无效正则和无效 YAML。
-- 修改策略组时同步核对：组名、规则集目标、手动组、测速组、故障转移组和 `FINAL` 的引用是否一致。
-- `select` 组不要错误附带仅属于 `url-test`/`fallback` 的测速参数。
-- 修改 DNS/Fake-IP 时重点检查：局域网、反向解析、NTP、STUN、主机发现、系统连通性检测、Microsoft/Apple 更新与 AI/视频服务的解析路径。
-- 为仓库内远程规则使用版本查询参数时，仅在规则内容实际更新后递增，避免无意义缓存抖动。
-- 不为了“补齐”而机械扩张域名；必须能说明归属、用途和客户端兼容价值。
+- Consider OpenClash, Mihomo, ClashMi, and subconverter syntax together.
+- Domain rules must contain domains or supported rule values, never URL paths disguised as `DOMAIN-SUFFIX` entries.
+- Check duplicates, case, invisible whitespace, NBSP characters, trailing spaces, invalid regular expressions, and invalid YAML.
+- When changing policy groups, verify group names, rule-set targets, manual groups, health-check groups, fallback groups, and `FINAL` references as a complete graph.
+- Do not attach `url-test` or `fallback` health-check parameters to `select` groups.
+- For DNS and Fake-IP changes, explicitly consider LAN and reverse-DNS namespaces, NTP, STUN, discovery protocols, captive-portal checks, Microsoft/Apple updates, and the resolver path for AI/video services.
+- Increment cache-busting query versions only when referenced rule content actually changes.
+- Do not expand domain sets mechanically. Every addition needs a clear owner, purpose, and compatibility benefit.
 
-### 3.3 父仓库最低检查
+### 3.3 Minimum validation for root rules
 
-- `git diff --check`
-- YAML 可解析且关键根字段存在。
-- INI 中规则集目标与策略组名称一致。
-- `.list` 文件不含 URL 路径式伪域名、明显重复和不可见尾随字符。
-- 对本次修改涉及的规则执行针对性搜索，确认没有遗漏引用。
+- Run `git diff --check`.
+- Parse YAML and verify required root keys.
+- Verify that every INI rule-set target and policy-group reference resolves to an intended group.
+- Check changed `.list` files for path-like pseudo-domains, obvious duplicates, and invisible trailing characters.
+- Search all references affected by the change to catch omissions.
 
-## 4. 三个自定义订阅项目的一致性契约
+## 4. Parity contract for subscription frontends
 
-### 4.1 必须一致的工程能力
+### 4.1 Backend and engineering capability parity
 
-三个项目的后台处理能力必须保持一致，包括但不限于：
+All three subscription projects must provide equivalent backend capability, including:
 
-- 订阅 URL 的解析、去重、限制和安全校验。
-- 换行及 `|` 分隔多条订阅 URL。
-- Clash/Mihomo YAML、Base64 和分享 URI 的识别与转换。
-- 全局排除、普通替换、正则替换、`/` 分隔关键词排除和标准正则排除。
-- 按来源 URL 的名称映射。
-- “全局排除先执行，再按来源命名和编号”的顺序。
-- `来源名称|地区|001`、`002` 的三位编号行为，以及来源名称留空时保留原名的行为。
-- YAML 节点名去重和策略组引用同步。
-- 一次性订阅签名、兼容旧链接、缓存刷新、CORS、HEAD 回退、超时和大小限制。
-- 后台登录、高级密码、查看/删除/保存、来源名称保护和主题切换权限。
-- 二维码、错误提示、旧 KV 数据迁移和客户端响应头。
+- Subscription URL parsing, deduplication, limits, and outbound safety validation.
+- Multiple URLs separated by line breaks or `|`.
+- Clash/Mihomo YAML, Base64 lists, and common share-URI formats.
+- Global exclusion, literal replacement, regex replacement, slash-separated keyword exclusion, and standard regex exclusion.
+- Per-source URL name mapping.
+- The fixed order: global exclusion first, then per-source naming and numbering.
+- `Source Name|Region|001`, `002`, and later serials, with blank source labels preserving original names.
+- YAML name uniqueness and synchronized proxy-group references.
+- Stateless one-time subscriptions, old-link compatibility, cache refresh behavior, CORS, HEAD fallback, timeouts, and size limits.
+- Admin login, unlock-password protection, view/delete/save controls, source-name protection, and theme switching.
+- QR generation, error handling, legacy KV migration, and client response headers.
 
-共享转换核心 `subscription-transform.js` 原则上应保持字节级一致。若确实需要项目专属差异，必须在代码和进度记录中说明原因，并增加覆盖测试。
+The shared `subscription-transform.js` should normally remain byte-for-byte identical across the projects. Any project-specific exception requires an explicit code comment, a progress-log explanation, and dedicated tests.
 
-### 4.2 前台交互和视觉一致性
+### 4.2 Frontend interaction and visual parity
 
-三个项目的前台交互、布局结构、断点行为、卡片层级、按钮位置、输入体验、提示文案结构和终端/水主题的通用样式能力也应同步：
+Frontend interaction, layout structure, breakpoint behavior, card hierarchy, button placement, form behavior, prompt structure, and common Terminal/Water theme styling must remain aligned across the projects:
 
-- 修改其中一个项目的交互或通用样式时，同一任务内检查并完美移植到另外两个项目。
-- “查看所有订阅”中的删除按钮、URL、来源名称输入框不得重叠；桌面端和手机端都要验证。
-- 每条订阅卡只显示该条 URL 和来源名称；全局重命名/排除规则只在列表下方独立显示一次。
-- 输入提示统一说明“每行一个订阅 URL，使用 `|` 或换行分隔”。
-- 弹窗要准确区分持久化配置与一次性订阅，不增加没有必要的前端密码门槛。
+- A shared interaction or style change in one project must be reviewed and faithfully ported to the other projects in the same task.
+- In “查看所有订阅链接” (view all subscriptions), the delete button, URL, and source-name field must not overlap at desktop or mobile widths.
+- Each subscription card displays only its URL and per-source name. Global rename/exclusion rules appear once in a dedicated card below the list.
+- URL guidance must consistently say that each URL can be entered on its own line and that `|` or a line break can be used as the separator.
+- Dialogs must distinguish persistent configuration from one-time subscriptions and must not add unnecessary frontend password gates.
 
-允许不同的内容：项目名称、品牌文字、中心图片、桌面背景、手机背景和其他明确的品牌素材。除此之外的交互和通用视觉结构默认需要保持一致。
+Allowed visual differences are limited to project names, branding copy, center images, desktop backgrounds, mobile backgrounds, and other explicitly branded assets. Interaction structure and shared visual behavior are expected to match unless the user explicitly requests a project-specific exception.
 
-### 4.3 视觉资源边界
+### 4.3 Visual asset boundaries
 
-- `allsub` 使用自身 `asset/001.webp`～`008.webp`、`mobile01.webp`～`mobile04.webp`、`c01.webp`～`c03.webp` 及本地水波纹脚本。
-- `asub` 使用自身 `asset/pcbackground.webp`、`mobilebackground.webp`、`centerpic.webp`，不得重新依赖 EthanSub 域名。
-- `EthanSub` 使用自身同名三张资源，资源 URL 应为 `/asset/...` 同源路径。
-- 替换图片时优先保持文件名和比例；改名或增删资源时同步 Worker 静态资源允许列表、页面预加载和 CSS/JS 引用。
-- 不随意重做用户已确认的主题风格；若用户要求回退，只回退视觉层，不回退已经验证的工程逻辑。
+- `allsub` owns `asset/001.webp` through `008.webp`, `mobile01.webp` through `mobile04.webp`, `c01.webp` through `c03.webp`, and its local ripple scripts.
+- `asub` owns `asset/pcbackground.webp`, `mobilebackground.webp`, and `centerpic.webp`; it must not regain a dependency on an EthanSub hostname.
+- `EthanSub` owns the same three filenames and serves them through same-origin `/asset/...` URLs.
+- Prefer replacing images without changing filenames, aspect ratios, or formats. If names are added, removed, or changed, update the Worker allowlist, preload paths, CSS, and JavaScript references together.
+- Do not redesign an approved theme without a direct request. If the user requests a visual rollback, roll back visual presentation without rolling back verified engineering logic.
 
-### 4.4 持久化边界
+### 4.4 Persistence boundaries
 
-- 只有“添加到部署阵列”写入持久化订阅。
-- 填写临时 URL/规则后点击“一键复制订阅”只生成一次性链接，不写 KV，不要求高级密码。
-- 所有临时字段为空时，“一键复制订阅”返回读取 KV 持久化列表的默认 URL。
-- 全局排除/重命名规则作用于所有持久化来源。
-- 来源名称是按 URL 的独立映射；新增、修改或删除来源名称需要 `ADMIN_UNLOCK_PASSWORD`。
-- 一次性订阅不得意外修改 `sub_links`、全局规则、主题、背景或来源名称。
+- Only “添加到部署阵列” (add to deployment array) writes persistent subscription data.
+- Filling temporary URLs or rules and clicking “一键复制订阅” (one-click copy) creates a one-time URL without writing KV or requiring the unlock password.
+- When all temporary fields are empty, one-click copy returns the default URL backed by the persistent KV list.
+- Global exclusion and rename rules apply to every persistent source.
+- A source name is a per-URL mapping. Creating, changing, or removing one requires `ADMIN_UNLOCK_PASSWORD`.
+- A one-time subscription must never modify `sub_links`, global rules, themes, backgrounds, or source-name mappings.
 
-### 4.5 Cloudflare 配置保护
+### 4.5 Cloudflare configuration protection
 
-三个 Worker 已在使用并可能在 Cloudflare Dashboard 中保存了变量和 Secret：
+The Workers are already in production and may have dashboard-managed variables and secrets:
 
-- 未经用户明确要求，不修改或删除 `wrangler.toml` 中已有变量、`keep_vars`、`ASSETS`、`MY_KV`、Worker 名、兼容日期和部署设置。
-- 不创建新 KV 替换现有 `MY_KV`，不清空 KV，不迁移用户数据。
-- 不把 `ADMIN_PASSWORD`、`ADMIN_UNLOCK_PASSWORD`、`SUBCONVERTER_TOKEN`、订阅 URL 或其他 Secret 写入仓库、测试输出和进度文件。
-- 不因为 GitHub/Cloudflare 自动部署异常而擅自创建新 Worker、Token、Deploy Hook 或修改同账户其他项目。
-- 代码升级应兼容现有 KV 数据；需要迁移时优先做惰性、可回退、用户确认后持久化的迁移。
+- Do not change or remove existing `wrangler.toml` variables, `keep_vars`, `ASSETS`, `MY_KV`, Worker names, compatibility dates, or build/deploy settings without an explicit user request.
+- Do not create a new KV namespace to replace the existing `MY_KV`, clear KV, or migrate user data without authorization.
+- Never write `ADMIN_PASSWORD`, `ADMIN_UNLOCK_PASSWORD`, `SUBCONVERTER_TOKEN`, real subscription URLs, or other secrets to the repository, test output, or progress log.
+- Do not respond to a GitHub/Cloudflare deployment failure by creating a new Worker, token, Deploy Hook, or modifying another project in the same account unless the user explicitly authorizes it.
+- Code upgrades must remain compatible with existing KV data. Prefer lazy, reversible migration that becomes persistent only after user confirmation.
 
-## 5. 三项目修改工作流
+## 5. Required workflow for subscription-project changes
 
-修改任一自定义订阅项目时必须执行：
+When any subscription project changes:
 
-1. 先读取三个项目对应文件，识别工程公共部分和允许的品牌/背景差异。
-2. 在一个项目完成实现后，同一任务内移植到另两个项目。
-3. 对共享模块计算哈希或做无差异比较。
-4. 对 Worker、管理页和测试做逐项目差异审查，确认差异只来自入口名、品牌内容或资源实现。
-5. 每个项目分别运行测试和 Wrangler dry-run。
-6. 浏览器检查数字雨与水主题，至少覆盖桌面宽度和约 390px 手机宽度。
-7. 检查控制台错误、水平溢出、删除按钮/URL/输入框重叠和弹窗文案。
-8. 逐仓库提交、逐账号切换、逐远端推送；禁止一个提交跨三个远端混推。
-9. 把每个远端最终 commit SHA 写入 `PROJECT_PROGRESS.md`。
+1. Read the corresponding files in all parity-group projects and separate shared logic from allowed branded differences.
+2. Implement in one project, then port the shared behavior to every other project in the same task.
+3. Hash or diff shared modules to prove parity.
+4. Review Worker, admin-page, and test differences project by project; remaining differences should be entry-point, branding, or asset implementation only.
+5. Run tests and Wrangler dry-run separately for every project.
+6. Browser-test Terminal and Water themes at desktop width and approximately 390px mobile width.
+7. Check console errors, horizontal overflow, delete-button/URL/input overlap, and dialog copy.
+8. Commit and push each repository separately after switching to its mapped account. Never combine the three remotes into one commit or push.
+9. Record every final remote SHA in `PROJECT_PROGRESS.md`.
 
-若只修改 README，也要核对三份 README 的能力描述一致，并保留各项目实际入口、默认路径、变量和资源差异。
+For README-only work, still verify capability descriptions across all projects while preserving actual entry files, routes, variables, and asset differences.
 
-## 6. GitHub CLI 凭据处理
+## 6. GitHub CLI credential handling
 
-本机可能已保存 `ironstraight` 和 `yiloveM` 多份有效凭据。沙箱、网络隔离或权限限制下，`gh auth status` 可能把无法联网误报为凭据失效。
+The machine may already contain valid credentials for both `ironstraight` and `yiloveM`. A sandbox, offline environment, or restricted permission context can make `gh auth status` falsely report those credentials as invalid.
 
-强制原则：
+Rules:
 
-- 不因一次沙箱内 `gh auth status` 失败就重新授权。
-- 不随意执行 `gh auth logout`，不删除、覆盖或重建已有凭据。
-- 先根据映射表切换账号：
+- Never reauthorize solely because one sandboxed `gh auth status` call failed.
+- Do not casually run `gh auth logout`, delete credentials, or overwrite existing entries.
+- First switch according to the mapping:
 
 ```powershell
-gh auth switch --hostname github.com --user <正确账号>
+gh auth switch --hostname github.com --user <expected-account>
 ```
 
-- 在具有正常网络权限的环境用实际 API 反馈确认：
+- Verify actual identity in a network-enabled context:
 
 ```powershell
 gh api user --jq .login
 ```
 
-- 再检查远端：
+- Then verify the remote:
 
 ```powershell
 git remote get-url origin
 ```
 
-- 只有在网络已确认可用、账号已切换正确，且 `gh api` 或实际 push 明确返回 401/Bad credentials/需要登录时，才触发：
+- Trigger browser authorization only when the network is confirmed working, the expected account is selected, and a real `gh api` or push returns 401, `Bad credentials`, or an explicit login requirement:
 
 ```powershell
 gh auth login --hostname github.com --git-protocol https --web
 ```
 
-- 授权后再次核对登录名，不以“命令退出码为 0”代替身份核验。
-- 403 权限不足、404 私有仓库不可见、远端名错误和网络超时是不同问题，不要都当成 Token 失效。
+- After authorization, verify the returned login again. A zero exit status alone is not identity proof.
+- Treat 403 permission errors, 404/private-repository visibility, remote-name mistakes, and network timeouts as distinct problems.
 
-## 7. 网络访问策略：直连优先，7890 兜底
+## 7. Network policy: direct first, port 7890 only as fallback
 
-所有 GitHub、npm、Cloudflare、规则 URL 和文档访问都先使用直连。
+Use a direct connection first for GitHub, npm, Cloudflare, rule URLs, and documentation.
 
-只有在出现 DNS 失败、连接超时、TLS 建连失败、连接被重置等真实网络问题时，才临时尝试本机 `127.0.0.1:7890` 代理。不要因为 401、403、404、语法错误或仓库不存在而切代理。
+Only after a real DNS failure, connection timeout, TLS connection failure, or connection reset may the task temporarily retry through `127.0.0.1:7890`. Do not switch proxy because of 401, 403, 404, syntax errors, or a nonexistent repository.
 
-Git 临时代理示例：
+Temporary Git proxy example:
 
 ```powershell
 git -c http.proxy=http://127.0.0.1:7890 -c https.proxy=http://127.0.0.1:7890 fetch origin
 ```
 
-当前 PowerShell 进程临时代理示例：
+Temporary proxy for the current PowerShell process:
 
 ```powershell
 $env:HTTP_PROXY = "http://127.0.0.1:7890"
@@ -222,58 +243,59 @@ Remove-Item Env:HTTP_PROXY -ErrorAction SilentlyContinue
 Remove-Item Env:HTTPS_PROXY -ErrorAction SilentlyContinue
 ```
 
-禁止把代理永久写入 Git 全局配置、仓库配置、Cloudflare 变量或项目源码。任务结束前清除本次进程设置的临时代理。
+Never persist the proxy in global Git configuration, repository configuration, Cloudflare variables, or source code. Remove any process-scoped proxy created by the task before completion.
 
-## 8. Git 与发布安全
+## 8. Git and publishing safety
 
-- 开始修改前检查 `git status`，保留用户已有改动，不覆盖无关文件。
-- 子项目不带 `.git` 时，从映射表中的准确远端拉取最新 `main` 到明确的临时目录，再只同步本次文件。
-- 创建临时发布目录前检查目标不存在；删除前解析绝对路径并确认位于当前工作区。
-- 禁止 `git reset --hard`、`git checkout --`、强制推送或删除远端分支，除非用户明确授权。
-- 推送前运行 `git diff --check`、查看 `git diff --stat` 和 `git diff --name-only`。
-- 不提交 `node_modules/`、`dist/`、`.wrangler/`、`.env*`、`.dev.vars*`、日志、临时克隆或真实 KV 数据。
-- 对已有远端先拉取最新状态，避免覆盖别的设备或 Agent 的新提交。
-- 每次 push 后记录完整 SHA 和远端 URL；push 输出成功后仍要确认本地分支与 `origin/main` 同步。
+- Inspect `git status` before editing. Preserve unrelated user changes.
+- If a child working copy has no `.git`, clone the exact mapped remote's latest `main` into a clearly named temporary directory and synchronize only task-related files.
+- Check that a temporary target does not exist before creating it. Resolve and verify its absolute path before recursive cleanup.
+- Never use `git reset --hard`, `git checkout --`, force-push, or delete a remote branch without explicit user authorization.
+- Before pushing, run `git diff --check` and inspect both `git diff --stat` and `git diff --name-only`.
+- Never commit `node_modules/`, `dist/`, `.wrangler/`, `.env*`, `.dev.vars*`, logs, temporary clones, or real KV data.
+- Fetch the current remote state before publishing so another computer's or agent's changes are not overwritten.
+- After push, record the full SHA and remote URL and confirm that the local branch is synchronized with `origin/main`.
 
-## 9. 验证与完成标准
+## 9. Validation and definition of done
 
-### 9.1 三个订阅项目
+### 9.1 Subscription projects
 
-每个项目至少执行：
+Run in every affected project:
 
 ```powershell
 npm ci
 npm run check
 ```
 
-`npm run check` 应覆盖单元测试、语法检查和 Wrangler dry-run。另需针对本次变更进行浏览器回归。若环境无法执行某项检查，必须在进度记录中明确写“未验证”和原因，不能默认通过。
+`npm run check` should cover unit tests, syntax validation, and Wrangler dry-run. Add browser regression appropriate to the change. If any check cannot run, write `NOT VERIFIED` and the reason in `PROJECT_PROGRESS.md`; never assume success.
 
-### 9.2 Definition of Done
+### 9.2 Definition of done
 
-只有同时满足以下条件才能向用户声明完成：
+A task is complete only when all applicable items are satisfied:
 
-- 需求已在正确目录实现。
-- 三个订阅项目的公共能力和交互已同步，或已说明为什么不需要同步。
-- 用户现有 Cloudflare 变量、KV、Secret 和其他 Worker 未被改动。
-- 相关自动化测试、dry-run 和必要的浏览器检查通过。
-- GitHub CLI 使用了映射表要求的账号。
-- origin 和分支正确，push 成功并取得完整 commit SHA。
-- `PROJECT_PROGRESS.md` 已追加本次记录。
-- 临时目录、临时日志和临时代理已清理。
+- The request is implemented in the correct local project.
+- Shared subscription capabilities and interactions are aligned, or the reason no parity update was needed is documented.
+- Existing Cloudflare variables, KV, secrets, and unrelated Workers remain untouched.
+- Relevant tests, dry-runs, and browser checks pass.
+- GitHub CLI uses the account required by the mapping.
+- Origin and branch are correct; push succeeds and produces a full commit SHA.
+- `PROJECT_PROGRESS.md` contains the task record.
+- New child-project discovery was performed and any discovery was registered and reported.
+- Temporary directories, logs, and proxy settings created by the task are cleaned up.
 
-## 10. 进度记录规范
+## 10. Progress record requirements
 
-每次任务开始时先读 `PROJECT_PROGRESS.md` 的“当前基线”和最新记录。每次任务完成时必须追加记录，至少包含：
+At the start of every task, read the current baseline and latest entries in `PROJECT_PROGRESS.md`. At task completion, append a record containing:
 
-- 日期与时区。
-- 用户目标和实际范围。
-- 修改的仓库及关键文件。
-- 关键设计决定和兼容行为。
-- 测试、dry-run、浏览器验证的真实结果。
-- 是否影响 Cloudflare 变量/KV/Secret。
-- 使用的 GitHub 账号、准确远端、分支和完整 commit SHA。
-- 遇到的失败、真实原因和解决方式。
-- 尚未完成事项或下次建议；没有则写“无”。
-- 本次是否发现新增子项目；如有，记录登记文件、映射和同步分组。
+- Date and timezone.
+- User goal and actual scope.
+- Repositories and key files changed.
+- Important design decisions and compatibility behavior.
+- Actual test, dry-run, and browser results.
+- Cloudflare variable/KV/secret impact.
+- GitHub account, exact remote, branch, and full commit SHA.
+- Failures, actual causes, and resolutions.
+- Remaining work or `None`.
+- Whether a new child project was detected; if so, its registration files, mapping, and parity group.
 
-记录必须基于命令反馈，不猜测，不写入密码、Token、订阅 URL 或其他敏感数据。
+Records must be evidence-based. Never guess and never include passwords, tokens, subscription URLs, KV contents, or other sensitive data.
