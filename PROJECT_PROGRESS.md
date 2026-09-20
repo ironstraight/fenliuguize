@@ -6,10 +6,10 @@ Use this file to continue work across computers, AI agents, and human maintainer
 
 | Relative path | Remote | Account | Branch | Last known remote baseline |
 | --- | --- | --- | --- | --- |
-| `.` | `ironstraight/fenliuguize` | `ironstraight` | `main` | `a558b45d40739da0a18bf8b30fdf0e92641022b5` |
-| `allsub/` | `yiloveM/allsub` | `yiloveM` | `main` | `854af701572876abcca505ea49d7d25592ccda10` |
-| `asub/` | `ironstraight/asub` | `ironstraight` | `main` | `b2f62fb64ce02069510dfa396897096c3415c354` |
-| `EthanSub/` | `ironstraight/EthanSub` | `ironstraight` | `main` | `834b14aa73a79d61c063da8ddfcccdcb4d9e748b` |
+| `.` | `ironstraight/fenliuguize` | `ironstraight` | `main` | `61cf52122f2d1050a1f825239a680c521691c404` |
+| `allsub/` | `yiloveM/allsub` | `yiloveM` | `main` | `671df37e0826efb2cf966d0d9e2cb9cf6b001c5b` |
+| `asub/` | `ironstraight/asub` | `ironstraight` | `main` | `2db97088f857e502b20270a3d0de1d02b080f129` |
+| `EthanSub/` | `ironstraight/EthanSub` | `ironstraight` | `main` | `3d5e310f014cbc733a2816cb9d6139ce20eef394` |
 
 > At the start of every task, compare these values with the actual remote `main` branches. If a remote has advanced, update the baseline before editing. Never roll back newer work from another computer or agent.
 
@@ -26,6 +26,7 @@ Use this file to continue work across computers, AI agents, and human maintainer
 | 2026-09-21 | EthanSub | Complete | Aligned per-source naming, exclusion, one-time subscriptions, permissions, and admin interaction with allsub/asub; documented novice deployment, regex examples, and image paths | 19 tests passed; syntax checks and Wrangler dry-run passed; desktop/mobile layout checks passed | `ironstraight/EthanSub` `834b14aa73a79d61c063da8ddfcccdcb4d9e748b` | Did not change `wrangler.toml`, variables, secrets, or KV binding | None |
 | 2026-09-21 | Parent-repository engineering governance | Complete | Added global `AGENTS.md`, the repository map, this cross-device progress log, Claude/Copilot entry points, and root ignore rules; defined automatic discovery/registration of child projects, parity grouping, and mandatory final reporting | Root-level discovery found only the already mapped allsub/asub/EthanSub projects; staged diff check passed; six governance files entered the commit | `ironstraight/fenliuguize` `2a367e577d8dfb9783716dbf0743980da543d500` | No Cloudflare variable, secret, or KV impact; new child projects: none | Continue appending a record after every task |
 | 2026-09-21 | Governance language and communication policy | Complete | Converted `AGENTS.md`, `REPOSITORY_MAP.md`, and `PROJECT_PROGRESS.md` to English-first versions; retained only exact Chinese UI labels and added the exact `静默处理无需汇报` token-saving trigger | `git diff --check` and staged-file review passed; exactly three governance files changed; no unmapped child project detected | `ironstraight/fenliuguize` `a558b45d40739da0a18bf8b30fdf0e92641022b5` | No Cloudflare variable, secret, KV, Worker, or child-project source impact | None |
+| 2026-09-21 | allsub/asub/EthanSub protected-save interaction | Complete | Replaced the native password prompt for protected persistent saves with theme-native password modals matching the existing matrix-management interaction; added inline required, verifying, denied, and network-failure states while preserving cancel semantics and the non-persistent one-time subscription path | 61 tests passed across the three projects; all six inline admin scripts parsed; syntax checks and three Wrangler dry-runs passed; fresh-clone diffs contained only two admin pages and one regression test per project | `yiloveM/allsub` `671df37e0826efb2cf966d0d9e2cb9cf6b001c5b`; `ironstraight/asub` `2db97088f857e502b20270a3d0de1d02b080f129`; `ironstraight/EthanSub` `3d5e310f014cbc733a2816cb9d6139ce20eef394` | No Worker logic, `wrangler.toml`, Cloudflare variable, secret, KV binding, or persisted KV data changed | Direct GitHub access succeeded after sandbox network approval; accounts were switched and verified without reauthorization; proxy `127.0.0.1:7890` was not used; new child projects: none |
 
 ## Current shared behavior
 
