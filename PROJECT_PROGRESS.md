@@ -6,7 +6,7 @@
 
 | 相对目录 | 远端 | 账号 | 分支 | 已知远端基线 |
 | --- | --- | --- | --- | --- |
-| `.` | `ironstraight/fenliuguize` | `ironstraight` | `main` | `17d6b7eda83fa1159ff1d39aa3f510ab63e06b55` |
+| `.` | `ironstraight/fenliuguize` | `ironstraight` | `main` | `2a367e577d8dfb9783716dbf0743980da543d500` |
 | `allsub/` | `yiloveM/allsub` | `yiloveM` | `main` | `854af701572876abcca505ea49d7d25592ccda10` |
 | `asub/` | `ironstraight/asub` | `ironstraight` | `main` | `b2f62fb64ce02069510dfa396897096c3415c354` |
 | `EthanSub/` | `ironstraight/EthanSub` | `ironstraight` | `main` | `834b14aa73a79d61c063da8ddfcccdcb4d9e748b` |
@@ -24,6 +24,7 @@
 | 2026-09-21 | allsub | 已完成 | 增加按来源 URL 命名；全局排除先于编号；旧 KV 固定名称迁移；来源名称高级密码保护；列表中全局规则独立显示；更新模块化 README | 19 项测试通过；语法检查和 Wrangler dry-run 通过；桌面/手机、数字雨/水主题本地布局检查通过 | `yiloveM/allsub` `854af701572876abcca505ea49d7d25592ccda10` | 未修改 `wrangler.toml`、变量、Secret 或 KV 绑定 | 无 |
 | 2026-09-21 | asub | 已完成 | 与 allsub/EthanSub 对齐按来源命名、排除、临时订阅、权限和后台交互；README 增加新手部署、正则示例及本地图片位置 | 20 项测试通过；语法检查和 Wrangler dry-run 通过；本地图片独立性测试通过；桌面/手机布局检查通过 | `ironstraight/asub` `b2f62fb64ce02069510dfa396897096c3415c354` | 未修改 `wrangler.toml`、变量、Secret 或 KV 绑定 | 无 |
 | 2026-09-21 | EthanSub | 已完成 | 与 allsub/asub 对齐按来源命名、排除、临时订阅、权限和后台交互；README 增加新手部署、正则示例及图片位置 | 19 项测试通过；语法检查和 Wrangler dry-run 通过；桌面/手机布局检查通过 | `ironstraight/EthanSub` `834b14aa73a79d61c063da8ddfcccdcb4d9e748b` | 未修改 `wrangler.toml`、变量、Secret 或 KV 绑定 | 无 |
+| 2026-09-21 | 父仓库工程治理 | 已完成 | 新增全局 `AGENTS.md`、远端映射表、跨设备进度表、Claude/Copilot 入口和父仓库忽略规则；规定新子项目自动发现、登记、同步分组及最终答复告知 | 一级目录扫描仅发现已登记的 allsub/asub/EthanSub；暂存差异检查通过；6 个治理文件进入提交 | `ironstraight/fenliuguize` `2a367e577d8dfb9783716dbf0743980da543d500` | 未修改任何 Cloudflare 变量、Secret 或 KV；新增子项目：无 | 后续任务按本文件持续追加 |
 
 ## 当前统一行为
 
