@@ -1,0 +1,8 @@
+# Independent Workers projects; each maps to its own GitHub repository.
+/allsub/
+/asub/
+/EthanSub/
+
+# Temporary publishing or research workspaces created by agents.
+/.publish-*/
+/.tmp-*/
