@@ -6,7 +6,7 @@ Use this file to continue work across computers, AI agents, and human maintainer
 
 | Relative path | Remote | Account | Branch | Last known remote baseline |
 | --- | --- | --- | --- | --- |
-| `.` | `ironstraight/fenliuguize` | `ironstraight` | `main` | `0bf193a05340fcf946b4728131707b6383f2f6f6` |
+| `.` | `ironstraight/fenliuguize` | `ironstraight` | `main` | `7e5f6b0e77fe22c2b1712e4895b3bc950bbe15fd` |
 | `allsub/` | `yiloveM/allsub` | `yiloveM` | `main` | `671df37e0826efb2cf966d0d9e2cb9cf6b001c5b` |
 | `asub/` | `ironstraight/asub` | `ironstraight` | `main` | `95cdec0ad8daac52b8f18b1e70698929f3e0fd48` |
 | `EthanSub/` | `ironstraight/EthanSub` | `ironstraight` | `main` | `fed1c83c325ee0b5f67c3be6a04ad8a2d10e4491` |
@@ -28,6 +28,7 @@ Use this file to continue work across computers, AI agents, and human maintainer
 | 2026-09-21 | Governance language and communication policy | Complete | Converted `AGENTS.md`, `REPOSITORY_MAP.md`, and `PROJECT_PROGRESS.md` to English-first versions; retained only exact Chinese UI labels and added the exact `静默处理无需汇报` token-saving trigger | `git diff --check` and staged-file review passed; exactly three governance files changed; no unmapped child project detected | `ironstraight/fenliuguize` `a558b45d40739da0a18bf8b30fdf0e92641022b5` | No Cloudflare variable, secret, KV, Worker, or child-project source impact | None |
 | 2026-09-21 | allsub/asub/EthanSub protected-save interaction | Complete | Replaced the native password prompt for protected persistent saves with theme-native password modals matching the existing matrix-management interaction; added inline required, verifying, denied, and network-failure states while preserving cancel semantics and the non-persistent one-time subscription path | 61 tests passed across the three projects; all six inline admin scripts parsed; syntax checks and three Wrangler dry-runs passed; fresh-clone diffs contained only two admin pages and one regression test per project | `yiloveM/allsub` `671df37e0826efb2cf966d0d9e2cb9cf6b001c5b`; `ironstraight/asub` `2db97088f857e502b20270a3d0de1d02b080f129`; `ironstraight/EthanSub` `3d5e310f014cbc733a2816cb9d6139ce20eef394` | No Worker logic, `wrangler.toml`, Cloudflare variable, secret, KV binding, or persisted KV data changed | Direct GitHub access succeeded after sandbox network approval; accounts were switched and verified without reauthorization; proxy `127.0.0.1:7890` was not used; new child projects: none |
 | 2026-09-21 | Parent governance and cross-client DNS protection | Code complete; device test NOT VERIFIED | Added project-root-only file mutation rule and per-file modal confirmation for batch deletion; moved the shared base to foreign default DoH with explicit domestic policy, added an optional OpenClash DNS redirection module and ClashMi/Mihomo TUN override, and documented legacy Clash limits | YAML parsed with pinned in-memory parser; INI graph and base reference passed; OpenClash module settings passed; `node --check` and 3 Node tests passed; real-device DNS leak test NOT VERIFIED | `ironstraight/fenliuguize` `594a551bdc82cefacc59f13ffad675ec6914dd32` and `0bf193a05340fcf946b4728131707b6383f2f6f6` | No Cloudflare variable, secret, KV, or Worker impact | Verify effective DNS settings and leak behavior on OpenClash LAN and ClashMi/Mihomo devices; no new child project detected |
+| 2026-09-21 | DNS Guard user documentation | Complete; device test remains NOT VERIFIED | Added a 342-line Chinese click-by-click guide for installing, binding, validating, testing, troubleshooting, and rolling back `OpenClashDnsGuard.module` and `ClashMiDnsGuard.js`; clarified ClashMi `内置-不覆写`, TUN enablement, Private DNS/DoH, IPv6, and multi-DNS-service conflicts | Local Markdown links passed; four raw artifact URLs returned HTTP 200; `git diff --check`, `node --check`, and 3 Node tests passed; actual router/device testing remains NOT VERIFIED | `ironstraight/fenliuguize` `7e5f6b0e77fe22c2b1712e4895b3bc950bbe15fd` | No Cloudflare variable, secret, KV, Worker, rule, or runtime configuration impact | Follow the guide on the target OpenClash and ClashMi devices; no new child project detected |
 
 ### 2026-09-21: Project file safety and client DNS capture
 
@@ -41,6 +42,19 @@ Use this file to continue work across computers, AI agents, and human maintainer
 - Remote commits: `ironstraight/fenliuguize` `594a551bdc82cefacc59f13ffad675ec6914dd32` for governance and the initial ClashMi artifact; `0bf193a05340fcf946b4728131707b6383f2f6f6` for the cross-client DNS policy, OpenClash module, compatibility guide, and final implementation tests.
 - Configuration/KV/secret impact: none.
 - Follow-up: check OpenClash's generated DNS and 53-port redirect on a LAN client, check ClashMi/Mihomo's effective TUN and DNS settings, and run foreign-domain DNS leak tests on those devices. New child project: `None`; only the three mapped child directories were present.
+
+### 2026-09-21: OpenClash and ClashMi DNS Guard tutorial
+
+- User goal: provide a novice-friendly, step-by-step usage guide for `OpenClashDnsGuard.module` and `ClashMiDnsGuard.js`, including other Mihomo/Clash client considerations.
+- Files changed: `DNS_LEAK_PROTECTION.zh-CN.md`, `DNS_LEAK_PROTECTION.md`, and this progress record.
+- Compatibility decisions: the guide keeps OpenClash router interception separate from ClashMi client TUN capture; requires Meta/Mihomo for the complete feature set; directs ClashMi users to preserve the script with `内置-不覆写` while keeping TUN enabled; explains unsupported JS/legacy Clash fallbacks, Android Private DNS and browser DoH bypasses, IPv6 risk, and AdGuard Home/MosDNS/SmartDNS port-53 conflicts.
+- Network: direct GitHub access worked; all main-branch and fixed-SHA artifact URLs returned HTTP 200. Port `7890` was not used.
+- GitHub: read-only identity verification returned `ironstraight`; origin was `https://github.com/ironstraight/fenliuguize.git`; branch was `main`; local and remote started at `6e6474fb8439bc28ecc9705520bb5a1af4c787be`.
+- Verification: all local Markdown links resolved; BrowserLeaks DNS and DNSLeakTest were reachable; `git diff --check` passed; `node --check ClashMiDnsGuard.js` passed; `node --test tests/ClashMiDnsGuard.test.cjs` passed 3/3. Real OpenClash router and ClashMi device tests remain NOT VERIFIED because no target devices were available.
+- Failures and actual causes: an initial identity-check command included an unnecessary `gh auth switch` and was rejected because it would change global authentication outside the project; it was replaced with the required read-only `gh api user` check. One read-only PowerShell URL-check command had a pipeline parser error; the corrected command returned HTTP 200 for all four URLs.
+- Remote commit: `ironstraight/fenliuguize` `7e5f6b0e77fe22c2b1712e4895b3bc950bbe15fd` for the tutorial and its entry link.
+- Configuration/KV/secret impact: none; no rule, client artifact, Cloudflare variable, secret, KV binding, or persisted data changed.
+- Follow-up: perform the guide's final runtime and DNS leak checks on the actual OpenClash LAN and ClashMi devices. New child project: `None`; the scan found only the three mapped child directories.
 
 ## Current shared behavior
 
