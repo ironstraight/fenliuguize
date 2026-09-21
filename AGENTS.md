@@ -10,7 +10,17 @@ This file applies to the repository root and every child directory. It is the si
 - Before any batch file deletion, including wildcard deletion, recursive cleanup, `git clean`, and removal of temporary clones or generated directories, enumerate every affected file. Show a modal warning that lists the exact file paths and the purpose of each file, then wait for the user to press a button labeled `确认`. A chat reply, an assumed approval, or a successful tool call is not a substitute for that button. If the exact set cannot be enumerated or the UI cannot present that confirmation button, do not run the deletion.
 - A confirmation covers only the files listed in that modal. If the file set changes, present a new warning and obtain a new confirmation. Never include files outside the project root in the proposed deletion.
 
-## 0.2 Token-saving silent mode
+## 0.2 Authoritative language and Chinese user documentation
+
+- The English policy text in this `AGENTS.md` is the authoritative project-governance source. This English-first rule governs agent behavior only; it does not make English the default language for documents delivered to the user.
+- All new or substantively updated user-facing documentation must use Simplified Chinese as its primary language unless the user explicitly requests another language. This includes README content, setup and deployment guides, usage tutorials, troubleshooting instructions, compatibility and migration notes, operational runbooks, release notes, and other explanatory files intended for the user.
+- User-facing explanations, progress summaries, and final delivery reports must also be written in Simplified Chinese by default.
+- Preserve commands, code, filenames, paths, configuration keys, API names, protocol terms, log text, product names, and exact UI labels in their required original form. Surround them with clear Chinese instructions or explanations instead of translating strings that users must match exactly.
+- An optional English companion may be maintained for upstream collaboration or ecosystem compatibility, but it never replaces the required Chinese primary document. When an existing user-facing file is English-only and receives a substantive documentation change, add or update a discoverable Chinese version in the same task.
+- Governance and machine-facing files may remain English-first when consistency or parsing requires it, including this file, `REPOSITORY_MAP.md`, `PROJECT_PROGRESS.md`, compatibility instruction entry points, source code, schemas, and configuration files. This exception must not be used to classify an ordinary user guide or explanatory document as machine-facing.
+- Before committing documentation work, verify that every user-facing deliverable has a Chinese entry point and that links between English companion material and the Chinese primary version are discoverable.
+
+## 0.3 Token-saving silent mode
 
 If the final non-whitespace text of a user instruction is exactly:
 
@@ -37,7 +47,7 @@ Important root files include:
 
 - `GoodrulesWithFallback.ini`: the primary subconverter remote configuration and policy-group orchestration file.
 - `OpenClashBase.yaml`: the OpenClash/Mihomo base configuration, including DNS and Fake-IP compatibility settings.
-- `ClashMiDnsGuard.js`, `OpenClashDnsGuard.module`, and `DNS_LEAK_PROTECTION.md`: client-specific DNS capture helpers and their compatibility guide.
+- `ClashMiDnsGuard.js`, `OpenClashDnsGuard.module`, `DNS_LEAK_PROTECTION.zh-CN.md`, and `DNS_LEAK_PROTECTION.md`: client-specific DNS capture helpers, the primary Chinese guide, and its English compatibility companion.
 - `AI.list`, `Apple.list`, `Microsoft.list`, `Direct.list`, `Global.list`, `HK.list`, `localnetwork.list`, `tk.list`, `youtube.list`, and similar files: rule sets or domain sets maintained by this repository.
 - Other `.ini`, `.yaml`, `.list`, and `.txt` files: historical configurations, supplementary rules, or compatibility data. Inspect references before changing them.
 
@@ -107,7 +117,7 @@ Do not fabricate a registration when no new project exists. When discovery is in
 - When changing policy groups, verify group names, rule-set targets, manual groups, health-check groups, fallback groups, and `FINAL` references as a complete graph.
 - Do not attach `url-test` or `fallback` health-check parameters to `select` groups.
 - For DNS and Fake-IP changes, explicitly consider LAN and reverse-DNS namespaces, NTP, STUN, discovery protocols, captive-portal checks, Microsoft/Apple updates, and the resolver path for AI/video services.
-- Treat DNS policy and operating-system DNS capture as separate layers. Review `OpenClashBase.yaml`, `ClashMiDnsGuard.js`, `OpenClashDnsGuard.module`, `DNS_LEAK_PROTECTION.md`, and their tests together whenever DNS leak protection changes. OpenClash owns router firewall/dnsmasq capture; desktop/mobile Mihomo clients own TUN/VPN capture; subscription Workers cannot enforce either layer.
+- Treat DNS policy and operating-system DNS capture as separate layers. Review `OpenClashBase.yaml`, `ClashMiDnsGuard.js`, `OpenClashDnsGuard.module`, `DNS_LEAK_PROTECTION.zh-CN.md`, `DNS_LEAK_PROTECTION.md`, and their tests together whenever DNS leak protection changes. OpenClash owns router firewall/dnsmasq capture; desktop/mobile Mihomo clients own TUN/VPN capture; subscription Workers cannot enforce either layer.
 - Do not claim universal Clash compatibility for Mihomo-only fields. Document the supported core and require runtime validation when a client can overwrite DNS/TUN settings.
 - Increment cache-busting query versions only when referenced rule content actually changes.
 - Do not expand domain sets mechanically. Every addition needs a clear owner, purpose, and compatibility benefit.
