@@ -1,5 +1,7 @@
 # Client-side DNS leak protection
 
+For a click-by-click Chinese setup and verification guide, see [DNS_LEAK_PROTECTION.zh-CN.md](DNS_LEAK_PROTECTION.zh-CN.md).
+
 The DNS and TUN part of [Perfect-Rules Clash_mi.js](https://raw.githubusercontent.com/n0de-sudo/Perfect-Rules/refs/heads/main/Clash/Clash_mi.js) informed this project's DNS policy and small [ClashMiDnsGuard.js](ClashMiDnsGuard.js) override. `GoodrulesWithFallback.ini` already points subconverter to `OpenClashBase.yaml`, so that base DNS policy reaches converted OpenClash/Mihomo profiles. The optional script adds OS-level capture for ClashMi and other Mihomo clients with JavaScript overrides; it leaves proxies, proxy groups, and rules intact.
 
 | Client | Repository configuration | Required client-side capture |
