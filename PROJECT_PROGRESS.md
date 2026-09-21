@@ -6,7 +6,7 @@ Use this file to continue work across computers, AI agents, and human maintainer
 
 | Relative path | Remote | Account | Branch | Last known remote baseline |
 | --- | --- | --- | --- | --- |
-| `.` | `ironstraight/fenliuguize` | `ironstraight` | `main` | `7e5f6b0e77fe22c2b1712e4895b3bc950bbe15fd` |
+| `.` | `ironstraight/fenliuguize` | `ironstraight` | `main` | `525d680b8abd5629286b5a3a2e6e2692c5eea86b` |
 | `allsub/` | `yiloveM/allsub` | `yiloveM` | `main` | `671df37e0826efb2cf966d0d9e2cb9cf6b001c5b` |
 | `asub/` | `ironstraight/asub` | `ironstraight` | `main` | `95cdec0ad8daac52b8f18b1e70698929f3e0fd48` |
 | `EthanSub/` | `ironstraight/EthanSub` | `ironstraight` | `main` | `fed1c83c325ee0b5f67c3be6a04ad8a2d10e4491` |
@@ -29,6 +29,7 @@ Use this file to continue work across computers, AI agents, and human maintainer
 | 2026-09-21 | allsub/asub/EthanSub protected-save interaction | Complete | Replaced the native password prompt for protected persistent saves with theme-native password modals matching the existing matrix-management interaction; added inline required, verifying, denied, and network-failure states while preserving cancel semantics and the non-persistent one-time subscription path | 61 tests passed across the three projects; all six inline admin scripts parsed; syntax checks and three Wrangler dry-runs passed; fresh-clone diffs contained only two admin pages and one regression test per project | `yiloveM/allsub` `671df37e0826efb2cf966d0d9e2cb9cf6b001c5b`; `ironstraight/asub` `2db97088f857e502b20270a3d0de1d02b080f129`; `ironstraight/EthanSub` `3d5e310f014cbc733a2816cb9d6139ce20eef394` | No Worker logic, `wrangler.toml`, Cloudflare variable, secret, KV binding, or persisted KV data changed | Direct GitHub access succeeded after sandbox network approval; accounts were switched and verified without reauthorization; proxy `127.0.0.1:7890` was not used; new child projects: none |
 | 2026-09-21 | Parent governance and cross-client DNS protection | Code complete; device test NOT VERIFIED | Added project-root-only file mutation rule and per-file modal confirmation for batch deletion; moved the shared base to foreign default DoH with explicit domestic policy, added an optional OpenClash DNS redirection module and ClashMi/Mihomo TUN override, and documented legacy Clash limits | YAML parsed with pinned in-memory parser; INI graph and base reference passed; OpenClash module settings passed; `node --check` and 3 Node tests passed; real-device DNS leak test NOT VERIFIED | `ironstraight/fenliuguize` `594a551bdc82cefacc59f13ffad675ec6914dd32` and `0bf193a05340fcf946b4728131707b6383f2f6f6` | No Cloudflare variable, secret, KV, or Worker impact | Verify effective DNS settings and leak behavior on OpenClash LAN and ClashMi/Mihomo devices; no new child project detected |
 | 2026-09-21 | DNS Guard user documentation | Complete; device test remains NOT VERIFIED | Added a 342-line Chinese click-by-click guide for installing, binding, validating, testing, troubleshooting, and rolling back `OpenClashDnsGuard.module` and `ClashMiDnsGuard.js`; clarified ClashMi `内置-不覆写`, TUN enablement, Private DNS/DoH, IPv6, and multi-DNS-service conflicts | Local Markdown links passed; four raw artifact URLs returned HTTP 200; `git diff --check`, `node --check`, and 3 Node tests passed; actual router/device testing remains NOT VERIFIED | `ironstraight/fenliuguize` `7e5f6b0e77fe22c2b1712e4895b3bc950bbe15fd` | No Cloudflare variable, secret, KV, Worker, rule, or runtime configuration impact | Follow the guide on the target OpenClash and ClashMi devices; no new child project detected |
+| 2026-09-21 | Documentation-language governance | Complete | Kept English `AGENTS.md` authoritative for governance while requiring Simplified Chinese as the primary language for user-facing READMEs, tutorials, deployment and troubleshooting guides, explanatory files, progress explanations, and final reports; preserved exact technical strings and allowed non-substituting English companions | Required-policy assertions and `git diff --check` passed; only `AGENTS.md` changed in the implementation commit | `ironstraight/fenliuguize` `525d680b8abd5629286b5a3a2e6e2692c5eea86b` | No Cloudflare variable, secret, KV, Worker, rule, runtime, or user-data impact | None; no new child project detected |
 
 ### 2026-09-21: Project file safety and client DNS capture
 
@@ -55,6 +56,17 @@ Use this file to continue work across computers, AI agents, and human maintainer
 - Remote commit: `ironstraight/fenliuguize` `7e5f6b0e77fe22c2b1712e4895b3bc950bbe15fd` for the tutorial and its entry link.
 - Configuration/KV/secret impact: none; no rule, client artifact, Cloudflare variable, secret, KV binding, or persisted data changed.
 - Follow-up: perform the guide's final runtime and DNS leak checks on the actual OpenClash LAN and ClashMi devices. New child project: `None`; the scan found only the three mapped child directories.
+
+### 2026-09-21: Chinese-first user documentation governance
+
+- User goal: keep the English project-governance prompt authoritative while requiring documents and explanations delivered to the user to be in Chinese.
+- Files changed: `AGENTS.md` and this progress record.
+- Governance decision: `AGENTS.md` remains the English single source of truth. New or substantively changed user-facing READMEs, setup/deployment guides, tutorials, troubleshooting, compatibility/migration notes, runbooks, release notes, explanations, progress summaries, and final reports must be Simplified Chinese by default. Commands, code, paths, config keys, APIs, logs, product names, and exact UI labels retain their required spelling with Chinese explanation. English companion documents are allowed but cannot replace the discoverable Chinese primary document. Governance and machine-facing files remain explicit exceptions.
+- Verification: required policy phrases were asserted in `AGENTS.md`; `git diff --check` passed; staged scope for the implementation commit contained only `AGENTS.md`.
+- GitHub: account remained `ironstraight`; origin remained `https://github.com/ironstraight/fenliuguize.git`; branch remained `main`; local and remote started at `4597d87e24f4678f0b33d82b744a8c8703b23694`.
+- Configuration/KV/secret impact: none.
+- Remote commit: `ironstraight/fenliuguize` `525d680b8abd5629286b5a3a2e6e2692c5eea86b` for the governance change.
+- Follow-up: `None`. New child project: `None`; the scan found only the three mapped child directories.
 
 ## Current shared behavior
 
