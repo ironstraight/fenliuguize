@@ -6,7 +6,7 @@ Use this file to continue work across computers, AI agents, and human maintainer
 
 | Relative path | Remote | Account | Branch | Last known remote baseline |
 | --- | --- | --- | --- | --- |
-| `.` | `ironstraight/fenliuguize` | `ironstraight` | `main` | `525d680b8abd5629286b5a3a2e6e2692c5eea86b` |
+| `.` | `ironstraight/fenliuguize` | `ironstraight` | `main` | `ed46b517f288e1241507b4c864c79ddca1732968` |
 | `allsub/` | `yiloveM/allsub` | `yiloveM` | `main` | `671df37e0826efb2cf966d0d9e2cb9cf6b001c5b` |
 | `asub/` | `ironstraight/asub` | `ironstraight` | `main` | `95cdec0ad8daac52b8f18b1e70698929f3e0fd48` |
 | `EthanSub/` | `ironstraight/EthanSub` | `ironstraight` | `main` | `fed1c83c325ee0b5f67c3be6a04ad8a2d10e4491` |
@@ -30,6 +30,7 @@ Use this file to continue work across computers, AI agents, and human maintainer
 | 2026-09-21 | Parent governance and cross-client DNS protection | Code complete; device test NOT VERIFIED | Added project-root-only file mutation rule and per-file modal confirmation for batch deletion; moved the shared base to foreign default DoH with explicit domestic policy, added an optional OpenClash DNS redirection module and ClashMi/Mihomo TUN override, and documented legacy Clash limits | YAML parsed with pinned in-memory parser; INI graph and base reference passed; OpenClash module settings passed; `node --check` and 3 Node tests passed; real-device DNS leak test NOT VERIFIED | `ironstraight/fenliuguize` `594a551bdc82cefacc59f13ffad675ec6914dd32` and `0bf193a05340fcf946b4728131707b6383f2f6f6` | No Cloudflare variable, secret, KV, or Worker impact | Verify effective DNS settings and leak behavior on OpenClash LAN and ClashMi/Mihomo devices; no new child project detected |
 | 2026-09-21 | DNS Guard user documentation | Complete; device test remains NOT VERIFIED | Added a 342-line Chinese click-by-click guide for installing, binding, validating, testing, troubleshooting, and rolling back `OpenClashDnsGuard.module` and `ClashMiDnsGuard.js`; clarified ClashMi `内置-不覆写`, TUN enablement, Private DNS/DoH, IPv6, and multi-DNS-service conflicts | Local Markdown links passed; four raw artifact URLs returned HTTP 200; `git diff --check`, `node --check`, and 3 Node tests passed; actual router/device testing remains NOT VERIFIED | `ironstraight/fenliuguize` `7e5f6b0e77fe22c2b1712e4895b3bc950bbe15fd` | No Cloudflare variable, secret, KV, Worker, rule, or runtime configuration impact | Follow the guide on the target OpenClash and ClashMi devices; no new child project detected |
 | 2026-09-21 | Documentation-language governance | Complete | Kept English `AGENTS.md` authoritative for governance while requiring Simplified Chinese as the primary language for user-facing READMEs, tutorials, deployment and troubleshooting guides, explanatory files, progress explanations, and final reports; preserved exact technical strings and allowed non-substituting English companions | Required-policy assertions and `git diff --check` passed; only `AGENTS.md` changed in the implementation commit | `ironstraight/fenliuguize` `525d680b8abd5629286b5a3a2e6e2692c5eea86b` | No Cloudflare variable, secret, KV, Worker, rule, runtime, or user-data impact | None; no new child project detected |
+| 2026-09-21 | DNS Guard guide usability correction | Complete; device test remains NOT VERIFIED | Replaced the 342-line Chinese guide with a 104-line action-only manual; aligned OpenClash navigation and form labels with the official guide and current `config_edit.htm` source, including `Overwrite Module`, `Overwrite Edit`, `Add Overwrite Module`, `Subscribe Link`, the exact fields, the disabled-by-default module switch, and a short rollback | Required UI-label assertions, local-link check, 120-line maximum, and `git diff --check` passed; no code or configuration changed | `ironstraight/fenliuguize` `ed46b517f288e1241507b4c864c79ddca1732968` | No Cloudflare variable, secret, KV, Worker, rule, module, script, or runtime impact | Follow the shortened manual on the target devices; no new child project detected |
 
 ### 2026-09-21: Project file safety and client DNS capture
 
@@ -67,6 +68,18 @@ Use this file to continue work across computers, AI agents, and human maintainer
 - Configuration/KV/secret impact: none.
 - Remote commit: `ironstraight/fenliuguize` `525d680b8abd5629286b5a3a2e6e2692c5eea86b` for the governance change.
 - Follow-up: `None`. New child project: `None`; the scan found only the three mapped child directories.
+
+### 2026-09-21: DNS Guard guide shortened and UI-corrected
+
+- User goal: remove the long and confusing material from the generated tutorial and provide a concise, step-by-step manual whose OpenClash buttons can actually be found.
+- Files changed: `DNS_LEAK_PROTECTION.zh-CN.md` and this progress record.
+- Documentation decision: reduced the guide from 342 to 104 lines and kept only prerequisites, exact clicks/fields, a short verification, rollback, and two common problems. OpenClash instructions now explicitly distinguish the run-status-page `Overwrite Module` button from the separate left-menu “覆写设置” page and use the current official English UI labels. ClashMi instructions retain only the verified JS import, `追加覆写` = `内置-不覆写`, profile binding, and TUN switches.
+- Sources checked: the user-provided OpenClash skill entry, its overwrite-module format/examples documents, current OpenClash `config_edit.htm`, current ClashMi profile-patch/UI localization source, and the ClashMi FAQ.
+- Verification: the guide is 104 lines; required UI labels are present; local Markdown links resolve; `git diff --check` passed. DNS code, OpenClash module, ClashMi script, and runtime behavior were unchanged, so code tests were not rerun. Real device testing remains NOT VERIFIED.
+- GitHub: account remains `ironstraight`; origin remains `https://github.com/ironstraight/fenliuguize.git`; branch remains `main`; local and remote started at `d0022cd99c91cae31ec72f5a0cb388d756d85756`.
+- Configuration/KV/secret impact: none.
+- Remote commit: `ironstraight/fenliuguize` `ed46b517f288e1241507b4c864c79ddca1732968` for the shortened guide.
+- Follow-up: use the shortened guide on the actual OpenClash and ClashMi devices. New child project: `None`; the scan found only the three mapped child directories.
 
 ## Current shared behavior
 
