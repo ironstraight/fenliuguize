@@ -37,6 +37,7 @@ Important root files include:
 
 - `GoodrulesWithFallback.ini`: the primary subconverter remote configuration and policy-group orchestration file.
 - `OpenClashBase.yaml`: the OpenClash/Mihomo base configuration, including DNS and Fake-IP compatibility settings.
+- `ClashMiDnsGuard.js`, `OpenClashDnsGuard.module`, and `DNS_LEAK_PROTECTION.md`: client-specific DNS capture helpers and their compatibility guide.
 - `AI.list`, `Apple.list`, `Microsoft.list`, `Direct.list`, `Global.list`, `HK.list`, `localnetwork.list`, `tk.list`, `youtube.list`, and similar files: rule sets or domain sets maintained by this repository.
 - Other `.ini`, `.yaml`, `.list`, and `.txt` files: historical configurations, supplementary rules, or compatibility data. Inspect references before changing them.
 
@@ -106,6 +107,8 @@ Do not fabricate a registration when no new project exists. When discovery is in
 - When changing policy groups, verify group names, rule-set targets, manual groups, health-check groups, fallback groups, and `FINAL` references as a complete graph.
 - Do not attach `url-test` or `fallback` health-check parameters to `select` groups.
 - For DNS and Fake-IP changes, explicitly consider LAN and reverse-DNS namespaces, NTP, STUN, discovery protocols, captive-portal checks, Microsoft/Apple updates, and the resolver path for AI/video services.
+- Treat DNS policy and operating-system DNS capture as separate layers. Review `OpenClashBase.yaml`, `ClashMiDnsGuard.js`, `OpenClashDnsGuard.module`, `DNS_LEAK_PROTECTION.md`, and their tests together whenever DNS leak protection changes. OpenClash owns router firewall/dnsmasq capture; desktop/mobile Mihomo clients own TUN/VPN capture; subscription Workers cannot enforce either layer.
+- Do not claim universal Clash compatibility for Mihomo-only fields. Document the supported core and require runtime validation when a client can overwrite DNS/TUN settings.
 - Increment cache-busting query versions only when referenced rule content actually changes.
 - Do not expand domain sets mechanically. Every addition needs a clear owner, purpose, and compatibility benefit.
 

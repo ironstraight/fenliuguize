@@ -53,8 +53,7 @@ function main(config) {
     "default-nameserver": ["223.5.5.5", "119.29.29.29"],
     nameserver: foreign,
     "nameserver-policy": {
-      "geosite:cn,private,apple,microsoft": domestic,
-      "geosite:geolocation-!cn": foreign
+      "geosite:cn,private,apple,microsoft": domestic
     },
     "proxy-server-nameserver": domestic
   });

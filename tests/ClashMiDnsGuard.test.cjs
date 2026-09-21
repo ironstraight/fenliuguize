@@ -34,7 +34,7 @@ test("configures DNS capture without changing subscription routing", () => {
   assert.equal("direct-nameserver" in config.dns, false);
   assert.equal(config.dns.nameserver.every(value => value.endsWith("#RULES")), true);
   assert.equal(config.dns["nameserver-policy"]["geosite:cn,private,apple,microsoft"].length, 2);
-  assert.equal(config.dns["nameserver-policy"]["geosite:geolocation-!cn"].length, 2);
+  assert.equal(Object.keys(config.dns["nameserver-policy"]).length, 1);
   assert.equal(config.ipv6, false);
   assert.equal(config.dns.ipv6, false);
   assert.equal(config.tun.enable, true);
