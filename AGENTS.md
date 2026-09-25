@@ -144,7 +144,7 @@ All three subscription projects must provide equivalent backend capability, incl
 - The fixed order: global exclusion first, then per-source naming and numbering.
 - `Source Name|Region|001`, `002`, and later serials, with blank source labels preserving original names.
 - YAML name uniqueness and synchronized proxy-group references.
-- Stateless one-time subscriptions, old-link compatibility, cache refresh behavior, CORS, HEAD fallback, timeouts, and size limits.
+- Stateless one-time subscriptions, old-link compatibility, stable configuration-based cache keys, last-known-good background refresh, CORS, HEAD fallback, timeouts, and size limits.
 - Admin login, unlock-password protection, view/delete/save controls, source-name protection, and theme switching.
 - QR generation, error handling, legacy KV migration, and client response headers.
 
@@ -172,11 +172,13 @@ Allowed visual differences are limited to project names, branding copy, center i
 
 ### 4.4 Persistence boundaries
 
-- Only “添加到部署阵列” (add to deployment array) writes persistent subscription data.
-- Filling temporary URLs or rules and clicking “一键复制订阅” (one-click copy) creates a one-time URL without writing KV or requiring the unlock password.
-- When all temporary fields are empty, one-click copy returns the default URL backed by the persistent KV list.
+- Only “添加到部署阵列” (add to deployment array) can add a new persistent subscription source; it requires `ADMIN_UNLOCK_PASSWORD`.
+- “管理和查看所有订阅” requires `ADMIN_UNLOCK_PASSWORD`; after unlock, “固化保存所有订阅配置” may save management edits without a second password prompt.
+- Filling temporary URLs or rules and clicking “一键复制订阅” (one-click copy) creates a one-time URL without writing KV or requiring the unlock password. When URLs are present, only those temporary sources are used.
+- When the URL field is empty but temporary rename, exclusion, or custom-converter fields are filled, one-click copy generates a signed temporary URL that reads the persistent source list with those temporary settings.
+- When all temporary fields are empty, one-click copy returns the default URL backed by the persistent KV list, without temporary parameters.
 - Global exclusion and rename rules apply to every persistent source.
-- A source name is a per-URL mapping. Creating, changing, or removing one requires `ADMIN_UNLOCK_PASSWORD`.
+- A source name is a per-URL mapping. Entering the view/management UI requires `ADMIN_UNLOCK_PASSWORD`; solidifying changes from that unlocked UI must not prompt again.
 - A one-time subscription must never modify `sub_links`, global rules, themes, backgrounds, or source-name mappings.
 
 ### 4.5 Cloudflare configuration protection
