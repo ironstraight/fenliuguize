@@ -137,6 +137,8 @@ Do not fabricate a registration when no new project exists. When discovery is in
 All three subscription projects must provide equivalent backend capability, including:
 
 - Subscription URL parsing, deduplication, limits, and outbound safety validation.
+- Preserve every user-entered source URL path exactly; never substitute a provider-specific format endpoint or silently rewrite previously saved paths. Existing persisted URLs are changed only by an explicit user save.
+- Engineering ownership stops at robust, stable, usable, and convenient generic processing. The AI must not act as the user operating the frontend: never decide which provider or nodes to include/exclude, enter production URLs, set source labels, edit rename/exclusion fields, or solidify user data unless the user explicitly instructs that exact data change. Provider quota notices and other node names remain subject to the user's configured exclusion rules, not hard-coded AI filtering. Use synthetic/local data for tests and leave production KV entries unchanged.
 - Multiple URLs separated by line breaks or `|`.
 - Clash/Mihomo YAML, Base64 lists, and common share-URI formats.
 - Global exclusion, literal replacement, regex replacement, slash-separated keyword exclusion, and standard regex exclusion.
