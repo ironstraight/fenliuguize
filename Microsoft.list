@@ -143,3 +143,26 @@ DOMAIN,crl.microsoft.com
 DOMAIN,mscrl.microsoft.com
 DOMAIN,ocsp.microsoft.com
 DOMAIN,oneocsp.microsoft.com
+
+# Xbox / Minecraft / Mojang / Bethesda gaming
+DOMAIN-SUFFIX,xbox.com
+DOMAIN-SUFFIX,xboxlive.com
+DOMAIN-SUFFIX,xboxgamepass.com
+DOMAIN-SUFFIX,xboxgamestudios.com
+DOMAIN-SUFFIX,minecraft.net
+DOMAIN-SUFFIX,mojang.com
+DOMAIN-SUFFIX,bethesda.net
+DOMAIN-SUFFIX,playfab.com
+
+# Microsoft business, developer and cloud services
+DOMAIN-SUFFIX,dynamics.com
+DOMAIN-SUFFIX,clipchamp.com
+DOMAIN-SUFFIX,adaptivecards.io
+DOMAIN-SUFFIX,appcenter.ms
+DOMAIN-SUFFIX,asp.net
+DOMAIN-SUFFIX,azurefd.net
+DOMAIN-SUFFIX,azurewebsites.net
+DOMAIN-SUFFIX,dictate.ms
+DOMAIN-SUFFIX,docs.com
+DOMAIN-SUFFIX,blazor.net
+DOMAIN-SUFFIX,botframework.com

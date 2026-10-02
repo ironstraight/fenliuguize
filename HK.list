@@ -11,3 +11,23 @@ DOMAIN-SUFFIX,whatsapp.net
 DOMAIN-SUFFIX,web.whatsapp.com
 DOMAIN-SUFFIX,wa.me
 DOMAIN-SUFFIX,edge-api.facebook.com
+
+# Meta family: corporate, Threads, Messenger, short links, Oculus, Workplace
+DOMAIN-SUFFIX,meta.com
+DOMAIN-SUFFIX,messenger.com
+DOMAIN-SUFFIX,fbmessenger.com
+DOMAIN-SUFFIX,threads.net
+DOMAIN-SUFFIX,threads.com
+DOMAIN-SUFFIX,fb.me
+DOMAIN-SUFFIX,m.me
+DOMAIN-SUFFIX,ig.me
+DOMAIN-SUFFIX,instagr.am
+DOMAIN-SUFFIX,fbcdn.com
+DOMAIN-SUFFIX,fbsbx.com
+DOMAIN-SUFFIX,fbsbx.net
+DOMAIN-SUFFIX,fburl.com
+DOMAIN-SUFFIX,oculus.com
+DOMAIN-SUFFIX,oculuscdn.com
+DOMAIN-SUFFIX,ocul.us
+DOMAIN-SUFFIX,workplace.com
+DOMAIN-SUFFIX,accountkit.com

@@ -121,3 +121,8 @@ DOMAIN,guzzoni.apple.com
 IP-CIDR6,2403:300::/32,no-resolve
 IP-CIDR6,2620:149::/32,no-resolve
 IP-CIDR6,2a01:b740::/32,no-resolve
+
+# Apple legacy and open-source project domains
+DOMAIN-SUFFIX,mac.com
+DOMAIN-SUFFIX,swift.org
+DOMAIN-SUFFIX,webkit.org

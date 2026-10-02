@@ -113,6 +113,20 @@ DOMAIN-SUFFIX,zijieimg.com
 DOMAIN-SUFFIX,zjbyte.com
 DOMAIN-SUFFIX,zjcdn.com
 
+# 国产 AI 服务（直连）
+DOMAIN-SUFFIX,deepseek.com
+DOMAIN-SUFFIX,doubao.com
+DOMAIN-SUFFIX,moonshot.cn
+DOMAIN-SUFFIX,kimi.moonshot.cn
+DOMAIN-SUFFIX,bigmodel.cn
+DOMAIN-SUFFIX,chatglm.cn
+DOMAIN-SUFFIX,stepfun.com
+DOMAIN-SUFFIX,lingyiwanwu.com
+DOMAIN-SUFFIX,tiangong.cn
+DOMAIN-SUFFIX,hunyuan.tencent.com
+DOMAIN-SUFFIX,xfyun.cn
+DOMAIN-SUFFIX,tongyi.aliyun.com
+
 #淘宝
 DOMAIN-SUFFIX,taobao.com
 DOMAIN-SUFFIX,taobao.cn
@@ -435,6 +449,9 @@ DOMAIN-SUFFIX,appsimg.com
 DOMAIN-SUFFIX,appvipshop.com
 DOMAIN-SUFFIX,vip.com
 DOMAIN-SUFFIX,vipstatic.com
+
+# Dewu 得物
+DOMAIN-SUFFIX,dewu.com
 
 # Public Direct CDN 公共直连
 #DOMAIN-SUFFIX,ajax.aspnetcdn.com

@@ -4,6 +4,8 @@ DOMAIN-KEYWORD,aistudio
 DOMAIN-KEYWORD,aistudio-pa
 DOMAIN-KEYWORD,anthropic
 DOMAIN-KEYWORD,claude
+DOMAIN-KEYWORD,colab
+DOMAIN-KEYWORD,generativelanguage
 
 # --- DOMAIN ---
 DOMAIN,gemini.google.com
@@ -183,3 +185,57 @@ DOMAIN-SUFFIX,dify.ai
 DOMAIN,gateway.ai.cloudflare.com
 
 DOMAIN-SUFFIX,client-api.arkoselabs.com
+
+# --- Upstream cross-check: Copilot endpoints, Colab, AI feature-flag/analytics infra ---
+DOMAIN,api.msn.com
+DOMAIN,assets.msn.com
+DOMAIN,gateway.bingviz.microsoft.net
+DOMAIN-SUFFIX,colab.research.google.com
+DOMAIN-SUFFIX,api.statsig.com
+DOMAIN-SUFFIX,segment.io
+DOMAIN-SUFFIX,launchdarkly.com
+DOMAIN-SUFFIX,algolia.net
+
+# --- International AI services (2026-10 update, domains verified) ---
+# Conversational / character AI
+DOMAIN-SUFFIX,character.ai
+
+# Music generation
+DOMAIN-SUFFIX,suno.com
+DOMAIN-SUFFIX,udio.com
+
+# ByteDance / Zhipu / MiniMax international AI
+DOMAIN-SUFFIX,coze.com
+DOMAIN-SUFFIX,z.ai
+DOMAIN-SUFFIX,marscode.com
+DOMAIN-SUFFIX,minimax.io
+DOMAIN-SUFFIX,hailuoai.video
+DOMAIN-SUFFIX,klingai.com
+DOMAIN-SUFFIX,kling.ai
+
+# Image / video generation
+DOMAIN-SUFFIX,stability.ai
+DOMAIN-SUFFIX,runwayml.com
+DOMAIN-SUFFIX,pika.art
+DOMAIN-SUFFIX,leonardo.ai
+DOMAIN-SUFFIX,ideogram.ai
+DOMAIN-SUFFIX,lumalabs.ai
+DOMAIN-SUFFIX,krea.ai
+DOMAIN-SUFFIX,heygen.com
+DOMAIN-SUFFIX,synthesia.io
+DOMAIN-SUFFIX,civitai.com
+
+# AI coding / app builders
+DOMAIN-SUFFIX,v0.dev
+DOMAIN-SUFFIX,bolt.new
+DOMAIN-SUFFIX,lovable.dev
+DOMAIN-SUFFIX,replit.com
+
+# Model inference APIs
+DOMAIN-SUFFIX,replicate.com
+DOMAIN-SUFFIX,together.ai
+DOMAIN-SUFFIX,fireworks.ai
+DOMAIN-SUFFIX,fal.ai
+
+# AI productivity
+DOMAIN-SUFFIX,gamma.app
