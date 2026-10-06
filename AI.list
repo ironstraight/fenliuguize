@@ -113,6 +113,7 @@ DOMAIN,openaicom-api-bdcpf8c6d2e9atf6.z01.azurefd.net
 DOMAIN,openaicom.imgix.net
 DOMAIN,openaicomproductionae4b.blob.core.windows.net
 DOMAIN,production-openaicom-storage.azureedge.net
+DOMAIN,browser-intake-datadoghq.com
 
 # --- Anthropic / Claude ---
 DOMAIN-SUFFIX,clau.de
@@ -149,6 +150,7 @@ DOMAIN,notebooklm-pa.googleapis.com
 DOMAIN,notebooklm.googleapis.com
 DOMAIN,robinfrontend-pa.googleapis.com
 DOMAIN,stitch.withgoogle.com
+DOMAIN,geminiweb-pa.clients.google.com
 
 # --- Perplexity / Grok / Copilot ---
 DOMAIN-SUFFIX,perplexity.com
