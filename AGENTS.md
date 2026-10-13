@@ -150,7 +150,7 @@ All three subscription projects must provide equivalent backend capability, incl
 - Admin login, unlock-password protection, view/delete/save controls, source-name protection, and theme switching.
 - QR generation, error handling, legacy KV migration, and client response headers.
 
-The shared `subscription-transform.js` should normally remain byte-for-byte identical across the projects. Any project-specific exception requires an explicit code comment, a progress-log explanation, and dedicated tests.
+The shared `subscription-transform.js`, `subscription-format.js`, `subscription-cache.js`, `subscription-upstream.js`, and `pages/matrix_controls.html` should normally remain byte-for-byte identical across the projects. Any project-specific exception requires an explicit code comment, a progress-log explanation, and dedicated tests.
 
 ### 4.2 Frontend interaction and visual parity
 
@@ -159,6 +159,7 @@ Frontend interaction, layout structure, breakpoint behavior, card hierarchy, but
 - A shared interaction or style change in one project must be reviewed and faithfully ported to the other projects in the same task.
 - In “查看所有订阅链接” (view all subscriptions), the delete button, URL, and source-name field must not overlap at desktop or mobile widths.
 - Each subscription card displays only its URL and per-source name. Global rename/exclusion rules appear once in a dedicated card below the list.
+- Subscription order can be edited through a dedicated mouse/touch drag handle or keyboard controls. Reordering remains a draft until the user saves it; preserve source labels and global rules, and never include the global-rules card in the sortable source list.
 - URL guidance must consistently say that each URL can be entered on its own line and that `|` or a line break can be used as the separator.
 - Dialogs must distinguish persistent configuration from one-time subscriptions and must not add unnecessary frontend password gates.
 
@@ -176,6 +177,7 @@ Allowed visual differences are limited to project names, branding copy, center i
 
 - Only “添加到部署阵列” (add to deployment array) can add a new persistent subscription source; it requires `ADMIN_UNLOCK_PASSWORD`.
 - “管理和查看所有订阅” requires `ADMIN_UNLOCK_PASSWORD`; after unlock, “固化保存所有订阅配置” may save management edits without a second password prompt.
+- While the successfully unlocked management panel remains expanded, additions may reuse its verified unlock password in page memory. Collapsing the panel, reloading the page, or receiving an authentication failure clears that state. Never persist the unlock password in browser storage, and never grant a reusable management unlock merely from the standalone add-password dialog.
 - Filling temporary URLs or rules and clicking “一键复制订阅” (one-click copy) creates a one-time URL without writing KV or requiring the unlock password. When URLs are present, only those temporary sources are used.
 - When the URL field is empty but temporary rename, exclusion, or custom-converter fields are filled, one-click copy generates a signed temporary URL that reads the persistent source list with those temporary settings.
 - When all temporary fields are empty, one-click copy returns the default URL backed by the persistent KV list, without temporary parameters.

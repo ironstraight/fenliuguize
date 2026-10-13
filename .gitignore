@@ -6,3 +6,6 @@
 # Temporary publishing or research workspaces created by agents.
 /.publish-*/
 /.tmp-*/
+
+# Generated local browser profiles and visual regression artifacts.
+/tests/.browser-artifacts-*/
