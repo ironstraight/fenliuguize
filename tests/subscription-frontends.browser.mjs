@@ -111,21 +111,39 @@ try {
       const urls = async () => cards.locator(".sub-url").allTextContents();
       const beforeDrag = await urls();
       const countBeforeDrag = saves;
-      const firstHandle = page.locator(".matrix-sort-handle").first();
-      await firstHandle.scrollIntoViewIfNeeded();
-      const start = await firstHandle.boundingBox();
+      assert.equal(await page.locator(".matrix-sort-index, .matrix-move-up, .matrix-move-down").count(), 0);
+      assert.equal(await cards.first().getAttribute("tabindex"), "0");
+      assert.equal(await cards.first().locator(".matrix-sort-status").innerText(), "⠿ 可拖动排序");
+      await cards.first().focus();
+      await page.keyboard.press("ArrowDown");
+      assert.deepEqual(await urls(), [beforeDrag[1], beforeDrag[0], beforeDrag[2]], "keyboard sorting should remain available on the whole card");
+      assert.equal(saves, countBeforeDrag, "keyboard sorting must remain unsaved");
+      await page.keyboard.press("ArrowUp");
+      assert.deepEqual(await urls(), beforeDrag, "the opposite key should restore the original order");
+      assert.equal(saves, countBeforeDrag, "restoring the order must remain unsaved");
+      const firstCardContent = cards.first().locator(".sub-url");
+      await firstCardContent.scrollIntoViewIfNeeded();
+      const start = await firstCardContent.boundingBox();
       const target = await cards.nth(1).boundingBox();
       if (width === 390) {
         const cdp = await browser.newCDPSession(page);
         const point = (x, y) => [{ x, y, id: 1, radiusX: 2, radiusY: 2, force: 1 }];
-        await cdp.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: point(start.x + 15, start.y + 15) });
-        for (let step = 1; step <= 10; step++) await cdp.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: point(start.x + 15, start.y + 15 + (target.y + target.height / 2 + 10 - start.y - 15) * step / 10) });
+        await cdp.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: point(start.x + 15, start.y + start.height / 2) });
+        await page.waitForTimeout(300);
+        assert.equal(await cards.first().locator(".matrix-sort-ready").isVisible(), true, "mobile drag should arm after a long press");
+        for (let step = 1; step <= 10; step++) {
+          await cdp.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: point(start.x + 15, start.y + start.height / 2 + (target.y + target.height / 2 + 10 - start.y - start.height / 2) * step / 10) });
+          if (step === 2) await page.waitForFunction(() => document.querySelector(".is-dragging .matrix-sort-active"));
+        }
+        assert.equal(await page.locator(".is-dragging .matrix-sort-active").isVisible(), true, "active card should be visibly distinguished while dragging");
         await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
         await cdp.detach();
       } else {
-        await page.mouse.move(start.x + 15, start.y + 15);
+        await page.mouse.move(start.x + 15, start.y + start.height / 2);
         await page.mouse.down();
         await page.mouse.move(start.x + 15, target.y + target.height / 2 + 10, { steps: 10 });
+        await page.waitForFunction(() => document.querySelector(".is-dragging .matrix-sort-active"));
+        assert.equal(await page.locator(".is-dragging .matrix-sort-active").isVisible(), true, "active card should be visibly distinguished while dragging");
         await page.mouse.up();
       }
       await page.waitForFunction(() => !document.querySelector(".is-dragging"));
@@ -138,11 +156,11 @@ try {
       assert.equal(reordered[1], beforeDrag[0]);
       assert.equal(await page.locator(".source-label-input").nth(1).inputValue(), "Draft Label");
       assert.equal(saves, countBeforeDrag, "dragging must remain unsaved");
-      await page.locator(".matrix-sort-handle").first().focus();
+      await cards.first().focus();
       await page.keyboard.press("ArrowDown");
       assert.deepEqual(await urls(), beforeDrag);
       assert.equal(saves, countBeforeDrag, "keyboard sorting must remain unsaved");
-      await page.locator(".matrix-sort-handle").nth(1).focus();
+      await cards.nth(1).focus();
       await page.keyboard.press("ArrowUp");
       assert.deepEqual(await urls(), reordered);
       const layout = await page.evaluate(() => {
@@ -151,7 +169,7 @@ try {
           overflow: document.documentElement.scrollWidth > window.innerWidth,
           overlapping: [...document.querySelectorAll(".subscription-card")].some(card => {
             const del = card.querySelector(".btn-danger").getBoundingClientRect();
-            return [".sub-url", ".source-label-input", ".matrix-sort-handle"].some(selector => overlap(del, card.querySelector(selector).getBoundingClientRect()));
+            return [".sub-url", ".source-label-input", ".matrix-sort-status"].some(selector => overlap(del, card.querySelector(selector).getBoundingClientRect()));
           }),
           globalCards: document.querySelectorAll(".global-rules-card").length
         };
@@ -183,7 +201,7 @@ try {
       assert.equal(await page.locator(".source-label-input").nth(1).inputValue(), "Draft Label");
       assert.deepEqual(errors, []);
       await page.close();
-      const result = { project: project.name, theme, width, status: "PASS", checks: "unlock reuse/reset, wrong password, mouse/touch/keyboard order, draft/save, copy persistence, layout/console" };
+      const result = { project: project.name, theme, width, status: "PASS", checks: "unlock reuse/reset, wrong password, whole-card mouse/touch/keyboard sorting with drag animation, draft/save, copy persistence, layout/console" };
       results.push(result);
       console.log(JSON.stringify(result));
     }
