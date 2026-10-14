@@ -112,8 +112,10 @@ try {
       const beforeDrag = await urls();
       const countBeforeDrag = saves;
       assert.equal(await page.locator(".matrix-sort-index, .matrix-move-up, .matrix-move-down").count(), 0);
+      assert.equal(await page.locator(".matrix-sort-help, .matrix-sort-status, .matrix-sort-ready, .matrix-sort-active").count(), 0);
       assert.equal(await cards.first().getAttribute("tabindex"), "0");
-      assert.equal(await cards.first().locator(".matrix-sort-status").innerText(), "⠿ 可拖动排序");
+      assert.equal(await cards.first().getAttribute("title"), null, "card hover tips should be removed");
+      assert.doesNotMatch(await cards.first().innerText(), /可拖动排序|松开并拖动|正在移动/);
       await cards.first().focus();
       await page.keyboard.press("ArrowDown");
       assert.deepEqual(await urls(), [beforeDrag[1], beforeDrag[0], beforeDrag[2]], "keyboard sorting should remain available on the whole card");
@@ -124,29 +126,54 @@ try {
       const firstCardContent = cards.first().locator(".sub-url");
       await firstCardContent.scrollIntoViewIfNeeded();
       const start = await firstCardContent.boundingBox();
+      const sourceCardBox = await cards.first().boundingBox();
       const target = await cards.nth(1).boundingBox();
+      const grabOffsetY = start.y + start.height / 2 - sourceCardBox.y;
+      const dropPointerY = target.y + target.height / 2 + 10;
+      const assertPhysicalDrag = async () => {
+        const state = await page.evaluate(() => {
+          const card = document.querySelector("body > .subscription-card.is-dragging");
+          const slot = document.querySelector("#subList > .subscription-card-placeholder");
+          return card && slot ? {
+            fixed: getComputedStyle(card).position === "fixed",
+            floatingAboveList: card.parentElement === document.body && !document.getElementById("subList").contains(card),
+            followsPointer: card.style.transform.includes("translate3d("),
+            liftedShadow: getComputedStyle(card).boxShadow !== "none",
+            slotVisible: slot.getBoundingClientRect().height > 0,
+            slotTop: slot.getBoundingClientRect().top,
+            cardTop: card.getBoundingClientRect().top
+          } : null;
+        });
+        assert.ok(state, "dragging should show a floating card and an in-list drop slot");
+        assert.equal(state.fixed, true, "the real card should float above the page");
+        assert.equal(state.floatingAboveList, true, "the picked-up card should leave its list slot");
+        assert.equal(state.followsPointer, true);
+        assert.equal(state.liftedShadow, true, "the lifted card should have a strong shadow");
+        assert.equal(state.slotVisible, true, "the original slot should remain visible");
+        assert.ok(Math.abs(state.cardTop - (dropPointerY - grabOffsetY - 8)) < 24, "the floating card should track the pointer position");
+      };
       if (width === 390) {
         const cdp = await browser.newCDPSession(page);
         const point = (x, y) => [{ x, y, id: 1, radiusX: 2, radiusY: 2, force: 1 }];
         await cdp.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: point(start.x + 15, start.y + start.height / 2) });
         await page.waitForTimeout(300);
-        assert.equal(await cards.first().locator(".matrix-sort-ready").isVisible(), true, "mobile drag should arm after a long press");
+        assert.equal(await cards.first().evaluate(card => card.classList.contains("is-drag-armed")), true, "mobile drag should arm after a long press");
         for (let step = 1; step <= 10; step++) {
-          await cdp.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: point(start.x + 15, start.y + start.height / 2 + (target.y + target.height / 2 + 10 - start.y - start.height / 2) * step / 10) });
-          if (step === 2) await page.waitForFunction(() => document.querySelector(".is-dragging .matrix-sort-active"));
+          await cdp.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: point(start.x + 15, start.y + start.height / 2 + (dropPointerY - start.y - start.height / 2) * step / 10) });
+          if (step === 2) await page.waitForFunction(() => document.querySelector("body > .subscription-card.is-dragging") && document.querySelector(".subscription-card-placeholder"));
         }
-        assert.equal(await page.locator(".is-dragging .matrix-sort-active").isVisible(), true, "active card should be visibly distinguished while dragging");
+        await assertPhysicalDrag();
         await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
         await cdp.detach();
       } else {
         await page.mouse.move(start.x + 15, start.y + start.height / 2);
         await page.mouse.down();
-        await page.mouse.move(start.x + 15, target.y + target.height / 2 + 10, { steps: 10 });
-        await page.waitForFunction(() => document.querySelector(".is-dragging .matrix-sort-active"));
-        assert.equal(await page.locator(".is-dragging .matrix-sort-active").isVisible(), true, "active card should be visibly distinguished while dragging");
+        await page.mouse.move(start.x + 15, dropPointerY, { steps: 10 });
+        await page.waitForFunction(() => document.querySelector("body > .subscription-card.is-dragging") && document.querySelector(".subscription-card-placeholder"));
+        await assertPhysicalDrag();
         await page.mouse.up();
       }
-      await page.waitForFunction(() => !document.querySelector(".is-dragging"));
+      await page.waitForFunction(() => !document.querySelector(".is-dragging") && !document.querySelector(".subscription-card-placeholder"));
       const reordered = await urls();
       if (reordered[0] !== beforeDrag[1]) {
         console.log(JSON.stringify({ project: project.name, theme, width, start, target, errors, events: await page.evaluate(() => window.matrixTestEvents.slice(-20)), sorting: await page.locator("#subList").getAttribute("data-matrix-sorting") }));
@@ -169,7 +196,7 @@ try {
           overflow: document.documentElement.scrollWidth > window.innerWidth,
           overlapping: [...document.querySelectorAll(".subscription-card")].some(card => {
             const del = card.querySelector(".btn-danger").getBoundingClientRect();
-            return [".sub-url", ".source-label-input", ".matrix-sort-status"].some(selector => overlap(del, card.querySelector(selector).getBoundingClientRect()));
+            return [".sub-url", ".source-label-input"].some(selector => overlap(del, card.querySelector(selector).getBoundingClientRect()));
           }),
           globalCards: document.querySelectorAll(".global-rules-card").length
         };
