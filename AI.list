@@ -152,6 +152,18 @@ DOMAIN,robinfrontend-pa.googleapis.com
 DOMAIN,stitch.withgoogle.com
 DOMAIN,geminiweb-pa.clients.google.com
 
+# --- Gemini auth, web entry and client API host family ---
+# accounts.google.com: Google OAuth/session for Gemini web/app login.
+# Without it, auth calls fall through to FINAL and split egress IPs
+# (auth via one line, API via another) break Gemini sessions.
+DOMAIN-SUFFIX,accounts.google.com
+# www.google.com: observed in live Gemini web traffic; keep it on the AI line.
+DOMAIN-SUFFIX,www.google.com
+# clients.google.com: Google client API host family. geminiweb-pa.clients.google.com
+# already needed an exact entry because clients6.google.com does not cover it;
+# this suffix future-proofs new *-pa.clients.google.com endpoints.
+DOMAIN-SUFFIX,clients.google.com
+
 # --- Perplexity / Grok / Copilot ---
 DOMAIN-SUFFIX,perplexity.com
 DOMAIN-SUFFIX,pplx.ai
