@@ -4,156 +4,147 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="referrer" content="no-referrer">
-  <title>Cloudflare 订阅修复指引</title>
+  <title>Cloudflare 修复指引 · R3S 与订阅</title>
   <style>
-    :root{color-scheme:light dark;--bg:#f3f7fb;--panel:#fff;--ink:#192637;--muted:#4c6074;--edge:#d2dfeb;--accent:#075886;--note:#eaf5fc;--code:#edf2f7}
-    @media(prefers-color-scheme:dark){:root{--bg:#111a24;--panel:#192634;--ink:#edf4fc;--muted:#b4c6d8;--edge:#3a5066;--accent:#8fd7ff;--note:#1a354a;--code:#121e2b}}
-    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:1rem/1.65 system-ui,sans-serif}main{width:min(100% - 2rem,56rem);margin:2rem auto}h1,h2,h3{line-height:1.3}h1{margin:.25rem 0 .65rem;font-size:clamp(1.85rem,6vw,2.7rem)}h2{margin:0 0 .8rem;font-size:1.35rem}h3{margin:1.1rem 0 .4rem;font-size:1.04rem}p,ol,ul,dl{margin:.55rem 0}.muted,footer{color:var(--muted)}a{color:var(--accent);text-underline-offset:.18em}nav{display:flex;flex-wrap:wrap;gap:.45rem;margin:1rem 0}nav a,button{padding:.27rem .65rem;border:1px solid var(--edge);border-radius:.45rem;background:var(--panel);color:var(--accent);font:inherit}button{cursor:pointer}section{margin:.85rem 0;padding:1.1rem;border:1px solid var(--edge);border-radius:.8rem;background:var(--panel);scroll-margin-top:.8rem}section:target{outline:2px solid var(--accent)}.path,.note{padding:.55rem .7rem;border-radius:.4rem;background:var(--note)}.path{font-weight:600}.row{margin:.55rem 0}.row button{margin-left:.4rem}code,pre{font-family:ui-monospace,Consolas,monospace}code{background:var(--code);border-radius:.25rem;padding:.08em .25em;overflow-wrap:anywhere}pre{background:var(--code);border-radius:.45rem;padding:.65rem;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5;margin:.45rem 0}pre code{padding:0}dt{font-weight:700}dd{margin:0 0 .55rem}li+li{margin-top:.35rem}details{margin:.75rem 0}summary{cursor:pointer;font-weight:650}footer{margin:1rem 0}#copy-status:empty{display:none}
-    @media print{main{width:100%;margin:0}body,section{background:white;color:black}button,nav,#copy-status{display:none}section{break-inside:avoid;border-color:#aaa}.path,.note,pre,code{background:#eee;color:black}}
+    :root{color-scheme:light dark;--bg:#f1f6fa;--paper:#fff;--ink:#182635;--muted:#485c71;--line:#cddbe7;--link:#075780;--tint:#eaf4fb;--code:#eef3f7}
+    @media(prefers-color-scheme:dark){:root{--bg:#111a23;--paper:#192635;--ink:#edf4fb;--muted:#b6c9dc;--line:#3d5469;--link:#91d7ff;--tint:#1a3448;--code:#111d29}}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:1rem/1.65 system-ui,sans-serif}main{width:min(100% - 2rem,54rem);margin:1.75rem auto}h1,h2,h3{line-height:1.3}h1{font-size:clamp(1.75rem,6vw,2.65rem);margin:.25rem 0 .55rem}h2{font-size:1.35rem;margin:0 0 .75rem}h3{font-size:1.04rem;margin:1.15rem 0 .4rem}p,ul,ol{margin:.45rem 0}li+li{margin-top:.3rem}.muted,footer{color:var(--muted)}a{color:var(--link);text-underline-offset:.18em}nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.65rem;margin:1rem 0}nav a{padding:.8rem;border:1px solid var(--line);border-radius:.65rem;background:var(--paper);font-weight:650}section{padding:1rem 1.15rem;margin:.9rem 0;border:1px solid var(--line);border-radius:.8rem;background:var(--paper);scroll-margin-top:1rem}section:target{outline:2px solid var(--link)}.path,.note{padding:.5rem .7rem;border-radius:.4rem;background:var(--tint)}.path{font-size:.94rem;font-weight:600}code,pre{font-family:ui-monospace,Consolas,monospace}code{background:var(--code);padding:.07em .24em;border-radius:.2rem;overflow-wrap:anywhere}pre{background:var(--code);white-space:pre-wrap;overflow-wrap:anywhere;padding:.6rem;border-radius:.4rem;margin:.5rem 0}pre code{padding:0}button{cursor:pointer;margin:.15rem .25rem;padding:.12rem .5rem;font:inherit;font-size:.86rem;color:var(--link);background:var(--paper);border:1px solid var(--line);border-radius:.35rem}output{font-size:.86rem;color:var(--muted)}details{margin:.75rem 0}summary{cursor:pointer;font-weight:650;color:var(--link)}.entries{padding:0;list-style:none}.entries li{padding:.4rem 0;border-bottom:1px solid var(--line)}.entries li:last-child{border:0}footer{margin:1rem 0;font-size:.88rem}
+    @media(max-width:420px){nav{grid-template-columns:1fr}section{padding:.85rem}}
+    @media print{body,section{background:white;color:black}main{width:100%;margin:0}button,output,nav{display:none}.path,.note,pre,code{background:#eee;color:black}}
   </style>
 </head>
 <body>
 <main>
   <header>
-    <p class="muted">AllSub · ASUB · EthanSub ｜ 运维速查 ｜ 2026-11-08</p>
-    <h1>Cloudflare 订阅修复指引</h1>
-    <p>用 ASUB 已验证的链路举例。<strong>在订阅域名所属账户改 Worker，在转换域名所属账户查 Tunnel、DNS 和安全规则。</strong>三套项目的步骤相同，面板值以各自的实际部署为准。</p>
-    <p class="note">先记下当前 Worker 活跃版本、Tunnel 目标和现有规则。每改一处就复测。下方复制按钮只复制示例或模板，真实令牌只在 Cloudflare 面板或自己的本地测试里使用。</p>
+    <p class="muted">NanoPi R3S · AllSub / ASUB / EthanSub · 2026-11-08</p>
+    <h1>Cloudflare 修复指引</h1>
+    <p>先选你要修的入口。按顺序检查，每改一处就复测。</p>
   </header>
-
-  <nav aria-label="维修步骤">
-    <a href="#triage">故障速查</a><a href="#tunnel">1. Tunnel</a><a href="#rules">2. WAF 和重定向</a><a href="#access">3. Access</a><a href="#worker">4. Worker 变量</a><a href="#verify">5. 验收和回退</a>
+  <nav aria-label="选择故障">
+    <a href="#remote">A　远程 LuCI / Zashboard 打不开</a>
+    <a href="#subscription">B　ClashMi 订阅报 502 / HTML</a>
   </nav>
-  <p id="copy-status" class="note" role="status" aria-live="polite"></p>
 
-  <section id="triage">
-    <h2>先看错误，再决定改哪里</h2>
-    <dl>
-      <dt>ClashMi 显示不支持 HTML，或订阅返回 HTTP 200 HTML</dt>
-      <dd>先清空前端临时输入，重新点「一键复制订阅」。旧链接的 <code>SUB_TOKEN</code> 不匹配时会返回伪装页。若是<strong>转换域名的 <code>/sub</code></strong> 跳到网页或登录页，查<a href="#redirect">重定向</a>和<a href="#access">Access</a>。</dd>
-      <dt>Worker 报 502，响应头有 <code>X-Subscription-Error</code></dt>
-      <dd><code>converter_http</code> 表示转换器返回 HTTP 错误。先看上游状态和<a href="#worker">当前后端</a>，私有后端 403 查 WAF，公开后端 502 可切回已验证的自建后端。<code>converter_invalid_profile</code> 表示转换响应不可用，查<a href="#release">部署版本</a>、HTML 和 YAML。超时先看转换器及订阅源响应。</dd>
-      <dt>转换域名出现 Cloudflare Tunnel 502 或 1033</dt>
-      <dd>502 优先查<a href="#tunnel">R3S 服务和 Tunnel 目标</a>。1033 优先查是否有已连接的连接器。Tunnel 显示 Healthy 仍可能连不到本地服务。</dd>
-      <dt>主订阅有分组，只有某些 Provider 无节点</dt>
-      <dd>去 ClashMi 的 Provider 或内核日志看具体来源。源站自己返回 403 或超时时，核对该来源的订阅有效性，先保留 Worker 和 Tunnel 配置。</dd>
-    </dl>
-  </section>
+  <section id="remote">
+    <h2>A　从公网 LuCI 打开 Zashboard</h2>
+    <ul class="entries">
+      <li><strong>路由器入口</strong>　<a href="https://h.aspool.ccwu.cc/">https://h.aspool.ccwu.cc/</a></li>
+      <li><strong>Zashboard 直达</strong>　<a href="https://dash.aspool.ccwu.cc/ui/zashboard/">https://dash.aspool.ccwu.cc/ui/zashboard/</a></li>
+    </ul>
 
-  <section id="tunnel">
-    <h2>1. 先通 R3S，再核对 Tunnel</h2>
-    <ol>
-      <li>在同一局域网打开下方 <code>/version</code>。应看到转换器版本。若失败，在 R3S 的 LuCI → Docker → 容器 → <strong>SubExtended</strong> 看运行状态、日志及宿主机端口 <code>25500</code>。先确认局域网可达，再改 Cloudflare。</li>
-      <li>进入下方 Tunnel 路由。找主机名 <code>ethan.aspool.ccwu.cc</code>，编辑对应已发布应用。<strong>类型选 HTTP</strong>，如果面板把类型和 URL 分开，URL 只填 <code>192.168.0.1:25500</code>。单一 Service URL 字段用完整值。路径栏沿用现有路由范围，整主机名的路由留空。保存后确认列表显示正确。</li>
-      <li>在 <strong>转换域名区 → DNS → 记录</strong> 核对 CNAME 指向当前 Tunnel 的 <code>&lt;Tunnel-ID&gt;.cfargotunnel.com</code>，代理为橙云。在 <strong>SSL/TLS → 边缘证书</strong> 确认有效证书覆盖该主机名。公网后端用 HTTPS，Tunnel 到这台 R3S 转换器用 HTTP。</li>
-    </ol>
-    <p class="path">Cloudflare → 网络 (Networking) → 隧道 (Tunnels) → 选中隧道 → 路由 / 已发布应用程序路由 → 该主机名右侧 ⋯ → 编辑路由<br>旧版入口：Zero Trust → 网络 → 连接器 → Cloudflare Tunnels</p>
-    <p class="row">局域网版本探针 <code id="lan-probe">http://192.168.0.1:25500/version</code><button type="button" data-copy="lan-probe">复制</button></p>
-    <p class="row">ASUB 的 Service URL <code id="lan-url">http://192.168.0.1:25500</code><button type="button" data-copy="lan-url">复制</button></p>
-    <p>ASUB 已验证的是 R3S 的 LAN 地址。Docker 网桥地址如 <code>172.17.0.2</code> 可能随容器重建变化。若 LAN 地址变化，先从连接器所在环境验证新的地址可达，再填新值。</p>
+    <h3>1. 先在家里的网络打开两个面板</h3>
+    <p>LuCI 用 <code>http://192.168.0.1/</code>。Zashboard 用下方完整路径。若局域网也打不开，进 LuCI → 服务 → OpenClash → 运行状态，先确认核心运行、面板端口是 <code>9090</code>。</p>
+    <p><code id="local-zashboard">http://192.168.0.1:9090/ui/zashboard/</code><button type="button" data-copy="local-zashboard">复制</button></p>
+
+    <h3>2. 先保护公网访问</h3>
+    <p class="path">Cloudflare → Zero Trust → 访问控制 → 应用程序 → 自托管应用 → 编辑 → 公共主机名</p>
+    <p>可沿用已建的 <code>h</code> 应用，在同一应用里填写两个主机名 <code>h.aspool.ccwu.cc</code>、<code>dash.aspool.ccwu.cc</code>，<strong>两行路径都留空</strong>。策略用 <strong>Allow → Include → Emails</strong>，只填获准的邮箱。保存。整站保护会同时覆盖 Zashboard 页面、API 和 WebSocket。</p>
+    <details id="passkeys">
+      <summary>想免收邮件验证码：设置 Passkeys</summary>
+      <ol>
+        <li>Cloudflare → Zero Trust → 集成 → 标识提供程序 → 添加标识提供程序 → <strong>Passkeys</strong> → 保存。已有则跳过。</li>
+        <li>回到 <strong>访问控制 → 应用程序 → h → 编辑 → 登录方法</strong>。关闭「接受所有可用的标识提供程序」，选择 <strong>Passkeys</strong> 和 <strong>One-time PIN</strong>，保存。邮件作为备用。</li>
+        <li>打开公网 LuCI。在 Access 登录页选「使用 Passkey 登录 → 设置」，按提示完成一次身份验证并保存密钥。以后用 Windows Hello、手机或安全密钥登录；Access 会话到期仍要验证身份。进入 LuCI 后仍用原来的路由器密码。</li>
+      </ol>
+      <p>邮件验证码由 <strong>Access</strong> 发出。浏览器 Access 会话最长可设为一个月。<strong>WAF</strong> 是域名的请求过滤规则，管理入口的 Passkeys 与订阅转换器的 WAF 令牌分开。</p>
+    </details>
+
+    <h3>3. 两条 Tunnel 路由照填</h3>
+    <p class="path">Cloudflare → 网络 → 隧道 → 现有隧道 → 路由 → 编辑路由 / 添加已发布应用程序</p>
+    <ul class="entries">
+      <li><code>h.aspool.ccwu.cc</code> → Service URL <code id="luci-origin">http://192.168.0.1:80</code><button type="button" data-copy="luci-origin">复制</button></li>
+      <li><code>dash.aspool.ccwu.cc</code> → Service URL <code id="dash-origin">http://192.168.0.1:9090</code><button type="button" data-copy="dash-origin">复制</button></li>
+    </ul>
+    <p>两条路由的路径栏都留空。类型和地址分开填时，选 <strong>HTTP</strong>，地址填 <code>192.168.0.1:端口</code>。站点 → DNS → 记录中检查对应的 Tunnel CNAME 为橙云。容器版连接器的 <code>127.0.0.1</code> 指向容器自身，使用上面的 LAN 地址。</p>
+
+    <h3>4. 核对按钮并验收</h3>
+    <p class="path">LuCI → 服务 → OpenClash → 插件设置 → 管理页面设置（Dashboard Settings）</p>
+    <p>公网域名填 <code id="dash-domain">dash.aspool.ccwu.cc</code><button type="button" data-copy="dash-domain">复制</button>，映射端口填 <code>443</code>，启用「管理页面公网 SSL 访问」。字段已正确就直接测试。公网浏览器使用 HTTPS，Tunnel 内侧使用上一步的 HTTP。</p>
+    <p><strong>用手机移动数据验收：</strong>打开公网 LuCI → 通过 Access → 登录 LuCI → 服务 → OpenClash → 运行状态 → Zashboard。出现节点或连接即通过。</p>
     <details>
-      <summary>版本正常，但想单独验证 R3S 能否生成 YAML</summary>
-      <p>在局域网打开下方探针。正常会返回含 <code>Probe</code> 的 YAML。这是虚构节点，只用于验证转换，不需要加入任何订阅。</p>
-      <pre><code id="lan-yaml">http://192.168.0.1:25500/sub?target=clash&amp;url=ss%3A%2F%2FYWVzLTEyOC1nY206ZGVtbw%3D%3D%40example.com%3A443%23Probe</code></pre>
-      <button type="button" data-copy="lan-yaml">复制局域网 YAML 探针</button>
+      <summary>面板能打开，但看不到节点或连接</summary>
+      <p>先用上方 Zashboard 直达链接。面板的后端地址应为 <code>https://dash.aspool.ccwu.cc</code>，端口 <code>443</code>，使用 OpenClash 现有的管理页面登录密钥。若仍连旧的 LAN 地址，在 Zashboard 添加或切换到公网后端。页面加载但实时连接失败时，核对 Access 已覆盖整个 <code>dash</code> 主机名，并在 Cloudflare → 站点 → 网络核对 WebSockets。</p>
+      <p>如果公网两个地址都在加载登录页前断开，先换网络试。若只有转换器或面板报 Tunnel 502，检查对应的 Service URL 和该 LAN 端口。恢复时只回退刚改的那条路由或应用字段。</p>
     </details>
   </section>
 
-  <section id="rules">
-    <h2>2. 设置 WAF 和首页跳转</h2>
-    <h3>WAF：只放行指定路径和正确的后端令牌</h3>
-    <p class="path">Cloudflare → 网站 <code>aspool.ccwu.cc</code> → 安全性 → 安全规则 / WAF → 自定义规则 → 编辑 <code>defend</code> → 编辑表达式</p>
-    <ol>
-      <li>在现有规则里找到 <code>http.request.uri.args["token"][0]</code> 右侧引号中的<strong>真实值</strong>。若仍是旧式查询字符串规则，沿用其中原来的后端令牌值，去掉 <code>token=</code> 前缀。将它存到自己的密码管理器，后面 Worker 也用这一值。若令牌丢失或已泄露，维护时生成新的长随机十六进制串，并同步更新所有使用该后端的 Worker。</li>
-      <li>复制表达式，把 <code>PASTE_BACKEND_TOKEN_HERE</code> 替换成真实值，保留表达式的引号。其他转换域名要同时替换 <code>http.host</code>。动作选 <strong>阻止 (Block)</strong>，部署并确认已启用。此规则比较第一个 <code>token</code> 的完整值，缺失也会命中阻止。</li>
-    </ol>
-    <pre><code id="waf-expression">(http.host eq "ethan.aspool.ccwu.cc" and (
+  <section id="subscription">
+    <h2>B　订阅 502 / HTML</h2>
+    <p class="note"><strong>先重新点一次「一键复制订阅」。</strong>清空临时输入后，在 ClashMi 新增配置导入。旧订阅凭据失效可能返回伪装 HTML。若新链接仍失败，按下面三步查自建后端。</p>
+
+    <h3>1. 核对订阅转换器的 Tunnel</h3>
+    <p class="path">Cloudflare → 网络 → 隧道 → 当前隧道 → 路由 → ethan.aspool.ccwu.cc</p>
+    <p>Service URL <code id="converter-origin">http://192.168.0.1:25500</code><button type="button" data-copy="converter-origin">复制</button>。同一局域网访问 <code id="converter-local-test">http://192.168.0.1:25500/version</code><button type="button" data-copy="converter-local-test">复制</button> 应看到版本。失败就先看 LuCI → Docker → 容器 → SubExtended 的运行状态和端口。</p>
+    <details>
+      <summary>版本正常，但要确认能生成 YAML</summary>
+      <p>在局域网打开下方探针。应返回包含虚构节点 <code>Probe</code> 的 YAML。</p>
+      <pre><code id="converter-yaml-probe">http://192.168.0.1:25500/sub?target=clash&amp;url=ss%3A%2F%2FYWVzLTEyOC1nY206ZGVtbw%3D%3D%40example.com%3A443%23Probe</code></pre>
+      <button type="button" data-copy="converter-yaml-probe">复制局域网探针</button>
+    </details>
+
+    <h3>2. WAF 管令牌，重定向只管首页</h3>
+    <details id="converter-waf">
+      <summary>复制 WAF 表达式和首页 302 规则</summary>
+      <p class="path">Cloudflare → 网站 aspool.ccwu.cc → 安全性 → 安全规则 / WAF → 自定义规则 → defend → 编辑表达式</p>
+      <p>将占位符换成现有的后端令牌。旧规则里可从 <code>token=</code> 后面取值，保留令牌本身。动作选 <strong>阻止 (Block)</strong>，部署。</p>
+      <pre><code id="waf-expression">(http.host eq "ethan.aspool.ccwu.cc" and (
   not (http.request.uri.path in {"/sub" "/version" "/inspect"})
   or http.request.uri.args["token"][0] ne "PASTE_BACKEND_TOKEN_HERE"
 ))</code></pre>
-    <button type="button" data-copy="waf-expression">复制 WAF 表达式</button>
-    <p>若正确令牌仍被挑战或阻止，到同一站点的 <strong>安全性 → 分析 / 事件</strong> 按转换主机名、路径和时间查看具体命中的规则。应精确调整冲突规则的作用范围。</p>
-
-    <h3 id="redirect">重定向：只匹配转换域名的首页</h3>
-    <p class="path">Cloudflare → 网站 <code>aspool.ccwu.cc</code> → 规则 → 概述 → 单一重定向 / Redirect Rule → 编辑现有规则</p>
-    <ol>
-      <li>匹配方式选 <strong>自定义筛选表达式</strong>，粘贴下方表达式。<code>/sub</code>、<code>/version</code>、<code>/inspect</code> 不应命中跳转。</li>
-      <li>目标类型选 <strong>静态</strong>，填一个受你控制的 HTTPS 首页。可保留安全的既有目标，也可用下面的 ASUB 入口示例。状态码选 <strong>302</strong>，<strong>关闭「保留查询字符串」</strong>，然后部署。</li>
-    </ol>
-    <pre><code id="redirect-expression">(http.host eq "ethan.aspool.ccwu.cc" and http.request.uri.path eq "/")</code></pre>
-    <button type="button" data-copy="redirect-expression">复制重定向表达式</button>
-    <p class="row">静态目标示例 <code id="redirect-target">https://ebr.yitech.dpdns.org/</code><button type="button" data-copy="redirect-target">复制</button></p>
-    <p class="note">单一重定向先于自定义 WAF 运行。若还有旧规则把整个转换域名转走，收窄到首页。测试首页跳转时只用假参数，确认响应的 <code>Location</code> 没有附带原查询。</p>
-  </section>
-
-  <section id="access">
-    <h2>3. 检查 Zero Trust 应用和策略</h2>
-    <p class="path">Cloudflare → Zero Trust → Access controls（访问控制）→ Applications（应用程序）→ 找到转换域名对应应用 → 编辑 → Policies（策略）→ 编辑规则</p>
-    <p>ASUB 这套现有配置为 <strong>自托管应用</strong>，公开主机名是 <code>ethan.aspool.ccwu.cc</code>，策略动作 <strong>Bypass</strong>，规则 <strong>Include → Everyone</strong>。确认范围只覆盖该转换应用，且上一步 WAF 已启用。这样 Worker 的机器请求不会被送到 Access 登录页，由 WAF 校验令牌。</p>
-    <p>Bypass 会取消匹配请求的 Access 验证和 Access 日志。只对这套已用 WAF 防护的独立转换域名核对该配置。若策略由多个应用共用，从当前应用单独处理。其他后端若原本使用 <strong>Service Auth</strong>，核对对应代码是否发送服务令牌请求头。本项目的 <code>SUBCONVERTER_TOKEN</code> 只通过查询参数发送。</p>
-  </section>
-
-  <section id="worker">
-    <h2>4. 把 WAF 的值填到 Worker</h2>
-    <p class="path">Cloudflare → Workers 和 Pages → 选对应 Worker（<code>asub</code> / <code>allsub</code> / <code>ethansub</code>）→ 设置 → 变量和机密 → 添加 / 编辑</p>
-    <ol>
-      <li>检查 <code>default_backend</code>。用 ASUB 已验证的自建后端时，填下面完整 HTTPS URL，保留 <code>/sub</code>。类型为普通文本，URL 末尾不附带 <code>?token=</code>。</li>
-      <li>新增或编辑类型为 <strong>机密 (Secret)</strong> 的 <code>SUBCONVERTER_TOKEN</code>。值填 WAF 表达式引号<strong>里面</strong>的真实值，去掉引号、空格和 <code>token=</code> 前缀。点 <strong>部署 (Deploy)</strong>。</li>
-      <li>打开「部署」，核对新版本已接管流量。<code>SUB_TOKEN</code> 仍是客户端订阅链接的凭据。Tunnel 的运行令牌、Cloudflare API Token、Access Service Token 都有各自的用途。</li>
-    </ol>
-    <p class="row">变量名称 <code id="backend-name">default_backend</code><button type="button" data-copy="backend-name">复制</button> <code id="secret-name">SUBCONVERTER_TOKEN</code><button type="button" data-copy="secret-name">复制</button></p>
-    <p class="row">自建后端值 <code id="backend-url">https://ethan.aspool.ccwu.cc/sub</code><button type="button" data-copy="backend-url">复制</button></p>
-    <p class="note"><strong>后端选择顺序</strong>　<code>SUBCONVERTER_TOKEN</code> 非空时用 <code>default_backend</code>，没有时用 <code>custom_backend</code>。若前端已固化自定义后端，或这次复制用了临时自定义后端，该覆盖优先且不带此机密。排查时先核对前端是否有覆盖，测试用清空临时输入后复制的链接。已有有效机密无需重填，面板也无法读回机密明文。</p>
-    <p class="row">ASUB 公共后端示例（<code>custom_backend</code>） <code id="public-backend">https://url.v1.mk/sub</code><button type="button" data-copy="public-backend">复制</button></p>
-  </section>
-
-  <section id="verify">
-    <h2>5. 按顺序验收，出问题就退回上一项</h2>
-    <ol>
-      <li><strong>边缘规则。</strong>从公网访问转换域名的 <code>/version</code>，无令牌或错误令牌应返回 403。正确令牌的 <code>/version?token=真实值</code> 应返回 200 和版本信息。首页带假参数应返回 302，<code>Location</code> 只包含静态目标。可在浏览器开发者工具「网络」查看原始响应，勾选「保留日志」后再访问。</li>
-      <li><strong>Worker 和客户端。</strong>打开当前项目管理页，清空临时订阅、RENAME 和自定义输入，点「一键复制订阅」，用 ClashMi 新增配置导入。主订阅应返回 200 YAML，看到节点或 <code>proxy-providers</code>，策略组和规则应在。再确认 Provider 有节点，点一次更新验证。200 也可能来自缓存，必要时在响应头看 <code>X-EthanSub-Cache</code>，以新转换和 Provider 拉取结果为准。</li>
-      <li><strong>定位 502。</strong>在 <strong>Workers 和 Pages → 该 Worker → 可观测性 (Observability) → 日志</strong> 按出错时刻和状态筛选。对照转换域名安全事件、Tunnel 日志及 R3S Docker 日志。分享时只记状态码、错误类型和时间，遮住完整 URL 查询。</li>
-    </ol>
-    <details>
-      <summary>公网版本探针</summary>
-      <p class="row">不带令牌应为 403 <code id="edge-denied">https://ethan.aspool.ccwu.cc/version</code><button type="button" data-copy="edge-denied">复制</button></p>
-      <p class="row">替换占位符后应为 200 <code id="edge-allowed">https://ethan.aspool.ccwu.cc/version?token=PASTE_BACKEND_TOKEN_HERE</code><button type="button" data-copy="edge-allowed">复制</button></p>
+      <button type="button" data-copy="waf-expression">复制 WAF 表达式</button>
+      <p class="path">Cloudflare → 网站 aspool.ccwu.cc → 规则 → 概述 → 单一重定向 → 编辑现有规则</p>
+      <pre><code id="redirect-expression">(http.host eq "ethan.aspool.ccwu.cc" and http.request.uri.path eq "/")</code></pre>
+      <button type="button" data-copy="redirect-expression">复制重定向表达式</button>
+      <p>选择「自定义筛选表达式」。目标类型选<strong>静态</strong>，填受你控制的 HTTPS 首页，例如 <code id="redirect-target">https://ebr.yitech.dpdns.org/</code><button type="button" data-copy="redirect-target">复制</button>。状态 <strong>302</strong>，<strong>关闭「保留查询字符串」</strong>，再部署。</p>
+      <p>订阅转换域名 <code>ethan.aspool.ccwu.cc</code> 沿用独立的 Access 应用。它使用现有的 <strong>Bypass → Everyone</strong> 和上面的 WAF 令牌保护。<strong>不要把它加入远程 LuCI/Zashboard 的登录应用。</strong></p>
     </details>
-    <details id="release">
-      <summary>仍然失败：查版本、回退或维护连接器</summary>
-      <ul>
-        <li><strong>Provider 兼容版本。</strong>在「Worker → 部署」核对含以下修复提交或其后续版本，并确认活跃流量。旧版本只认内联 <code>proxies</code>，或会拒绝被转换器多解码一次的签名 Provider URL。<a href="https://github.com/ironstraight/asub/commit/0f61f79aec4ae52c0b1e9961eb036b0d99a971aa">ASUB</a> · <a href="https://github.com/yiloveM/allsub/commit/43bcebc05e8dcda979e7c826758b0ae04bcf8fe8">AllSub</a> · <a href="https://github.com/ironstraight/EthanSub/commit/5d786bfee58ef5e5a3f28bd4743db579f24e5767">EthanSub</a></li>
-        <li><strong>Worker 回退。</strong>Cloudflare → Workers 和 Pages → 对应 Worker → 部署 → 上一个已验证正常的版本右侧 ⋯ → 回滚 (Rollback)。回退后重新检查活跃版本和生效的变量，再验证订阅。Tunnel、WAF、重定向和 KV 数据需分别核对，Worker 回退不会撤销它们。若回退到只支持内联节点的版本，自建转换器的 Provider YAML 可能仍无法使用。</li>
-        <li><strong>连接器维护。</strong>Cloudflare → 网络 → 隧道 → 当前隧道 → 概述，先看每个副本是否已连接、版本是否受支持。运行令牌泄露时，在维护窗口用「刷新令牌」取得新值，逐个更新 Docker 和原生副本，确认一个重连并能转换后再处理下一个。检查同 Tunnel 的其他路由，保留至少一个已连接副本。Docker 与系统软件包按各自安装方式更新。<a href="https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/configure-tunnels/remote-tunnel-permissions/">轮换令牌</a> · <a href="https://developers.cloudflare.com/tunnel/guides/update-cloudflared/">更新 cloudflared</a></li>
-      </ul>
+
+    <h3>3. 核对 Worker 的两个值</h3>
+    <p class="path">Cloudflare → Workers 和 Pages → 对应 Worker → 设置 → 变量和机密 → 添加 / 编辑 → 部署</p>
+    <ul class="entries">
+      <li>普通文本 <code id="backend-name">default_backend</code><button type="button" data-copy="backend-name">复制变量名</button> 值为 <code id="backend-url">https://ethan.aspool.ccwu.cc/sub</code><button type="button" data-copy="backend-url">复制值</button>。</li>
+      <li>机密 <code id="secret-name">SUBCONVERTER_TOKEN</code><button type="button" data-copy="secret-name">复制变量名</button> 值为 WAF 表达式引号里的<strong>真实令牌</strong>。只填值，不加引号、<code>token=</code> 或其他前缀。</li>
+    </ul>
+    <p>这个机密非空时选 <code>default_backend</code>，未设置时选 <code>custom_backend</code>（ASUB 公共后端示例 <code id="public-backend">https://url.v1.mk/sub</code><button type="button" data-copy="public-backend">复制</button>）。前端固化或临时填写的自定义后端会优先使用，并且不带这个机密。<code>SUB_TOKEN</code> 负责客户端订阅链接，Tunnel 运行令牌负责连接器，三者各有用途。</p>
+    <details id="subscription-check">
+      <summary>验收、定位 502 和回退</summary>
+      <ol>
+        <li>公网转换域名 <code>/version</code> 无令牌应为 403。用 <code id="version-probe">https://ethan.aspool.ccwu.cc/version?token=PASTE_BACKEND_TOKEN_HERE</code><button type="button" data-copy="version-probe">复制探针</button>，替换占位符后应为 200。<code>/sub</code> 不应跳转到网页。真实令牌只在自己的面板或本地测试使用。</li>
+        <li>清空临时输入，重新一键复制并导入 ClashMi。主订阅应返回 YAML，包含节点或 <code>proxy-providers</code>。再查看 Provider 是否拉到节点。只有个别来源 403 时，先核对该来源。</li>
+        <li>Worker → 可观测性 → 日志。<code>converter_http</code> 查上游状态、WAF 和 Tunnel；<code>converter_invalid_profile</code> 查是否返回了 HTML，或部署是否含 Provider 修复。<a href="https://github.com/ironstraight/asub/commit/0f61f79aec4ae52c0b1e9961eb036b0d99a971aa">ASUB</a> · <a href="https://github.com/yiloveM/allsub/commit/43bcebc05e8dcda979e7c826758b0ae04bcf8fe8">AllSub</a> · <a href="https://github.com/ironstraight/EthanSub/commit/5d786bfee58ef5e5a3f28bd4743db579f24e5767">EthanSub</a></li>
+        <li>Worker → 部署 → 上个确认正常的版本 → ⋯ → 回滚。再次核对生效的变量。Tunnel、WAF、重定向需在各自页面恢复，KV 数据不会随 Worker 版本回滚。</li>
+      </ol>
     </details>
   </section>
 
   <footer>
-    Cloudflare 官方文档：<a href="https://developers.cloudflare.com/tunnel/get-started/">Tunnel 路由</a> · <a href="https://developers.cloudflare.com/waf/custom-rules/create-dashboard/">WAF</a> · <a href="https://developers.cloudflare.com/ruleset-engine/rules-language/values/#missing-values">WAF 缺失值</a> · <a href="https://developers.cloudflare.com/rules/url-forwarding/single-redirects/create-dashboard/">重定向</a> · <a href="https://developers.cloudflare.com/cloudflare-one/access-controls/policies/common-policies/">Access</a> · <a href="https://developers.cloudflare.com/workers/configuration/secrets/">Workers 机密</a> · <a href="https://developers.cloudflare.com/workers/versions-and-deployments/rollbacks/">版本回退</a>
+    <details>
+      <summary>官方文档与连接器维护</summary>
+      <p>连接器令牌需要轮换时，在隧道「概述」刷新令牌，逐个更新副本，每次确认重连及其他路由正常。<a href="https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/configure-tunnels/remote-tunnel-permissions/">Tunnel 令牌轮换</a> · <a href="https://developers.cloudflare.com/tunnel/guides/update-cloudflared/">连接器更新</a></p>
+      <p><a href="https://developers.cloudflare.com/tunnel/get-started/">Tunnel 路由</a> · <a href="https://developers.cloudflare.com/cloudflare-one/access-controls/policies/app-paths/">Access 路径</a> · <a href="https://developers.cloudflare.com/cloudflare-one/integrations/identity-providers/passkeys/">Passkeys</a> · <a href="https://developers.cloudflare.com/cloudflare-one/access-controls/access-settings/session-management/">会话管理</a> · <a href="https://developers.cloudflare.com/network/websockets/">WebSockets</a> · <a href="https://developers.cloudflare.com/waf/custom-rules/create-dashboard/">WAF</a> · <a href="https://developers.cloudflare.com/rules/url-forwarding/single-redirects/create-dashboard/">重定向</a> · <a href="https://developers.cloudflare.com/workers/configuration/secrets/">Workers 机密</a></p>
+    </details>
   </footer>
 </main>
 <script>
-  const copyStatus = document.getElementById('copy-status');
   for (const button of document.querySelectorAll('[data-copy]')) {
+    const status = document.createElement('output');
+    status.setAttribute('aria-live', 'polite');
+    button.after(status);
     button.addEventListener('click', async () => {
       const value = document.getElementById(button.dataset.copy);
       try {
         await navigator.clipboard.writeText(value.textContent.trim());
-        copyStatus.textContent = '已复制。';
+        status.textContent = '已复制';
       } catch {
         const selection = window.getSelection();
         const range = document.createRange();
         range.selectNodeContents(value);
         selection.removeAllRanges();
         selection.addRange(range);
-        copyStatus.textContent = '内容已选中，请按 Ctrl+C 或使用系统复制菜单。';
+        status.textContent = '已选中，请手动复制';
       }
     });
   }
-  document.querySelector('a[href="#release"]').addEventListener('click', () => {
-    document.getElementById('release').open = true;
-  });
 </script>
 </body>
 </html>
