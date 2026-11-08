@@ -18,15 +18,17 @@
   <header>
     <p class="muted">NanoPi R3S · AllSub / ASUB / EthanSub · 2026-11-08</p>
     <h1>Cloudflare 修复指引</h1>
-    <p>先选你要修的入口。按顺序检查，每改一处就复测。</p>
+    <p>按故障选章节。公网回源查 Tunnel，登录跳转查 Access，隧道掉线查 R3S 连接器。</p>
   </header>
   <nav aria-label="选择故障">
-    <a href="#remote">A　远程 LuCI / Zashboard 打不开</a>
-    <a href="#subscription">B　ClashMi 订阅报 502 / HTML</a>
+    <a href="#remote">A　Tunnel 路由与面板回源</a>
+    <a href="#access">B　Access 与 Passkey 登录</a>
+    <a href="#connector">C　R3S 连接器升级</a>
+    <a href="#subscription">D　ClashMi 订阅报 502 / HTML</a>
   </nav>
 
   <section id="remote">
-    <h2>A　从公网 LuCI 打开 Zashboard</h2>
+    <h2>A　Cloudflare Tunnel 路由修复</h2>
     <ul class="entries">
       <li><strong>路由器入口</strong>　<a href="https://h.aspool.ccwu.cc/">https://h.aspool.ccwu.cc/</a></li>
       <li><strong>Zashboard 直达</strong>　<a href="https://dash.aspool.ccwu.cc/ui/zashboard/">https://dash.aspool.ccwu.cc/ui/zashboard/</a></li>
@@ -36,47 +38,86 @@
     <p>LuCI 用 <code>http://192.168.0.1/</code>。Zashboard 用下方完整路径。若局域网也打不开，进 LuCI → 服务 → OpenClash → 运行状态，先确认核心运行、面板端口是 <code>9090</code>。</p>
     <p><code id="local-zashboard">http://192.168.0.1:9090/ui/zashboard/</code><button type="button" data-copy="local-zashboard">复制</button></p>
 
-    <h3>2. 先保护公网访问</h3>
-    <p class="path">Cloudflare → Zero Trust → 访问控制 → 应用程序 → 自托管应用 → 编辑 → 公共主机名</p>
-    <p>可沿用已建的 <code>h</code> 应用，在同一应用里填写两个主机名 <code>h.aspool.ccwu.cc</code>、<code>dash.aspool.ccwu.cc</code>，<strong>两行路径都留空</strong>。策略用 <strong>Allow → Include → Emails</strong>，只填获准的邮箱。保存。整站保护会同时覆盖 Zashboard 页面、API 和 WebSocket。</p>
-    <details id="passkeys">
-      <summary>想免收邮件验证码：设置 Passkeys</summary>
-      <ol>
-        <li>Cloudflare → Zero Trust → 集成 → 标识提供程序 → 添加标识提供程序 → <strong>Passkeys</strong> → 保存。已有则跳过。</li>
-        <li>回到 <strong>访问控制 → 应用程序 → h → 编辑 → 登录方法</strong>。关闭「接受所有可用的标识提供程序」，选择 <strong>Passkeys</strong> 和 <strong>One-time PIN</strong>，保存。邮件作为备用。</li>
-        <li>打开公网 LuCI。在 Access 登录页选「使用 Passkey 登录 → 设置」，按提示完成一次身份验证并保存密钥。以后用 Windows Hello、手机或安全密钥登录；Access 会话到期仍要验证身份。进入 LuCI 后仍用原来的路由器密码。</li>
-      </ol>
-      <p>邮件验证码由 <strong>Access</strong> 发出。浏览器 Access 会话最长可设为一个月。<strong>WAF</strong> 是域名的请求过滤规则，管理入口的 Passkeys 与订阅转换器的 WAF 令牌分开。</p>
-    </details>
-
-    <h3>3. 两条 Tunnel 路由照填</h3>
-    <p class="path">Cloudflare → 网络 → 隧道 → 现有隧道 → 路由 → 编辑路由 / 添加已发布应用程序</p>
+    <h3>2. 核对现有 Tunnel 的回源地址</h3>
+    <p class="path">Cloudflare → 网络 → 隧道 → R4S → 路由 → 编辑已发布应用程序</p>
+    <p>新建管理路由前，先完成 <a href="#access">B 区的 Access 保护</a>。本次修复复用了同一个 <code>R4S</code> 隧道。</p>
     <ul class="entries">
       <li><code>h.aspool.ccwu.cc</code> → Service URL <code id="luci-origin">http://192.168.0.1:80</code><button type="button" data-copy="luci-origin">复制</button></li>
-      <li><code>dash.aspool.ccwu.cc</code> → Service URL <code id="dash-origin">http://192.168.0.1:9090</code><button type="button" data-copy="dash-origin">复制</button></li>
+      <li><code>dash.aspool.ccwu.cc</code> → Service URL <code id="dash-origin">http://192.168.0.1:9090</code><button type="button" data-copy="dash-origin">复制</button>。这是本次修复后的 Zashboard 回源地址。</li>
+      <li><code>ethan.aspool.ccwu.cc</code> → Service URL <code id="converter-origin">http://192.168.0.1:25500</code><button type="button" data-copy="converter-origin">复制</button>。转换器单独按 <a href="#subscription">D 区</a>验收。</li>
     </ul>
-    <p>两条路由的路径栏都留空。类型和地址分开填时，选 <strong>HTTP</strong>，地址填 <code>192.168.0.1:端口</code>。站点 → DNS → 记录中检查对应的 Tunnel CNAME 为橙云。容器版连接器的 <code>127.0.0.1</code> 指向容器自身，使用上面的 LAN 地址。</p>
+    <p>LuCI 和 Zashboard 的 Tunnel 路径栏都留空。类型和地址分开填时，选 <strong>HTTP</strong>，地址填 <code>192.168.0.1:端口</code>。容器里的 <code>127.0.0.1</code> 指向容器自身。域名异常时，在站点 → DNS → 记录核对相应的代理 CNAME。</p>
 
-    <h3>4. 核对按钮并验收</h3>
+    <h3>3. 核对 OpenClash 按钮</h3>
     <p class="path">LuCI → 服务 → OpenClash → 插件设置 → 管理页面设置（Dashboard Settings）</p>
     <p>公网域名填 <code id="dash-domain">dash.aspool.ccwu.cc</code><button type="button" data-copy="dash-domain">复制</button>，映射端口填 <code>443</code>，启用「管理页面公网 SSL 访问」。字段已正确就直接测试。公网浏览器使用 HTTPS，Tunnel 内侧使用上一步的 HTTP。</p>
-    <p><strong>用手机移动数据验收：</strong>打开公网 LuCI → 通过 Access → 登录 LuCI → 服务 → OpenClash → 运行状态 → Zashboard。出现节点或连接即通过。</p>
+    <p>用手机移动数据打开公网 LuCI，登录后进入 服务 → OpenClash → 运行状态 → Zashboard。本次复测从按钮成功进入 <code>dash.aspool.ccwu.cc/ui/zashboard/#/proxies</code>。</p>
     <details>
       <summary>面板能打开，但看不到节点或连接</summary>
       <p>先用上方 Zashboard 直达链接。面板的后端地址应为 <code>https://dash.aspool.ccwu.cc</code>，端口 <code>443</code>，使用 OpenClash 现有的管理页面登录密钥。若仍连旧的 LAN 地址，在 Zashboard 添加或切换到公网后端。页面加载但实时连接失败时，核对 Access 已覆盖整个 <code>dash</code> 主机名，并在 Cloudflare → 站点 → 网络核对 WebSockets。</p>
-      <p>如果公网两个地址都在加载登录页前断开，先换网络试。若只有转换器或面板报 Tunnel 502，检查对应的 Service URL 和该 LAN 端口。恢复时只回退刚改的那条路由或应用字段。</p>
+      <p>若在登录页出现前看到 <code>ERR_CONNECTION_CLOSED</code>，先换网络复测，再核对 C 区的隧道状态。若是 Tunnel 502，检查对应的 Service URL 和 LAN 端口。恢复时只回退刚改的路由字段。</p>
     </details>
   </section>
 
+  <section id="access">
+    <h2>B　Cloudflare Access 与 Passkey 跳转</h2>
+    <p class="path">Cloudflare → Zero Trust → 访问控制 → 应用程序 → h → 编辑</p>
+    <ol>
+      <li>「公共主机名」依次填 <code>h.aspool.ccwu.cc</code> 和 <code>dash.aspool.ccwu.cc</code>，<strong>两行路径都留空</strong>。同一自托管应用使用原来的 <strong>Allow → Include → Emails</strong> 白名单，覆盖面板、API 和 WebSocket。</li>
+      <li>「其他设置 → App Launcher 自定义」用默认的第一个域名 <code>h.aspool.ccwu.cc</code>。</li>
+      <li>「其他设置 → Cookie 设置」关闭<strong>「即时重定向 Cookie」</strong>（Eager redirect cookie），保存。这样从 <code>h</code> 登录时，Access 会等你实际访问 <code>dash</code> 再签发它的 Cookie。若这项改动导致管理入口回归，可把同一个开关恢复。</li>
+    </ol>
+    <details id="passkeys">
+      <summary>首次登记 Passkey 或改用已有 Passkey</summary>
+      <ol>
+        <li>Zero Trust → 集成 → 标识提供程序 → 添加标识提供程序 → <strong>Passkeys</strong> → 保存。已有则跳过。</li>
+        <li>回到「应用程序 → h → 编辑 → 登录方法」，选择 <strong>Passkeys</strong> 和 <strong>One-time PIN</strong>，保存。邮件验证码作为备用。</li>
+        <li>用无痕标签直接打开公网 LuCI。首次使用选「使用 Passkey 登录 → 设置」。已登记则直接验证设备上的 Passkey。通过 Access 后再用原来的路由器账号登录，随后从 OpenClash 点 Zashboard。</li>
+      </ol>
+      <p>若 <code>dash</code> 单独打不开，先用 A 区直达地址区分连接关闭、Access 登录提示、Tunnel 502 和面板后端错误。</p>
+    </details>
+  </section>
+
+  <section id="connector">
+    <h2>C　R3S 的 Docker 连接器升级</h2>
+    <p class="note">这里升级的是运行在 R3S 上的 <code>cloudflared</code>。沿用 Cloudflare 中的 <code>R4S</code> 隧道、令牌和发布路由。上次验收版本为 <strong>2026.10.7</strong>。</p>
+
+    <h3>1. 先保存配置，检查空间</h3>
+    <p class="path">LuCI → Docker → 概览 / 容器 → cloudflared → 复制/编辑</p>
+    <p>记下旧容器配置，保留重建表单。容器名用 <code>cloudflared</code>，网络用 <code>bridge</code>，重启策略用 <code>Always</code>。确认 Cloudflare 的「R4S → 概述」是否有另一条在线连接器。只有一条时，先准备局域网维护窗口。</p>
+    <p class="path">LuCI → Docker → 镜像 → 拉取镜像</p>
+    <p>镜像填 <code id="connector-image">cloudflare/cloudflared:latest</code><button type="button" data-copy="connector-image">复制</button>。先拉取并确认解包完成，切换时再停止并移除旧 Docker <code>cloudflared</code>，腾出同名容器的位置。若报 <code>no space left on device</code>，上次是在原生连接器仍在线时，先移除旧容器及其旧镜像再拉取。清理前应备好配置和令牌，只选择目标容器与它的旧镜像。</p>
+
+    <h3>2. 复制本机实际生效的运行命令</h3>
+    <p>在「创建 Docker 容器 → 运行命令」粘贴下方内容。把占位符换成现有 <code>R4S</code> 的 <strong>Tunnel 运行令牌</strong>，提交并启动。令牌从现有容器的私有配置或该隧道的安装命令取用。</p>
+    <pre><code id="connector-command">tunnel --no-autoupdate run --protocol http2 --dns-resolver-addrs 223.5.5.5:5353 --token PASTE_TUNNEL_TOKEN_HERE</code></pre>
+    <button type="button" data-copy="connector-command">复制 LuCI 运行命令</button>
+    <p>本次 <code>auto</code> 持续尝试 QUIC，日志显示 UDP 7844 失败、TCP 7844 成功。改成 <code>http2</code> 后已注册两条连接。自定义 DNS <code>223.5.5.5:5353</code> 沿用旧配置。这是这台 R3S 的已验收参数。其他环境可先用 <code>auto</code>，再按 UDP/TCP 检测结果调整。</p>
+    <details>
+      <summary>终端里的拉取和查日志命令</summary>
+      <p>在 R3S 终端使用。先拉取镜像，创建并启动容器后再查日志。</p>
+      <p><code id="connector-pull">docker pull cloudflare/cloudflared:latest</code><button type="button" data-copy="connector-pull">复制拉取命令</button></p>
+      <p><code id="connector-logs">docker logs --tail 80 cloudflared</code><button type="button" data-copy="connector-logs">复制日志命令</button></p>
+    </details>
+
+    <h3>3. 验证新版独立接管</h3>
+    <ol>
+      <li>在容器「日志」中找 <code>Version</code>、<code>Registered tunnel connection</code> 和 <code>protocol=http2</code>。Cloudflare → 网络 → 隧道 → R4S → 概述应显示新版在线、状态 <strong>Healthy</strong>，当前 5 条路由仍在。</li>
+      <li>用 A 区验证公网 LuCI 和 Zashboard，再用 D 区验证转换器。上次已确认新版独立接管后，才在 LuCI → 系统 → 启动项停止并禁用旧原生 <code>cloudflared</code> 的自启。面板只剩新版连接器。</li>
+      <li>若新版无法上线，查看容器日志里的 DNS 和 7844 预检结果。需要临时恢复时，在 LuCI → 系统 → 启动项启动仍安装的原生服务，再核对隧道状态。</li>
+    </ol>
+    <p><a href="https://developers.cloudflare.com/tunnel/downloads/update-cloudflared/">官方升级步骤</a> · <a href="https://developers.cloudflare.com/tunnel/reference/run-parameters/">运行参数</a> · <a href="https://developers.cloudflare.com/tunnel/configuration/#firewall-rules">7844 出站连接</a></p>
+  </section>
+
   <section id="subscription">
-    <h2>B　订阅 502 / HTML</h2>
+    <h2>D　订阅 502 / HTML</h2>
     <p class="note"><strong>先重新点一次「一键复制订阅」。</strong>清空临时输入后，在 ClashMi 新增配置导入。旧订阅凭据失效可能返回伪装 HTML。若新链接仍失败，按下面三步查自建后端。</p>
 
     <h3>1. 核对订阅转换器的 Tunnel</h3>
     <p class="path">Cloudflare → 网络 → 隧道 → 当前隧道 → 路由 → ethan.aspool.ccwu.cc</p>
-    <p>Service URL <code id="converter-origin">http://192.168.0.1:25500</code><button type="button" data-copy="converter-origin">复制</button>。同一局域网访问 <code id="converter-local-test">http://192.168.0.1:25500/version</code><button type="button" data-copy="converter-local-test">复制</button> 应看到版本。失败就先看 LuCI → Docker → 容器 → SubExtended 的运行状态和端口。</p>
+    <p>Service URL 用 <a href="#remote">A 区的转换器回源地址</a>。同一局域网可访问 <code id="converter-local-test">http://192.168.0.1:25500/version</code><button type="button" data-copy="converter-local-test">复制</button> 测试端口。用下方探针确认能生成 YAML。失败时先看 LuCI → Docker → 容器 → SubExtended 的运行状态和端口。</p>
     <details>
-      <summary>版本正常，但要确认能生成 YAML</summary>
+      <summary>用虚构节点验证 YAML 转换</summary>
       <p>在局域网打开下方探针。应返回包含虚构节点 <code>Probe</code> 的 YAML。</p>
       <pre><code id="converter-yaml-probe">http://192.168.0.1:25500/sub?target=clash&amp;url=ss%3A%2F%2FYWVzLTEyOC1nY206ZGVtbw%3D%3D%40example.com%3A443%23Probe</code></pre>
       <button type="button" data-copy="converter-yaml-probe">复制局域网探针</button>
@@ -121,7 +162,7 @@
     <details>
       <summary>官方文档与连接器维护</summary>
       <p>连接器令牌需要轮换时，在隧道「概述」刷新令牌，逐个更新副本，每次确认重连及其他路由正常。<a href="https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/configure-tunnels/remote-tunnel-permissions/">Tunnel 令牌轮换</a> · <a href="https://developers.cloudflare.com/tunnel/guides/update-cloudflared/">连接器更新</a></p>
-      <p><a href="https://developers.cloudflare.com/tunnel/get-started/">Tunnel 路由</a> · <a href="https://developers.cloudflare.com/cloudflare-one/access-controls/policies/app-paths/">Access 路径</a> · <a href="https://developers.cloudflare.com/cloudflare-one/integrations/identity-providers/passkeys/">Passkeys</a> · <a href="https://developers.cloudflare.com/cloudflare-one/access-controls/access-settings/session-management/">会话管理</a> · <a href="https://developers.cloudflare.com/network/websockets/">WebSockets</a> · <a href="https://developers.cloudflare.com/waf/custom-rules/create-dashboard/">WAF</a> · <a href="https://developers.cloudflare.com/rules/url-forwarding/single-redirects/create-dashboard/">重定向</a> · <a href="https://developers.cloudflare.com/workers/configuration/secrets/">Workers 机密</a></p>
+      <p><a href="https://developers.cloudflare.com/tunnel/get-started/">Tunnel 路由</a> · <a href="https://developers.cloudflare.com/cloudflare-one/access-controls/policies/app-paths/">Access 路径</a> · <a href="https://developers.cloudflare.com/cloudflare-one/access-controls/applications/http-apps/authorization-cookie/#multi-domain-applications">Access 多域名 Cookie</a> · <a href="https://developers.cloudflare.com/cloudflare-one/integrations/identity-providers/passkeys/">Passkeys</a> · <a href="https://developers.cloudflare.com/cloudflare-one/access-controls/access-settings/session-management/">会话管理</a> · <a href="https://developers.cloudflare.com/network/websockets/">WebSockets</a> · <a href="https://developers.cloudflare.com/waf/custom-rules/create-dashboard/">WAF</a> · <a href="https://developers.cloudflare.com/rules/url-forwarding/single-redirects/create-dashboard/">重定向</a> · <a href="https://developers.cloudflare.com/workers/configuration/secrets/">Workers 机密</a></p>
     </details>
   </footer>
 </main>
