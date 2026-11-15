@@ -122,6 +122,9 @@ DOMAIN-SUFFIX,claudemcpclient.com
 DOMAIN-SUFFIX,claudemcpcontent.com
 DOMAIN-SUFFIX,claudeusercontent.com
 DOMAIN,servd-anthropic-website.b-cdn.net
+DOMAIN-SUFFIX,ant.dev
+DOMAIN-SUFFIX,antspace.dev
+DOMAIN,http-intake.logs.us5.datadoghq.com
 
 # --- Google Gemini / DeepMind / NotebookLM ---
 DOMAIN-SUFFIX,ai.studio
