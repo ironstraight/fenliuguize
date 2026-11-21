@@ -96,7 +96,37 @@ https://raw.githubusercontent.com/ironstraight/fenliuguize/main/ClashMiDnsGuard.
 
 断开 ClashMi，编辑目标订阅，将 **核心覆写** 改回 **内置-覆写** 或原来的选项，保存后重新连接。
 
-## 三、最常见的两个问题
+## 三、策略组默认出口与 Windows 补充
+
+### 策略组默认出口
+
+远程配置里各策略组的默认出口（新导入订阅时生效；已保存过选择的客户端不受影响，改选择在客户端里手动切）：
+
+| 策略组 | 默认出口 |
+| --- | --- |
+| 👽 AI | 美国-故转 |
+| 👯‍♂️ TikTok | 日本-故转 |
+| 📺 YouTube | 香港-故转 |
+| Ⓜ️ Microsoft | 香港-故转 |
+| 🌍 国外 | 香港-故转 |
+| 🍎 Apple、➡️ 国内 | DIRECT |
+
+默认出口要求订阅里有对应地区的节点（美国/日本/香港），否则该组为空、流量不通。单个服务打不开、其他正常时，先看它所属策略组当前选的是什么、节点是否可用，不要先动 DNS 设置。
+
+### 微软商店打不开（Windows）
+
+微软商店是 UWP 应用，只开系统代理不够，必须满足以下任一条件：
+
+- **TUN 已启用并真正生效**：按第二节第 8 步开启 TUN 后，重新打开微软商店，能打开即生效。只看运行配置里有 `strict-route`/`dns-hijack` 不等于 TUN 已生效（驱动或服务没起来时参数也在）。
+- 或者给商店加回环豁免（管理员 PowerShell）：
+
+```powershell
+CheckNetIsolation.exe LoopbackExempt -a -n="Microsoft.WindowsStore_8wekyb3d8bbwe"
+```
+
+加完用 `CheckNetIsolation.exe LoopbackExempt -s` 确认已列出，再重开商店。
+
+## 四、最常见的两个问题
 
 - OpenClash 模块已添加但不生效：检查 `Config File` 是否选中了当前配置、模块卡片开关是否打开，并重启 OpenClash。
 - 启用后无法联网：先按对应的“回退”步骤恢复；OpenClash 再到 **运行日志 -> 生成日志** 获取调试日志，不要继续盲目修改其他 DNS 选项。
